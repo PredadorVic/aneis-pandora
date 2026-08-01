@@ -5,55 +5,159 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Anéis Pandora</title>
     <style>
-        body { font-family: system-ui, sans-serif; max-width: 700px; margin: 40px auto; padding: 0 20px; color: #1a1a1a; }
-        h1 { font-size: 1.4rem; margin-bottom: 4px; }
-        .atualizado { font-size: 0.85rem; color: #666; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid #eee; }
-        th { border-bottom: 2px solid #ddd; font-size: 0.9rem; color: #444; }
-        tr.desconto { background: #fef3c7; }
-        a { color: #16a34a; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        .vazio { color: #666; padding: 20px 0; }
+        * { box-sizing: border-box; }
+        body {
+            font-family: system-ui, sans-serif;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 24px 16px 60px;
+            color: #1a1a1a;
+            background: #fafaf9;
+        }
+        h1 { font-size: 1.4rem; margin: 0 0 4px; }
+        .atualizado { font-size: 0.85rem; color: #666; margin-bottom: 24px; }
+
+        .grade {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e5e5e0;
+            border-radius: 12px;
+            padding: 16px;
+            position: relative;
+        }
+        .card.desconto {
+            border-color: #f59e0b;
+            background: linear-gradient(135deg, #fffbeb, white 60%);
+        }
+        .card.favorito {
+            border-color: #ec4899;
+        }
+
+        .nome { font-weight: 600; font-size: 1rem; padding-right: 30px; margin-bottom: 8px; }
+
+        .precos { display: flex; align-items: baseline; gap: 8px; margin-bottom: 8px; }
+        .preco-brl { font-size: 1.3rem; font-weight: 700; }
+        .preco-usd { font-size: 0.85rem; color: #888; }
+
+        .selo-desconto {
+            display: inline-block;
+            background: #f59e0b;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 2px 10px;
+            border-radius: 999px;
+            margin-bottom: 10px;
+        }
+
+        .rodape { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+        .rodape a {
+            color: #16a34a;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .rodape a:hover { text-decoration: underline; }
+
+        .botao-favorito {
+            position: absolute;
+            top: 14px;
+            right: 12px;
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            line-height: 1;
+            padding: 4px;
+            color: #ccc;
+        }
+        .botao-favorito.ativo { color: #ec4899; }
+
+        .vazio { text-align: center; color: #666; padding: 40px 0; }
     </style>
 </head>
 <body>
     <h1>💍 Anéis Pandora</h1>
     <div class="atualizado" id="atualizado">Carregando...</div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Anel</th>
-                <th>Preço (R$)</th>
-                <th>Desconto</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody id="corpo"></tbody>
-    </table>
+    <div class="grade" id="grade"></div>
 
     <script>
+        const CHAVE_FAVORITOS = "aneis-favoritos";
+
+        function pegarFavoritos() {
+            try {
+                return JSON.parse(localStorage.getItem(CHAVE_FAVORITOS)) || [];
+            } catch {
+                return [];
+            }
+        }
+
+        function alternarFavorito(nomeAnel) {
+            const favoritos = pegarFavoritos();
+            const indice = favoritos.indexOf(nomeAnel);
+            if (indice === -1) favoritos.push(nomeAnel);
+            else favoritos.splice(indice, 1);
+            localStorage.setItem(CHAVE_FAVORITOS, JSON.stringify(favoritos));
+        }
+
+        function renderizar(aneis) {
+            const favoritos = pegarFavoritos();
+
+            const ordenados = [...aneis].sort((a, b) => {
+                const pesoA = (favoritos.includes(a.anel) ? 2 : 0) + (a.desconto === "Sim" ? 1 : 0);
+                const pesoB = (favoritos.includes(b.anel) ? 2 : 0) + (b.desconto === "Sim" ? 1 : 0);
+                return pesoB - pesoA;
+            });
+
+            const grade = document.getElementById("grade");
+
+            if (ordenados.length === 0) {
+                grade.innerHTML = '<div class="vazio">Nenhum dado ainda.</div>';
+                return;
+            }
+
+            grade.innerHTML = ordenados.map((a) => {
+                const ehFavorito = favoritos.includes(a.anel);
+                const emDesconto = a.desconto === "Sim";
+
+                return `
+                    <div class="card ${emDesconto ? 'desconto' : ''} ${ehFavorito ? 'favorito' : ''}">
+                        <button class="botao-favorito ${ehFavorito ? 'ativo' : ''}" data-anel="${a.anel}" title="Favoritar">
+                            ${ehFavorito ? '♥' : '♡'}
+                        </button>
+                        <div class="nome">${a.anel}</div>
+                        ${emDesconto ? `<div class="selo-desconto">🔥 -${a.percentualDesconto}</div>` : ''}
+                        <div class="precos">
+                            <span class="preco-brl">${a.precoBRL}</span>
+                            <span class="preco-usd">${a.precoUSD}</span>
+                        </div>
+                        <div class="rodape">
+                            <a href="${a.link}" target="_blank" rel="noopener">Ver na Pandora →</a>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+
+            grade.querySelectorAll(".botao-favorito").forEach((botao) => {
+                botao.addEventListener("click", () => {
+                    alternarFavorito(botao.dataset.anel);
+                    renderizar(aneis);
+                });
+            });
+        }
+
         fetch("dados.json?_=" + Date.now())
             .then((r) => r.json())
             .then((dados) => {
                 document.getElementById("atualizado").textContent =
                     "Atualizado em: " + new Date(dados.atualizadoEm).toLocaleString("pt-BR");
-
-                if (!dados.aneis || dados.aneis.length === 0) {
-                    document.getElementById("corpo").innerHTML =
-                        '<tr><td colspan="4" class="vazio">Nenhum dado ainda.</td></tr>';
-                    return;
-                }
-
-                document.getElementById("corpo").innerHTML = dados.aneis.map((a) => `
-                    <tr class="${a.desconto === 'Sim' ? 'desconto' : ''}">
-                        <td>${a.anel}</td>
-                        <td>${a.precoBRL}</td>
-                        <td>${a.desconto === 'Sim' ? `🔥 -${a.percentualDesconto}` : 'Não'}</td>
-                        <td><a href="${a.link}" target="_blank" rel="noopener">Ver</a></td>
-                    </tr>
-                `).join("");
+                renderizar(dados.aneis || []);
             })
             .catch(() => {
                 document.getElementById("atualizado").textContent = "Não consegui carregar os dados ainda.";
