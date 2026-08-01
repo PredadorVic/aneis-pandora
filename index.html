@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Anéis Pandora</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 700px; margin: 40px auto; padding: 0 20px; color: #1a1a1a; }
+        h1 { font-size: 1.4rem; margin-bottom: 4px; }
+        .atualizado { font-size: 0.85rem; color: #666; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px 8px; text-align: left; border-bottom: 1px solid #eee; }
+        th { border-bottom: 2px solid #ddd; font-size: 0.9rem; color: #444; }
+        tr.desconto { background: #fef3c7; }
+        a { color: #16a34a; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        .vazio { color: #666; padding: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>💍 Anéis Pandora</h1>
+    <div class="atualizado" id="atualizado">Carregando...</div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Anel</th>
+                <th>Preço (R$)</th>
+                <th>Desconto</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="corpo"></tbody>
+    </table>
+
+    <script>
+        fetch("dados.json?_=" + Date.now())
+            .then((r) => r.json())
+            .then((dados) => {
+                document.getElementById("atualizado").textContent =
+                    "Atualizado em: " + new Date(dados.atualizadoEm).toLocaleString("pt-BR");
+
+                if (!dados.aneis || dados.aneis.length === 0) {
+                    document.getElementById("corpo").innerHTML =
+                        '<tr><td colspan="4" class="vazio">Nenhum dado ainda.</td></tr>';
+                    return;
+                }
+
+                document.getElementById("corpo").innerHTML = dados.aneis.map((a) => `
+                    <tr class="${a.desconto === 'Sim' ? 'desconto' : ''}">
+                        <td>${a.anel}</td>
+                        <td>${a.precoBRL}</td>
+                        <td>${a.desconto === 'Sim' ? `🔥 -${a.percentualDesconto}` : 'Não'}</td>
+                        <td><a href="${a.link}" target="_blank" rel="noopener">Ver</a></td>
+                    </tr>
+                `).join("");
+            })
+            .catch(() => {
+                document.getElementById("atualizado").textContent = "Não consegui carregar os dados ainda.";
+            });
+    </script>
+</body>
+</html>
