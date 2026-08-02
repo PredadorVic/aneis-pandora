@@ -83,6 +83,8 @@
 </head>
 <body>
     <h1>💍 Anéis Pandora</h1>
+
+    <select id="seletorData" style="font-size: 0.9rem; padding: 8px; margin-bottom: 16px; width: 100%; max-width: 320px;"></select>
     <div class="atualizado" id="atualizado">Carregando...</div>
 
     <div class="grade" id="grade"></div>
@@ -152,12 +154,50 @@
             });
         }
 
+        function preencherSeletorDeData(execucoes) {
+            const seletor = document.getElementById("seletorData");
+
+            seletor.innerHTML = execucoes
+                .map((exec, indice) => ({ indice, exec }))
+                .reverse()
+                .map(({ indice, exec }) => {
+                    const rotulo = new Date(exec.dataHora).toLocaleString("pt-BR", {
+                        day: "2-digit", month: "2-digit", year: "numeric",
+                        hour: "2-digit", minute: "2-digit"
+                    });
+                    const ehMaisRecente = indice === execucoes.length - 1;
+                    return `<option value="${indice}">${rotulo}${ehMaisRecente ? " (mais recente)" : ""}</option>`;
+                })
+                .join("");
+
+            seletor.value = execucoes.length - 1;
+        }
+
         fetch("dados.json?_=" + Date.now())
             .then((r) => r.json())
             .then((dados) => {
-                document.getElementById("atualizado").textContent =
-                    "Atualizado em: " + new Date(dados.atualizadoEm).toLocaleString("pt-BR");
-                renderizar(dados.aneis || []);
+                const execucoes = dados.execucoes || [];
+
+                if (execucoes.length === 0) {
+                    document.getElementById("atualizado").textContent = "Nenhuma busca registrada ainda.";
+                    document.getElementById("seletorData").style.display = "none";
+                    return;
+                }
+
+                preencherSeletorDeData(execucoes);
+
+                function mostrarExecucao(indice) {
+                    const exec = execucoes[indice];
+                    document.getElementById("atualizado").textContent =
+                        "Mostrando busca de: " + new Date(exec.dataHora).toLocaleString("pt-BR");
+                    renderizar(exec.aneis);
+                }
+
+                document.getElementById("seletorData").addEventListener("change", (e) => {
+                    mostrarExecucao(Number(e.target.value));
+                });
+
+                mostrarExecucao(execucoes.length - 1);
             })
             .catch(() => {
                 document.getElementById("atualizado").textContent = "Não consegui carregar os dados ainda.";
