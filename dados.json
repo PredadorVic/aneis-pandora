@@ -1,33 +1,41 @@
 {
-  "atualizadoEm": "2026-08-01T03:07:35.495Z",
-  "aneis": [
+  "execucoes": [
     {
-      "anel": "Sparkling Herbarium Cluster Ring",
-      "precoBRL": "R$ 516,21",
-      "desconto": "Não",
-      "percentualDesconto": "",
-      "link": "https://us.pandora.net/en/rings/stackable-rings/sparkling-herbarium-cluster-ring/192392C01.html"
-    },
-    {
-      "anel": "Double Band Heart Ring",
-      "precoBRL": "R$ 579,42",
-      "desconto": "Não",
-      "percentualDesconto": "",
-      "link": "https://us.pandora.net/en/rings/promise-rings/double-band-heart-ring/193100C01.html"
-    },
-    {
-      "anel": "Disney Frozen Queen Elsa Tiara Ring",
-      "precoBRL": "R$ 516,21",
-      "desconto": "Não",
-      "percentualDesconto": "",
-      "link": "https://us.pandora.net/en/rings/statement-rings/disney-frozen-queen-elsa-tiara-ring/194134C01.html"
-    },
-    {
-      "anel": "Oval Sparkling Halo Statement Ring",
-      "precoBRL": "R$ 684,77",
-      "desconto": "Não",
-      "percentualDesconto": "",
-      "link": "https://us.pandora.net/en/rings/statement-rings/oval-sparkling-halo-statement-ring/193777C01.html"
+      "dataHora": "2026-08-02T02:35:31.285Z",
+      "aneis": [
+        {
+          "anel": "Sparkling Herbarium Cluster Ring",
+          "precoUSD": "$98.00",
+          "precoBRL": "R$ 516,21",
+          "desconto": "Não",
+          "percentualDesconto": "",
+          "link": "https://us.pandora.net/en/rings/stackable-rings/sparkling-herbarium-cluster-ring/192392C01.html"
+        },
+        {
+          "anel": "Double Band Heart Ring",
+          "precoUSD": "$110.00",
+          "precoBRL": "R$ 579,42",
+          "desconto": "Não",
+          "percentualDesconto": "",
+          "link": "https://us.pandora.net/en/rings/promise-rings/double-band-heart-ring/193100C01.html"
+        },
+        {
+          "anel": "Disney Frozen Queen Elsa Tiara Ring",
+          "precoUSD": "$98.00",
+          "precoBRL": "R$ 516,21",
+          "desconto": "Não",
+          "percentualDesconto": "",
+          "link": "https://us.pandora.net/en/rings/statement-rings/disney-frozen-queen-elsa-tiara-ring/194134C01.html"
+        },
+        {
+          "anel": "Oval Sparkling Halo Statement Ring",
+          "precoUSD": "$130.00",
+          "precoBRL": "R$ 684,77",
+          "desconto": "Não",
+          "percentualDesconto": "",
+          "link": "https://us.pandora.net/en/rings/statement-rings/oval-sparkling-halo-statement-ring/193777C01.html"
+        }
+      ]
     }
   ]
 }
