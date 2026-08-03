@@ -1,6 +1,6 @@
 "use strict";
 
-const APP_VERSION = "2.5.0";
+const APP_VERSION = "2.5.1";
 const CHAVE_FAVORITOS = "aneis-favoritos";
 const CHAVE_TEMA = "aneis-tema";
 
@@ -22,6 +22,7 @@ const estado = {
 };
 
 const el = {
+  appLoading: document.getElementById("appLoading"),
   grade: document.getElementById("grade"),
   atualizado: document.getElementById("atualizado"),
   seletorData: document.getElementById("seletorData"),
@@ -358,6 +359,7 @@ function ehAnelNovo(anel, indiceAtual) {
 function esconderCarregamentoInicial() {
   if (estado.carregamentoInicialConcluido || !el.appLoading) return;
 
+  clearTimeout(window.__appLoadingFailsafe);
   estado.carregamentoInicialConcluido = true;
   const tempoDecorrido = performance.now() - estado.inicioCarregamento;
   const espera = Math.max(0, 520 - tempoDecorrido);
@@ -721,9 +723,13 @@ async function carregarDados({ silencioso = false } = {}) {
 
   if (!silencioso) mostrarSkeleton();
 
+  const controlador = new AbortController();
+  const limiteDeTempo = setTimeout(() => controlador.abort(), 12000);
+
   try {
     const resposta = await fetch(`dados.json?_=${Date.now()}`, {
-      cache: "no-store"
+      cache: "no-store",
+      signal: controlador.signal
     });
 
     if (!resposta.ok) throw new Error(`HTTP ${resposta.status}`);
@@ -746,7 +752,9 @@ async function carregarDados({ silencioso = false } = {}) {
     preencherHistorico();
   } catch (erro) {
     console.error("Erro ao carregar dados.json:", erro);
-    el.atualizado.textContent = "Não foi possível carregar os dados agora.";
+    el.atualizado.textContent = erro?.name === "AbortError"
+      ? "A consulta demorou mais que o esperado."
+      : "Não foi possível carregar os dados agora.";
     el.resultStatus.textContent = "Indisponível";
     el.grade.setAttribute("aria-busy", "false");
     el.grade.innerHTML = `
@@ -758,6 +766,7 @@ async function carregarDados({ silencioso = false } = {}) {
       </div>
     `;
   } finally {
+    clearTimeout(limiteDeTempo);
     estado.carregando = false;
     esconderCarregamentoInicial();
   }

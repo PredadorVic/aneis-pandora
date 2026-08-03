@@ -134,7 +134,7 @@
 
     <footer class="drawer-footer">
       <span>Anéis Pandora</span>
-      <small id="appVersion">Versão 2.5</small>
+      <small id="appVersion">Versão 2.5.1</small>
     </footer>
   </aside>
 
@@ -186,6 +186,20 @@
     </article>
   </section>
 
+  <script>
+    window.__appLoadingFailsafe = setTimeout(() => {
+      const loading = document.getElementById("appLoading");
+      if (!loading || loading.hidden) return;
+
+      loading.classList.add("oculto");
+      loading.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("app-loading-active");
+
+      setTimeout(() => {
+        loading.hidden = true;
+      }, 320);
+    }, 13000);
+  </script>
   <script src="./app.js" defer></script>
 </body>
 </html>
