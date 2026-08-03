@@ -1,6 +1,6 @@
 "use strict";
 
-const APP_VERSION = "2.3.0";
+const APP_VERSION = "2.4.0";
 const CHAVE_FAVORITOS = "aneis-favoritos";
 const CHAVE_TEMA = "aneis-tema";
 
@@ -14,7 +14,8 @@ const estado = {
   assinaturaInicial: null,
   ultimoFoco: null,
   scrollBloqueadoEm: 0,
-  corpoBloqueado: false
+  corpoBloqueado: false,
+  visaoAtual: "inicio"
 };
 
 const el = {
@@ -22,6 +23,7 @@ const el = {
   atualizado: document.getElementById("atualizado"),
   seletorData: document.getElementById("seletorData"),
   resultStatus: document.getElementById("resultStatus"),
+  sectionTitleText: document.getElementById("sectionTitleText"),
   drawer: document.getElementById("drawer"),
   drawerBackdrop: document.getElementById("drawerBackdrop"),
   openDrawer: document.getElementById("openDrawer"),
@@ -133,6 +135,68 @@ function timestampSeguro(dataHora, fallback = 0) {
   return Number.isFinite(timestamp) ? timestamp : fallback;
 }
 
+
+function normalizarDisponibilidade(bruto) {
+  const valor =
+    bruto.disponivel ??
+    bruto.disponibilidade ??
+    bruto.statusDisponibilidade ??
+    bruto.statusEstoque ??
+    bruto.estoque;
+
+  if (valor === undefined || valor === null || valor === "") {
+    return { tipo: "", texto: "" };
+  }
+
+  if (typeof valor === "boolean") {
+    return valor
+      ? { tipo: "disponivel", texto: "Disponível" }
+      : { tipo: "indisponivel", texto: "Indisponível no momento" };
+  }
+
+  if (typeof valor === "number") {
+    return valor > 0
+      ? { tipo: "disponivel", texto: "Disponível" }
+      : { tipo: "indisponivel", texto: "Indisponível no momento" };
+  }
+
+  const original = textoValido(valor);
+  const texto = original
+    .toLocaleLowerCase("pt-BR")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+
+  const negativos = [
+    "indisponivel",
+    "esgotado",
+    "sem estoque",
+    "fora de estoque",
+    "nao disponivel",
+    "false"
+  ];
+
+  const positivos = [
+    "disponivel",
+    "em estoque",
+    "estoque disponivel",
+    "sim",
+    "true"
+  ];
+
+  if (negativos.some(item => texto.includes(item))) {
+    return { tipo: "indisponivel", texto: "Indisponível no momento" };
+  }
+
+  if (positivos.some(item => texto.includes(item))) {
+    return { tipo: "disponivel", texto: "Disponível" };
+  }
+
+  return {
+    tipo: "neutro",
+    texto: original
+  };
+}
+
 function normalizarAnel(item, indice) {
   const bruto = item && typeof item === "object" ? item : {};
   const nomeInformado = textoValido(bruto.anel);
@@ -142,6 +206,7 @@ function normalizarAnel(item, indice) {
   const precoUSD = textoValido(bruto.precoUSD);
   const percentual = parsePercentual(bruto.percentualDesconto);
   const desconto = ehSim(bruto.desconto) || percentual > 0;
+  const disponibilidade = normalizarDisponibilidade(bruto);
 
   return {
     ...bruto,
@@ -155,7 +220,9 @@ function normalizarAnel(item, indice) {
     _percentual: percentual,
     _temPreco: preco > 0,
     _temNomeOriginal: Boolean(nomeInformado),
-    _chaveFavorito: nome
+    _chaveFavorito: nome,
+    _statusDisponibilidade: disponibilidade.tipo,
+    _textoDisponibilidade: disponibilidade.texto
   };
 }
 
@@ -246,6 +313,16 @@ function ehNovoDesconto(anel, indiceAtual) {
   return Boolean(itemAnterior && itemAnterior.desconto !== "Sim");
 }
 
+
+function ehAnelNovo(anel, indiceAtual) {
+  const anterior = obterExecucaoAnterior(indiceAtual);
+
+  // Na primeira consulta não há base de comparação.
+  if (!anterior) return false;
+
+  return !mapaPorNome(anterior).has(anel.anel);
+}
+
 function mostrarSkeleton() {
   el.grade.setAttribute("aria-busy", "true");
   el.resultStatus.textContent = "Carregando...";
@@ -272,6 +349,7 @@ function cardTemplate(anel, indice, favoritos) {
   const emDesconto = anel.desconto === "Sim";
   const precoAntigo = emDesconto ? precoAnteriorHistorico(anel, estado.indiceAtual) : 0;
   const novoDesconto = ehNovoDesconto(anel, estado.indiceAtual);
+  const anelNovo = ehAnelNovo(anel, estado.indiceAtual);
   const precoPrincipal = anel._temPreco
     ? escaparHTML(anel.precoBRL || formatarBRL(anel._preco))
     : "Preço indisponível";
@@ -331,6 +409,7 @@ function cardTemplate(anel, indice, favoritos) {
           </span>
         ` : ""}
         ${novoDesconto ? `<span class="novo-desconto">Novo desconto</span>` : ""}
+        ${anelNovo ? `<span class="badge-novo">Novo</span>` : ""}
       </div>
 
       <div class="precos">
@@ -338,6 +417,15 @@ function cardTemplate(anel, indice, favoritos) {
         ${precoAntigo ? `<span class="preco-antigo">${formatarBRL(precoAntigo)}</span>` : ""}
         ${precoUSD}
       </div>
+
+      ${anel._statusDisponibilidade ? `
+        <div
+          class="availability-row ${anel._statusDisponibilidade}"
+          aria-label="Disponibilidade: ${escaparHTML(anel._textoDisponibilidade)}">
+          <span class="availability-dot" aria-hidden="true"></span>
+          <span>${escaparHTML(anel._textoDisponibilidade)}</span>
+        </div>
+      ` : ""}
 
       <div class="card-meta">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
@@ -374,6 +462,14 @@ function registrarInteracoesCards() {
       card?.classList.toggle("favorito", adicionou);
       card?.setAttribute("data-favorito", String(adicionou));
 
+      if (estado.visaoAtual === "favoritos" && !adicionou) {
+        card?.classList.add("saindo");
+
+        setTimeout(() => {
+          renderizar(estado.execucaoAtual?.aneis || []);
+        }, 230);
+      }
+
       setTimeout(() => botao.classList.remove("animando"), 500);
     });
   });
@@ -381,25 +477,86 @@ function registrarInteracoesCards() {
   registrarRipple();
 }
 
-function renderizar(aneis) {
+function configuracaoDaVisao() {
+  switch (estado.visaoAtual) {
+    case "ofertas":
+      return {
+        titulo: "Ofertas",
+        vazioTitulo: "Nenhuma oferta nesta consulta",
+        vazioDescricao: "Quando um anel entrar em promoção, ele aparecerá aqui automaticamente."
+      };
+
+    case "favoritos":
+      return {
+        titulo: "Favoritos",
+        vazioTitulo: "Nenhum favorito ainda",
+        vazioDescricao: "Toque no coração de um anel para encontrá-lo facilmente nesta tela."
+      };
+
+    case "inicio":
+    default:
+      return {
+        titulo: "Anéis encontrados",
+        vazioTitulo: "Nenhum anel nesta consulta",
+        vazioDescricao: "Escolha outra data para visualizar os resultados."
+      };
+  }
+}
+
+function aneisDaVisao(aneis) {
   const lista = Array.isArray(aneis) ? aneis : [];
+
+  if (estado.visaoAtual === "ofertas") {
+    return lista.filter(anel => anel.desconto === "Sim");
+  }
+
+  if (estado.visaoAtual === "favoritos") {
+    const favoritos = pegarFavoritos();
+    return lista.filter(anel => favoritos.includes(anel._chaveFavorito));
+  }
+
+  return lista;
+}
+
+function renderizar(aneis) {
+  const todos = Array.isArray(aneis) ? aneis : [];
+  const lista = aneisDaVisao(todos);
   const favoritos = pegarFavoritos();
+  const configuracao = configuracaoDaVisao();
+
+  el.sectionTitleText.textContent = configuracao.titulo;
+  el.sectionTitleText.classList.remove("mudando");
+  void el.sectionTitleText.offsetWidth;
+  el.sectionTitleText.classList.add("mudando");
 
   el.grade.setAttribute("aria-busy", "false");
   el.resultStatus.textContent = `${lista.length} ${lista.length === 1 ? "anel" : "anéis"}`;
 
   if (!lista.length) {
     el.grade.innerHTML = `
-      <div class="empty-state" style="grid-column:1/-1">
+      <div class="empty-state view-empty" style="grid-column:1/-1">
         <div>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-            <circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>
+            ${estado.visaoAtual === "favoritos"
+              ? '<path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8z"/>'
+              : estado.visaoAtual === "ofertas"
+                ? '<path d="M20 13 13 20l-9-9V4h7z"/><circle cx="8.5" cy="8.5" r="1.2" fill="currentColor"/>'
+                : '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>'}
           </svg>
-          <strong>Nenhum anel nesta consulta</strong>
-          <div class="empty-description">Escolha outra data para visualizar os resultados.</div>
+          <strong>${configuracao.vazioTitulo}</strong>
+          <div class="empty-description">${configuracao.vazioDescricao}</div>
+          ${estado.visaoAtual !== "inicio"
+            ? '<button class="empty-action ripple-host" type="button" data-back-home>Ver todos os anéis</button>'
+            : ""}
         </div>
       </div>
     `;
+
+    document.querySelector("[data-back-home]")?.addEventListener("click", () => {
+      mudarVisao("inicio");
+    });
+
+    registrarRipple();
     return;
   }
 
@@ -409,6 +566,25 @@ function renderizar(aneis) {
 
   registrarInteracoesCards();
 }
+
+function mudarVisao(nome, { rolar = true } = {}) {
+  if (!["inicio", "ofertas", "favoritos"].includes(nome)) return;
+
+  estado.visaoAtual = nome;
+  setNavAtivo(nome);
+
+  if (estado.execucaoAtual) {
+    renderizar(estado.execucaoAtual.aneis);
+  }
+
+  if (rolar) {
+    document.querySelector(".section-title")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }
+}
+
 
 function preencherSeletorDeData(execucoes) {
   el.seletorData.innerHTML = execucoes
@@ -866,7 +1042,7 @@ function fecharHistorico({ restaurarFoco = true } = {}) {
   el.historyBackdrop.classList.remove("aberto");
   el.historyModal.setAttribute("aria-hidden", "true");
   el.historyModal.inert = true;
-  setNavAtivo("inicio");
+  setNavAtivo(estado.visaoAtual);
 
   setTimeout(liberarRolagem, 210);
 
@@ -877,7 +1053,11 @@ function fecharHistorico({ restaurarFoco = true } = {}) {
 
 function setNavAtivo(nome) {
   document.querySelectorAll("[data-nav]").forEach(botao => {
-    botao.classList.toggle("ativo", botao.dataset.nav === nome);
+    const ativo = botao.dataset.nav === nome;
+    botao.classList.toggle("ativo", ativo);
+
+    if (ativo) botao.setAttribute("aria-current", "page");
+    else botao.removeAttribute("aria-current");
   });
 }
 
@@ -1237,22 +1417,12 @@ document.querySelectorAll("[data-nav]").forEach(botao => {
   botao.addEventListener("click", () => {
     const acao = botao.dataset.nav;
 
-    if (acao === "inicio") {
-      setNavAtivo("inicio");
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    if (acao === "ofertas") {
-      scrollParaPrimeiro('.card[data-promocao="true"]', "ofertas");
-    }
-
-    if (acao === "favoritos") {
-      scrollParaPrimeiro('.card[data-favorito="true"]', "favoritos");
-    }
-
     if (acao === "historico") {
       abrirHistorico();
+      return;
     }
+
+    mudarVisao(acao);
   });
 });
 
