@@ -1,6 +1,6 @@
 "use strict";
 
-const APP_VERSION = "2.5.1";
+const APP_VERSION = "2.5.2";
 const CHAVE_FAVORITOS = "aneis-favoritos";
 const CHAVE_TEMA = "aneis-tema";
 
@@ -362,7 +362,7 @@ function esconderCarregamentoInicial() {
   clearTimeout(window.__appLoadingFailsafe);
   estado.carregamentoInicialConcluido = true;
   const tempoDecorrido = performance.now() - estado.inicioCarregamento;
-  const espera = Math.max(0, 520 - tempoDecorrido);
+  const espera = Math.max(0, 160 - tempoDecorrido);
 
   setTimeout(() => {
     el.appLoading.classList.add("oculto");
@@ -371,7 +371,7 @@ function esconderCarregamentoInicial() {
 
     setTimeout(() => {
       el.appLoading.hidden = true;
-    }, 320);
+    }, 180);
   }, espera);
 }
 
@@ -724,7 +724,7 @@ async function carregarDados({ silencioso = false } = {}) {
   if (!silencioso) mostrarSkeleton();
 
   const controlador = new AbortController();
-  const limiteDeTempo = setTimeout(() => controlador.abort(), 12000);
+  const limiteDeTempo = setTimeout(() => controlador.abort(), 6000);
 
   try {
     const resposta = await fetch(`dados.json?_=${Date.now()}`, {
@@ -1584,4 +1584,9 @@ configurarGestoDrawer();
 configurarGestoHistorico();
 registrarServiceWorker();
 monitorarVersao();
+
+window.__appLoadingShortTimer = setTimeout(() => {
+  esconderCarregamentoInicial();
+}, 520);
+
 carregarDados();

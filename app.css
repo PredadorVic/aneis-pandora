@@ -946,7 +946,7 @@ body.app-loading-active{
     linear-gradient(160deg,var(--background),var(--background-alt));
   opacity:1;
   visibility:visible;
-  transition:opacity 260ms ease,visibility 260ms ease;
+  transition:opacity 180ms ease,visibility 180ms ease;
 }
 
 .app-loading.oculto{
