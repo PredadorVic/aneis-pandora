@@ -1,7 +1,7 @@
-const VERSION = "aneis-v2-2026-08-03-r2";
+const VERSION = "aneis-v2.3.0-2026-08-03";
 
 self.addEventListener("install", () => {
-  // Aguarda o clique da usuária em "Atualizar" antes de assumir o controle.
+  // A nova versão aguarda a confirmação visual no aplicativo.
 });
 
 self.addEventListener("activate", event => {
@@ -12,9 +12,4 @@ self.addEventListener("message", event => {
   if (event.data?.type === "SKIP_WAITING") {
     self.skipWaiting();
   }
-});
-
-self.addEventListener("fetch", event => {
-  // Sem cache persistente: mantém o aplicativo simples e consulta a rede.
-  event.respondWith(fetch(event.request));
 });

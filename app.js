@@ -1,5 +1,6 @@
 "use strict";
 
+const APP_VERSION = "2.3.0";
 const CHAVE_FAVORITOS = "aneis-favoritos";
 const CHAVE_TEMA = "aneis-tema";
 
@@ -10,7 +11,10 @@ const estado = {
   carregando: false,
   dispositivo: matchMedia("(pointer: coarse)").matches ? "mobile" : "desktop",
   serviceWorkerRegistration: null,
-  assinaturaInicial: null
+  assinaturaInicial: null,
+  ultimoFoco: null,
+  scrollBloqueadoEm: 0,
+  corpoBloqueado: false
 };
 
 const el = {
@@ -23,12 +27,17 @@ const el = {
   openDrawer: document.getElementById("openDrawer"),
   closeDrawer: document.getElementById("closeDrawer"),
   themeSwitch: document.getElementById("themeSwitch"),
+  drawerCurrentDate: document.getElementById("drawerCurrentDate"),
+  drawerCurrentCount: document.getElementById("drawerCurrentCount"),
+  appVersion: document.getElementById("appVersion"),
   historyModal: document.getElementById("historyModal"),
   historyBackdrop: document.getElementById("historyBackdrop"),
+  historyDragHandle: document.getElementById("historyDragHandle"),
   closeHistory: document.getElementById("closeHistory"),
   openHistoryFromDrawer: document.getElementById("openHistoryFromDrawer"),
   compareFrom: document.getElementById("compareFrom"),
   compareTo: document.getElementById("compareTo"),
+  comparisonSummary: document.getElementById("comparisonSummary"),
   comparisonList: document.getElementById("comparisonList"),
   timeline: document.getElementById("timeline"),
   toTop: document.getElementById("toTop"),
@@ -39,6 +48,7 @@ const el = {
 };
 
 document.documentElement.dataset.device = estado.dispositivo;
+el.appVersion.textContent = `Versão ${APP_VERSION}`;
 
 function escaparHTML(valor) {
   return String(valor ?? "")
@@ -49,40 +59,14 @@ function escaparHTML(valor) {
     .replaceAll("'", "&#039;");
 }
 
-function pegarFavoritos() {
-  try {
-    const valor = JSON.parse(localStorage.getItem(CHAVE_FAVORITOS));
-    return Array.isArray(valor) ? valor : [];
-  } catch {
-    return [];
-  }
-}
-
-function salvarFavoritos(favoritos) {
-  localStorage.setItem(CHAVE_FAVORITOS, JSON.stringify(favoritos));
-}
-
-function alternarFavorito(nomeAnel) {
-  const favoritos = pegarFavoritos();
-  const indice = favoritos.indexOf(nomeAnel);
-  const adicionou = indice === -1;
-
-  if (adicionou) favoritos.push(nomeAnel);
-  else favoritos.splice(indice, 1);
-
-  salvarFavoritos(favoritos);
-
-  if ("vibrate" in navigator) {
-    navigator.vibrate(adicionou ? [28, 35, 28] : 25);
-  }
-
-  return adicionou;
+function textoValido(valor) {
+  return typeof valor === "string" ? valor.trim() : String(valor ?? "").trim();
 }
 
 function parsePreco(valor) {
   if (typeof valor === "number") return Number.isFinite(valor) ? valor : 0;
 
-  const texto = String(valor ?? "").replace(/[^\d,.-]/g, "");
+  const texto = textoValido(valor).replace(/[^\d,.-]/g, "");
   if (!texto) return 0;
 
   const normalizado = texto.includes(",")
@@ -90,22 +74,40 @@ function parsePreco(valor) {
     : texto;
 
   const numero = Number.parseFloat(normalizado);
-  return Number.isFinite(numero) ? numero : 0;
+  return Number.isFinite(numero) ? Math.max(0, numero) : 0;
 }
 
 function parsePercentual(valor) {
   const numero = Number.parseFloat(
-    String(valor ?? "").replace(",", ".").replace(/[^\d.-]/g, "")
+    textoValido(valor).replace(",", ".").replace(/[^\d.-]/g, "")
   );
-  return Number.isFinite(numero) ? Math.max(0, numero) : 0;
+  return Number.isFinite(numero) ? Math.min(100, Math.max(0, numero)) : 0;
+}
+
+function ehSim(valor) {
+  return ["sim", "true", "1", "yes"].includes(textoValido(valor).toLowerCase());
+}
+
+function urlSegura(valor) {
+  const texto = textoValido(valor);
+  if (!texto) return "";
+
+  try {
+    const url = new URL(texto, location.href);
+    return ["http:", "https:"].includes(url.protocol) ? url.href : "";
+  } catch {
+    return "";
+  }
 }
 
 function formatarBRL(valor) {
+  if (!Number.isFinite(valor) || valor <= 0) return "";
+
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: "BRL",
     maximumFractionDigits: 2
-  }).format(valor || 0);
+  }).format(valor);
 }
 
 function formatarData(dataHora, completa = true) {
@@ -126,12 +128,104 @@ function formatarData(dataHora, completa = true) {
   });
 }
 
-function precoAnteriorEstimado(anel) {
-  const atual = parsePreco(anel.precoBRL);
-  const percentual = parsePercentual(anel.percentualDesconto);
+function timestampSeguro(dataHora, fallback = 0) {
+  const timestamp = new Date(dataHora).getTime();
+  return Number.isFinite(timestamp) ? timestamp : fallback;
+}
 
-  if (!atual || percentual <= 0 || percentual >= 100) return 0;
-  return atual / (1 - percentual / 100);
+function normalizarAnel(item, indice) {
+  const bruto = item && typeof item === "object" ? item : {};
+  const nomeInformado = textoValido(bruto.anel);
+  const nome = nomeInformado || `Anel sem nome ${indice + 1}`;
+  const precoTexto = textoValido(bruto.precoBRL);
+  const preco = parsePreco(precoTexto);
+  const precoUSD = textoValido(bruto.precoUSD);
+  const percentual = parsePercentual(bruto.percentualDesconto);
+  const desconto = ehSim(bruto.desconto) || percentual > 0;
+
+  return {
+    ...bruto,
+    anel: nome,
+    precoBRL: precoTexto,
+    precoUSD,
+    link: urlSegura(bruto.link),
+    desconto: desconto ? "Sim" : "Não",
+    percentualDesconto: percentual ? `${percentual}%` : "",
+    _preco: preco,
+    _percentual: percentual,
+    _temPreco: preco > 0,
+    _temNomeOriginal: Boolean(nomeInformado),
+    _chaveFavorito: nome
+  };
+}
+
+function normalizarExecucoes(valor) {
+  if (!Array.isArray(valor)) return [];
+
+  return valor
+    .filter(execucao =>
+      execucao &&
+      typeof execucao === "object" &&
+      Array.isArray(execucao.aneis)
+    )
+    .map((execucao, indice) => ({
+      ...execucao,
+      dataHora: execucao.dataHora || new Date(indice).toISOString(),
+      aneis: Array.isArray(execucao.aneis)
+        ? execucao.aneis
+            .filter(item =>
+              item &&
+              typeof item === "object" &&
+              Object.values(item).some(valor => textoValido(valor))
+            )
+            .map(normalizarAnel)
+        : []
+    }))
+    .sort((a, b) =>
+      timestampSeguro(a.dataHora) - timestampSeguro(b.dataHora)
+    );
+}
+
+function pegarFavoritos() {
+  try {
+    const valor = JSON.parse(localStorage.getItem(CHAVE_FAVORITOS));
+    return Array.isArray(valor)
+      ? valor.filter(item => typeof item === "string")
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function salvarFavoritos(favoritos) {
+  localStorage.setItem(CHAVE_FAVORITOS, JSON.stringify([...new Set(favoritos)]));
+}
+
+function alternarFavorito(chave) {
+  const favoritos = pegarFavoritos();
+  const indice = favoritos.indexOf(chave);
+  const adicionou = indice === -1;
+
+  if (adicionou) favoritos.push(chave);
+  else favoritos.splice(indice, 1);
+
+  salvarFavoritos(favoritos);
+
+  if ("vibrate" in navigator) {
+    navigator.vibrate(adicionou ? [28, 35, 28] : 25);
+  }
+
+  return adicionou;
+}
+
+function precoAnteriorHistorico(anel, indiceAtual) {
+  if (!anel._temPreco || indiceAtual <= 0) return 0;
+
+  const execucaoAnterior = estado.execucoes[indiceAtual - 1];
+  const anterior = mapaPorNome(execucaoAnterior).get(anel.anel);
+
+  if (!anterior?._temPreco || anterior._preco <= anel._preco) return 0;
+  return anterior._preco;
 }
 
 function mapaPorNome(execucao) {
@@ -158,8 +252,8 @@ function mostrarSkeleton() {
 
   el.grade.innerHTML = `
     <div class="skeleton-grid" style="grid-column:1/-1">
-      ${Array.from({ length: 4 }, (_, i) => `
-        <div class="skeleton-card" style="animation-delay:${i * 70}ms">
+      ${Array.from({ length: 4 }, (_, indice) => `
+        <div class="skeleton-card" style="animation-delay:${indice * 70}ms">
           <div class="skeleton-inner">
             <div class="skeleton-line medium"></div>
             <div class="skeleton-line short"></div>
@@ -174,27 +268,49 @@ function mostrarSkeleton() {
 }
 
 function cardTemplate(anel, indice, favoritos) {
-  const ehFavorito = favoritos.includes(anel.anel);
+  const ehFavorito = favoritos.includes(anel._chaveFavorito);
   const emDesconto = anel.desconto === "Sim";
-  const percentual = parsePercentual(anel.percentualDesconto);
-  const precoAntigo = emDesconto ? precoAnteriorEstimado(anel) : 0;
+  const precoAntigo = emDesconto ? precoAnteriorHistorico(anel, estado.indiceAtual) : 0;
   const novoDesconto = ehNovoDesconto(anel, estado.indiceAtual);
+  const precoPrincipal = anel._temPreco
+    ? escaparHTML(anel.precoBRL || formatarBRL(anel._preco))
+    : "Preço indisponível";
+
+  const precoUSD = anel.precoUSD
+    ? `<span class="preco-usd">${escaparHTML(anel.precoUSD)}</span>`
+    : "";
+
+  const botaoPandora = anel.link
+    ? `
+      <a
+        class="pandora-button ripple-host"
+        href="${escaparHTML(anel.link)}"
+        target="_blank"
+        rel="noopener"
+        aria-label="Ver ${escaparHTML(anel.anel)} no site da Pandora, abre em nova aba">
+        Ver na Pandora <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    `
+    : `
+      <span class="pandora-button indisponivel" aria-disabled="true">
+        Link indisponível
+      </span>
+    `;
 
   return `
     <article
-      class="card ${emDesconto ? "desconto" : ""} ${ehFavorito ? "favorito" : ""}"
+      class="card ${emDesconto ? "desconto" : ""} ${ehFavorito ? "favorito" : ""} ${anel._temPreco ? "" : "dados-incompletos"}"
       data-anel="${escaparHTML(anel.anel)}"
       data-promocao="${emDesconto ? "true" : "false"}"
       data-favorito="${ehFavorito ? "true" : "false"}"
-      style="--card-delay:${Math.min(indice * 48, 360)}ms;animation-delay:${Math.min(indice * 48, 360)}ms"
-      tabindex="0">
+      style="--card-delay:${Math.min(indice * 48, 360)}ms;animation-delay:${Math.min(indice * 48, 360)}ms">
       <div class="card-head">
         <h3 class="nome">${escaparHTML(anel.anel)}</h3>
 
         <button
           class="botao-favorito ${ehFavorito ? "ativo" : ""} ripple-host"
           type="button"
-          data-favorite="${escaparHTML(anel.anel)}"
+          data-favorite="${escaparHTML(anel._chaveFavorito)}"
           aria-label="${ehFavorito ? "Remover" : "Adicionar"} ${escaparHTML(anel.anel)} dos favoritos"
           aria-pressed="${ehFavorito}">
           <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -209,16 +325,18 @@ function cardTemplate(anel, indice, favoritos) {
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
               <path d="m4 14 10-10 6 6-10 10H4zM14 4l6 6"/>
             </svg>
-            ${percentual ? `${percentual.toLocaleString("pt-BR")}% OFF` : "Em promoção"}
+            ${anel._percentual
+              ? `${anel._percentual.toLocaleString("pt-BR")}% OFF`
+              : "Em promoção"}
           </span>
         ` : ""}
         ${novoDesconto ? `<span class="novo-desconto">Novo desconto</span>` : ""}
       </div>
 
       <div class="precos">
-        <span class="preco-brl">${escaparHTML(anel.precoBRL)}</span>
+        <span class="preco-brl ${anel._temPreco ? "" : "indisponivel"}">${precoPrincipal}</span>
         ${precoAntigo ? `<span class="preco-antigo">${formatarBRL(precoAntigo)}</span>` : ""}
-        <span class="preco-usd">${escaparHTML(anel.precoUSD || "")}</span>
+        ${precoUSD}
       </div>
 
       <div class="card-meta">
@@ -228,45 +346,9 @@ function cardTemplate(anel, indice, favoritos) {
         Preço atualizado em ${formatarData(estado.execucaoAtual.dataHora, false)}
       </div>
 
-      <a
-        class="pandora-button ripple-host"
-        href="${escaparHTML(anel.link)}"
-        target="_blank"
-        rel="noopener"
-        aria-label="Ver ${escaparHTML(anel.anel)} no site da Pandora, abre em nova aba">
-        Ver na Pandora <span class="arrow" aria-hidden="true">→</span>
-      </a>
+      ${botaoPandora}
     </article>
   `;
-}
-
-function renderizar(aneis) {
-  const favoritos = pegarFavoritos();
-  const ordenados = [...aneis];
-
-  el.grade.setAttribute("aria-busy", "false");
-  el.resultStatus.textContent = `${ordenados.length} ${ordenados.length === 1 ? "anel" : "anéis"}`;
-
-  if (!ordenados.length) {
-    el.grade.innerHTML = `
-      <div class="empty-state" style="grid-column:1/-1">
-        <div>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
-            <circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>
-          </svg>
-          <strong>Nenhum anel nesta consulta</strong>
-          <div style="margin-top:6px;font-size:.82rem">Escolha outra data para visualizar os resultados.</div>
-        </div>
-      </div>
-    `;
-    return;
-  }
-
-  el.grade.innerHTML = ordenados
-    .map((anel, indice) => cardTemplate(anel, indice, favoritos))
-    .join("");
-
-  registrarInteracoesCards();
 }
 
 function registrarInteracoesCards() {
@@ -274,9 +356,10 @@ function registrarInteracoesCards() {
     botao.addEventListener("click", event => {
       event.stopPropagation();
 
-      const nome = botao.dataset.favorite;
-      const adicionou = alternarFavorito(nome);
+      const chave = botao.dataset.favorite;
+      const adicionou = alternarFavorito(chave);
       const card = botao.closest(".card");
+      const nome = card?.dataset.anel || "anel";
 
       botao.classList.toggle("ativo", adicionou);
       botao.classList.remove("animando");
@@ -298,15 +381,56 @@ function registrarInteracoesCards() {
   registrarRipple();
 }
 
+function renderizar(aneis) {
+  const lista = Array.isArray(aneis) ? aneis : [];
+  const favoritos = pegarFavoritos();
+
+  el.grade.setAttribute("aria-busy", "false");
+  el.resultStatus.textContent = `${lista.length} ${lista.length === 1 ? "anel" : "anéis"}`;
+
+  if (!lista.length) {
+    el.grade.innerHTML = `
+      <div class="empty-state" style="grid-column:1/-1">
+        <div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>
+          </svg>
+          <strong>Nenhum anel nesta consulta</strong>
+          <div class="empty-description">Escolha outra data para visualizar os resultados.</div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  el.grade.innerHTML = lista
+    .map((anel, indice) => cardTemplate(anel, indice, favoritos))
+    .join("");
+
+  registrarInteracoesCards();
+}
+
 function preencherSeletorDeData(execucoes) {
   el.seletorData.innerHTML = execucoes
-    .map((exec, indice) => `
-      <option value="${indice}">${formatarData(exec.dataHora)}</option>
+    .map((execucao, indice) => `
+      <option value="${indice}">${formatarData(execucao.dataHora)}</option>
     `)
     .reverse()
     .join("");
 
   el.seletorData.value = String(execucoes.length - 1);
+  el.seletorData.disabled = execucoes.length <= 1;
+}
+
+function atualizarStatusDoMenu(execucao) {
+  const quantidade = execucao?.aneis?.length || 0;
+  el.drawerCurrentDate.textContent = execucao
+    ? formatarData(execucao.dataHora)
+    : "Nenhuma consulta";
+
+  el.drawerCurrentCount.textContent = execucao
+    ? `${quantidade} ${quantidade === 1 ? "anel disponível" : "anéis disponíveis"}`
+    : "Aguardando os dados";
 }
 
 function mostrarExecucao(indice) {
@@ -317,7 +441,8 @@ function mostrarExecucao(indice) {
   estado.execucaoAtual = execucao;
 
   el.atualizado.textContent = `Consulta de ${formatarData(execucao.dataHora)}`;
-  renderizar(execucao.aneis || []);
+  atualizarStatusDoMenu(execucao);
+  renderizar(execucao.aneis);
 }
 
 async function carregarDados({ silencioso = false } = {}) {
@@ -334,11 +459,13 @@ async function carregarDados({ silencioso = false } = {}) {
     if (!resposta.ok) throw new Error(`HTTP ${resposta.status}`);
 
     const dados = await resposta.json();
-    estado.execucoes = Array.isArray(dados.execucoes) ? dados.execucoes : [];
+    estado.execucoes = normalizarExecucoes(dados.execucoes);
 
     if (!estado.execucoes.length) {
       el.atualizado.textContent = "Nenhuma consulta registrada.";
       el.seletorData.innerHTML = "";
+      el.seletorData.disabled = true;
+      atualizarStatusDoMenu(null);
       renderizar([]);
       preencherHistorico();
       return;
@@ -353,10 +480,10 @@ async function carregarDados({ silencioso = false } = {}) {
     el.resultStatus.textContent = "Indisponível";
     el.grade.setAttribute("aria-busy", "false");
     el.grade.innerHTML = `
-      <div class="empty-state" style="grid-column:1/-1">
+      <div class="empty-state error-state" style="grid-column:1/-1">
         <div>
           <strong>Dados temporariamente indisponíveis</strong>
-          <div style="margin-top:6px;font-size:.82rem">Tente atualizar novamente em instantes.</div>
+          <div class="empty-description">Puxe a tela para baixo e tente novamente.</div>
         </div>
       </div>
     `;
@@ -367,7 +494,9 @@ async function carregarDados({ silencioso = false } = {}) {
 
 function preencherHistorico() {
   const options = estado.execucoes
-    .map((exec, indice) => `<option value="${indice}">${formatarData(exec.dataHora)}</option>`)
+    .map((execucao, indice) =>
+      `<option value="${indice}">${formatarData(execucao.dataHora)}</option>`
+    )
     .join("");
 
   el.compareFrom.innerHTML = options;
@@ -377,38 +506,60 @@ function preencherHistorico() {
   el.compareFrom.value = String(Math.max(ultimo - 1, 0));
   el.compareTo.value = String(ultimo);
 
+  const comparacaoDisponivel = estado.execucoes.length >= 2;
+  el.compareFrom.disabled = !comparacaoDisponivel;
+  el.compareTo.disabled = !comparacaoDisponivel;
+
   el.timeline.innerHTML = [...estado.execucoes]
     .reverse()
-    .map((exec, reverseIndex) => {
+    .map((execucao, reverseIndex) => {
       const realIndex = estado.execucoes.length - 1 - reverseIndex;
-      const total = (exec.aneis || []).length;
-      const promocoes = (exec.aneis || []).filter(a => a.desconto === "Sim").length;
+      const total = execucao.aneis.length;
+      const promocoes = execucao.aneis.filter(anel => anel.desconto === "Sim").length;
 
       return `
-        <div class="timeline-item" style="animation-delay:${Math.min(reverseIndex * 55, 330)}ms">
-          <strong>${formatarData(exec.dataHora)}</strong>
+        <div class="timeline-item ${realIndex === estado.indiceAtual ? "atual" : ""}"
+             style="animation-delay:${Math.min(reverseIndex * 55, 330)}ms">
+          <strong>${formatarData(execucao.dataHora)}</strong>
           <small>
-            ${total} ${total === 1 ? "anel" : "anéis"} ·
-            ${promocoes} ${promocoes === 1 ? "promoção" : "promoções"}
-            ${realIndex === estado.execucoes.length - 1 ? " · consulta atual" : ""}
+            ${total} ${total === 1 ? "anel" : "anéis"}
+            ${promocoes ? ` · ${promocoes} ${promocoes === 1 ? "promoção" : "promoções"}` : ""}
+            ${realIndex === estado.indiceAtual ? " · exibida agora" : ""}
           </small>
         </div>
       `;
     })
-    .join("") || `<div class="empty-state">Sem histórico disponível.</div>`;
+    .join("") || `
+      <div class="empty-state compact">
+        <strong>Sem histórico disponível</strong>
+      </div>
+    `;
 
   renderizarComparacao();
 }
 
-function renderizarComparacao() {
-  const de = estado.execucoes[Number(el.compareFrom.value)];
-  const para = estado.execucoes[Number(el.compareTo.value)];
+function sincronizarDatasComparacao(origem) {
+  const total = estado.execucoes.length;
+  if (total < 2) return;
 
-  if (!de || !para) {
-    el.comparisonList.innerHTML = `<div class="empty-state">Escolha duas datas para comparar.</div>`;
-    return;
+  let inicial = Number(el.compareFrom.value);
+  let final = Number(el.compareTo.value);
+
+  if (inicial < final) return;
+
+  if (origem === "inicial") {
+    final = Math.min(inicial + 1, total - 1);
+    if (final === inicial) inicial = Math.max(0, final - 1);
+  } else {
+    inicial = Math.max(0, final - 1);
+    if (inicial === final) final = Math.min(total - 1, inicial + 1);
   }
 
+  el.compareFrom.value = String(inicial);
+  el.compareTo.value = String(final);
+}
+
+function criarMudancas(de, para) {
   const mapaDe = mapaPorNome(de);
   const mapaPara = mapaPorNome(para);
   const nomes = [...new Set([...mapaDe.keys(), ...mapaPara.keys()])];
@@ -418,117 +569,310 @@ function renderizarComparacao() {
     const antigo = mapaDe.get(nome);
     const atual = mapaPara.get(nome);
 
+    if (!antigo && atual) {
+      mudancas.push({
+        tipo: "adicionado",
+        nome,
+        atual
+      });
+      return;
+    }
+
+    if (antigo && !atual) {
+      mudancas.push({
+        tipo: "removido",
+        nome,
+        antigo
+      });
+      return;
+    }
+
     if (!antigo || !atual) return;
 
-    const precoAntigo = parsePreco(antigo.precoBRL);
-    const precoAtual = parsePreco(atual.precoBRL);
     const virouDesconto = antigo.desconto !== "Sim" && atual.desconto === "Sim";
+    const deixouDesconto = antigo.desconto === "Sim" && atual.desconto !== "Sim";
+    const precoMudou =
+      antigo._temPreco &&
+      atual._temPreco &&
+      antigo._preco !== atual._preco;
 
-    if (precoAtual !== precoAntigo || virouDesconto) {
+    if (precoMudou || virouDesconto || deixouDesconto) {
       mudancas.push({
+        tipo: virouDesconto
+          ? "novo-desconto"
+          : deixouDesconto
+            ? "fim-desconto"
+            : atual._preco < antigo._preco
+              ? "queda"
+              : "aumento",
         nome,
         antigo,
-        atual,
-        precoAntigo,
-        precoAtual,
-        virouDesconto
+        atual
       });
     }
   });
 
-  if (!mudancas.length) {
+  const prioridade = {
+    "novo-desconto": 0,
+    queda: 1,
+    aumento: 2,
+    "fim-desconto": 3,
+    adicionado: 4,
+    removido: 5
+  };
+
+  return mudancas.sort((a, b) => prioridade[a.tipo] - prioridade[b.tipo]);
+}
+
+function resumoMudancas(mudancas) {
+  const quedas = mudancas.filter(item => item.tipo === "queda").length;
+  const aumentos = mudancas.filter(item => item.tipo === "aumento").length;
+  const novosDescontos = mudancas.filter(item => item.tipo === "novo-desconto").length;
+
+  const partes = [`${mudancas.length} ${mudancas.length === 1 ? "mudança" : "mudanças"}`];
+  if (quedas) partes.push(`${quedas} ${quedas === 1 ? "queda" : "quedas"}`);
+  if (aumentos) partes.push(`${aumentos} ${aumentos === 1 ? "aumento" : "aumentos"}`);
+  if (novosDescontos) partes.push(`${novosDescontos} ${novosDescontos === 1 ? "novo desconto" : "novos descontos"}`);
+
+  return partes.join(" · ");
+}
+
+function variacaoTemplate(item) {
+  if (item.tipo === "adicionado") {
+    return `
+      <div>
+        <strong>${escaparHTML(item.nome)}</strong>
+        <small>Entrou na consulta por ${item.atual._temPreco ? escaparHTML(item.atual.precoBRL) : "preço não informado"}</small>
+      </div>
+      <span class="variation added">Novo</span>
+    `;
+  }
+
+  if (item.tipo === "removido") {
+    return `
+      <div>
+        <strong>${escaparHTML(item.nome)}</strong>
+        <small>Não aparece mais na consulta final</small>
+      </div>
+      <span class="variation removed">Saiu</span>
+    `;
+  }
+
+  const antigo = item.antigo;
+  const atual = item.atual;
+  const diferenca = atual._preco - antigo._preco;
+  const percentual = antigo._preco
+    ? Math.abs((diferenca / antigo._preco) * 100)
+    : 0;
+
+  let selo = "";
+
+  if (item.tipo === "novo-desconto") {
+    selo = `<span class="variation new-sale">Novo desconto</span>`;
+  } else if (item.tipo === "fim-desconto") {
+    selo = `<span class="variation ended-sale">Fim da promoção</span>`;
+  } else if (item.tipo === "queda") {
+    selo = `
+      <span class="variation down" aria-label="Preço diminuiu ${percentual.toFixed(1)} por cento">
+        ↓ ${percentual.toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%
+      </span>
+    `;
+  } else {
+    selo = `
+      <span class="variation up" aria-label="Preço aumentou ${percentual.toFixed(1)} por cento">
+        ↑ ${percentual.toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%
+      </span>
+    `;
+  }
+
+  const deTexto = antigo._temPreco ? antigo.precoBRL : "Preço não informado";
+  const paraTexto = atual._temPreco ? atual.precoBRL : "Preço não informado";
+
+  return `
+    <div>
+      <strong>${escaparHTML(item.nome)}</strong>
+      <small>${escaparHTML(deTexto)} → ${escaparHTML(paraTexto)}</small>
+    </div>
+    ${selo}
+  `;
+}
+
+function renderizarComparacao() {
+  if (estado.execucoes.length < 2) {
+    el.comparisonSummary.textContent = "Histórico insuficiente";
     el.comparisonList.innerHTML = `
-      <div class="empty-state" style="min-height:140px">
+      <div class="empty-state compact">
         <div>
-          <strong>Nenhuma mudança encontrada</strong>
-          <div style="margin-top:6px;font-size:.8rem">Os preços permaneceram iguais entre as datas escolhidas.</div>
+          <strong>É necessária mais de uma consulta</strong>
+          <div class="empty-description">A comparação ficará disponível após a próxima atualização dos preços.</div>
         </div>
       </div>
     `;
     return;
   }
 
-  el.comparisonList.innerHTML = mudancas.map((item, indice) => {
-    const diferenca = item.precoAtual - item.precoAntigo;
-    const percentual = item.precoAntigo
-      ? Math.abs((diferenca / item.precoAntigo) * 100)
-      : 0;
+  const de = estado.execucoes[Number(el.compareFrom.value)];
+  const para = estado.execucoes[Number(el.compareTo.value)];
 
-    let variacao = "";
-
-    if (item.virouDesconto) {
-      variacao = `<span class="variation new-sale">Novo desconto</span>`;
-    } else if (diferenca < 0) {
-      variacao = `
-        <span class="variation down" aria-label="Preço diminuiu ${percentual.toFixed(1)} por cento">
-          ↓ ${percentual.toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%
-        </span>
-      `;
-    } else if (diferenca > 0) {
-      variacao = `
-        <span class="variation up" aria-label="Preço aumentou ${percentual.toFixed(1)} por cento">
-          ↑ ${percentual.toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%
-        </span>
-      `;
-    }
-
-    return `
-      <div class="comparison-item" style="animation-delay:${Math.min(indice * 45, 300)}ms">
-        <div>
-          <strong>${escaparHTML(item.nome)}</strong>
-          <small>${escaparHTML(item.antigo.precoBRL)} → ${escaparHTML(item.atual.precoBRL)}</small>
-        </div>
-        ${variacao}
+  if (!de || !para) {
+    el.comparisonSummary.textContent = "Selecione as datas";
+    el.comparisonList.innerHTML = `
+      <div class="empty-state compact">
+        Escolha duas datas para comparar.
       </div>
     `;
-  }).join("");
+    return;
+  }
+
+  const mudancas = criarMudancas(de, para);
+  el.comparisonSummary.textContent = resumoMudancas(mudancas);
+
+  if (!mudancas.length) {
+    el.comparisonList.innerHTML = `
+      <div class="empty-state compact">
+        <div>
+          <strong>Nenhuma mudança encontrada</strong>
+          <div class="empty-description">Os dados permaneceram iguais entre as datas escolhidas.</div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  el.comparisonList.innerHTML = mudancas
+    .map((item, indice) => `
+      <div class="comparison-item" style="animation-delay:${Math.min(indice * 45, 300)}ms">
+        ${variacaoTemplate(item)}
+      </div>
+    `)
+    .join("");
+}
+
+function bloquearRolagem() {
+  if (estado.corpoBloqueado) return;
+
+  estado.scrollBloqueadoEm = window.scrollY;
+  estado.corpoBloqueado = true;
+
+  document.body.style.position = "fixed";
+  document.body.style.top = `-${estado.scrollBloqueadoEm}px`;
+  document.body.style.left = "0";
+  document.body.style.right = "0";
+  document.body.style.width = "100%";
+}
+
+function liberarRolagem() {
+  if (!estado.corpoBloqueado) return;
+  if (el.drawer.classList.contains("aberto") || el.historyModal.classList.contains("aberto")) {
+    return;
+  }
+
+  const posicao = estado.scrollBloqueadoEm;
+  estado.corpoBloqueado = false;
+
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.left = "";
+  document.body.style.right = "";
+  document.body.style.width = "";
+  window.scrollTo(0, posicao);
+}
+
+function elementosFocaveis(container) {
+  return [...container.querySelectorAll(
+    'button:not([disabled]), a[href], select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+  )].filter(item => !item.hasAttribute("aria-hidden") && item.offsetParent !== null);
+}
+
+function prenderFoco(event, container) {
+  if (event.key !== "Tab") return;
+
+  const focaveis = elementosFocaveis(container);
+  if (!focaveis.length) {
+    event.preventDefault();
+    container.focus();
+    return;
+  }
+
+  const primeiro = focaveis[0];
+  const ultimo = focaveis[focaveis.length - 1];
+
+  if (event.shiftKey && document.activeElement === primeiro) {
+    event.preventDefault();
+    ultimo.focus();
+  } else if (!event.shiftKey && document.activeElement === ultimo) {
+    event.preventDefault();
+    primeiro.focus();
+  }
 }
 
 function abrirDrawer() {
+  estado.ultimoFoco = document.activeElement;
+  bloquearRolagem();
+
+  el.drawer.inert = false;
   el.drawer.classList.add("aberto");
   el.drawerBackdrop.classList.add("aberto");
   el.drawer.setAttribute("aria-hidden", "false");
   el.openDrawer.setAttribute("aria-expanded", "true");
-  document.body.style.overflow = "hidden";
-  setTimeout(() => el.closeDrawer.focus(), 260);
+
+  setTimeout(() => el.closeDrawer.focus(), 220);
 }
 
-function fecharDrawer() {
-  el.drawer.classList.remove("aberto");
+function fecharDrawer({ restaurarFoco = true, manterBloqueio = false } = {}) {
+  el.drawer.style.transform = "";
+  el.drawer.classList.remove("arrastando", "aberto");
   el.drawerBackdrop.classList.remove("aberto");
   el.drawer.setAttribute("aria-hidden", "true");
+  el.drawer.inert = true;
   el.openDrawer.setAttribute("aria-expanded", "false");
-  document.body.style.overflow = "";
-}
 
-function abrirHistorico() {
-  const abriuPeloMenuLateral = el.drawer.classList.contains("aberto");
-  fecharDrawer();
+  if (!manterBloqueio) {
+    setTimeout(liberarRolagem, 210);
+  }
 
-  const exibirHistorico = () => {
-    el.historyModal.classList.add("aberto");
-    el.historyBackdrop.classList.add("aberto");
-    el.historyModal.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
-    setNavAtivo("historico");
-
-    setTimeout(() => el.closeHistory.focus(), 230);
-  };
-
-  // Evita duas animações grandes acontecendo ao mesmo tempo no celular.
-  if (abriuPeloMenuLateral) {
-    setTimeout(exibirHistorico, 120);
-  } else {
-    exibirHistorico();
+  if (restaurarFoco && estado.ultimoFoco instanceof HTMLElement) {
+    setTimeout(() => estado.ultimoFoco.focus(), 220);
   }
 }
 
-function fecharHistorico() {
-  el.historyModal.classList.remove("aberto");
+function abrirHistorico() {
+  const abriuPeloMenu = el.drawer.classList.contains("aberto");
+
+  if (!abriuPeloMenu) {
+    estado.ultimoFoco = document.activeElement;
+    bloquearRolagem();
+  } else {
+    fecharDrawer({ restaurarFoco: false, manterBloqueio: true });
+  }
+
+  const exibir = () => {
+    el.historyModal.inert = false;
+    el.historyModal.classList.add("aberto");
+    el.historyBackdrop.classList.add("aberto");
+    el.historyModal.setAttribute("aria-hidden", "false");
+    setNavAtivo("historico");
+
+    setTimeout(() => el.closeHistory.focus(), 220);
+  };
+
+  setTimeout(exibir, abriuPeloMenu ? 105 : 0);
+}
+
+function fecharHistorico({ restaurarFoco = true } = {}) {
+  el.historyModal.style.transform = "";
+  el.historyModal.style.opacity = "";
+  el.historyModal.classList.remove("arrastando", "aberto");
   el.historyBackdrop.classList.remove("aberto");
   el.historyModal.setAttribute("aria-hidden", "true");
-  document.body.style.overflow = "";
+  el.historyModal.inert = true;
   setNavAtivo("inicio");
+
+  setTimeout(liberarRolagem, 210);
+
+  if (restaurarFoco && estado.ultimoFoco instanceof HTMLElement) {
+    setTimeout(() => estado.ultimoFoco.focus(), 220);
+  }
 }
 
 function setNavAtivo(nome) {
@@ -537,27 +881,60 @@ function setNavAtivo(nome) {
   });
 }
 
+function sinalizarNavegacaoVazia(navNome, texto) {
+  const botao = document.querySelector(`[data-nav="${navNome}"]`);
+  if (!botao) return;
+
+  const label = botao.querySelector("span");
+  const original = label.dataset.original || label.textContent;
+  label.dataset.original = original;
+
+  botao.classList.remove("sem-resultado");
+  void botao.offsetWidth;
+  botao.classList.add("sem-resultado");
+  label.textContent = texto;
+  botao.setAttribute("aria-label", texto);
+
+  document.querySelector(".section-title")?.scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+
+  setTimeout(() => {
+    botao.classList.remove("sem-resultado");
+    label.textContent = original;
+    botao.setAttribute(
+      "aria-label",
+      navNome === "ofertas"
+        ? "Ir para a primeira oferta"
+        : "Ir para o primeiro favorito"
+    );
+    setNavAtivo("inicio");
+  }, 1500);
+}
+
 function scrollParaPrimeiro(seletor, navNome) {
   const alvo = document.querySelector(seletor);
   setNavAtivo(navNome);
 
-  if (alvo) {
-    alvo.scrollIntoView({ behavior: "smooth", block: "center" });
+  if (!alvo) {
+    sinalizarNavegacaoVazia(
+      navNome,
+      navNome === "ofertas" ? "Sem ofertas" : "Sem favoritos"
+    );
+    return;
+  }
 
-    if (typeof alvo.animate === "function") {
-      alvo.animate([
-        { transform: "scale(1)" },
-        { transform: "scale(1.018)" },
-        { transform: "scale(1)" }
-      ], {
-        duration: 620,
-        easing: "cubic-bezier(.2,.8,.2,1)"
-      });
-    }
-  } else {
-    document.querySelector(".overview")?.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
+  alvo.scrollIntoView({ behavior: "smooth", block: "center" });
+
+  if (typeof alvo.animate === "function") {
+    alvo.animate([
+      { boxShadow: "var(--shadow-sm)" },
+      { boxShadow: "0 0 0 4px color-mix(in srgb, var(--primary) 24%, transparent), var(--shadow-md)" },
+      { boxShadow: "var(--shadow-sm)" }
+    ], {
+      duration: 700,
+      easing: "ease"
     });
   }
 
@@ -594,6 +971,8 @@ function registrarRipple() {
     elemento.dataset.rippleReady = "true";
 
     elemento.addEventListener("pointerdown", event => {
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
       const rect = elemento.getBoundingClientRect();
       const tamanho = Math.max(rect.width, rect.height);
       const ripple = document.createElement("span");
@@ -618,7 +997,11 @@ function configurarPullToRefresh() {
   const limite = 78;
 
   window.addEventListener("touchstart", event => {
-    if (window.scrollY !== 0 || estado.carregando) return;
+    const sobreposicaoAberta =
+      el.drawer.classList.contains("aberto") ||
+      el.historyModal.classList.contains("aberto");
+
+    if (window.scrollY !== 0 || estado.carregando || sobreposicaoAberta) return;
 
     inicioY = event.touches[0].clientY;
     distancia = 0;
@@ -654,11 +1037,90 @@ function configurarPullToRefresh() {
   }, { passive: true });
 }
 
+function configurarGestoDrawer() {
+  let inicioX = 0;
+  let deslocamento = 0;
+  let ativo = false;
+
+  el.drawer.addEventListener("pointerdown", event => {
+    if (estado.dispositivo !== "mobile") return;
+    if (event.target.closest("button, select, a")) return;
+
+    ativo = true;
+    inicioX = event.clientX;
+    deslocamento = 0;
+    el.drawer.classList.add("arrastando");
+    el.drawer.setPointerCapture?.(event.pointerId);
+  });
+
+  el.drawer.addEventListener("pointermove", event => {
+    if (!ativo) return;
+
+    deslocamento = Math.min(0, event.clientX - inicioX);
+    el.drawer.style.transform = `translateX(${deslocamento}px)`;
+  });
+
+  const finalizar = () => {
+    if (!ativo) return;
+    ativo = false;
+    el.drawer.classList.remove("arrastando");
+
+    if (deslocamento < -72) {
+      fecharDrawer();
+    } else {
+      el.drawer.style.transform = "";
+    }
+  };
+
+  el.drawer.addEventListener("pointerup", finalizar);
+  el.drawer.addEventListener("pointercancel", finalizar);
+}
+
+function configurarGestoHistorico() {
+  let inicioY = 0;
+  let deslocamento = 0;
+  let ativo = false;
+
+  el.historyDragHandle.addEventListener("pointerdown", event => {
+    if (estado.dispositivo !== "mobile") return;
+
+    ativo = true;
+    inicioY = event.clientY;
+    deslocamento = 0;
+    el.historyModal.classList.add("arrastando");
+    el.historyDragHandle.setPointerCapture?.(event.pointerId);
+  });
+
+  el.historyDragHandle.addEventListener("pointermove", event => {
+    if (!ativo) return;
+
+    deslocamento = Math.max(0, event.clientY - inicioY);
+    el.historyModal.style.transform = `translateY(${deslocamento}px)`;
+    el.historyModal.style.opacity = String(Math.max(0.72, 1 - deslocamento / 500));
+  });
+
+  const finalizar = () => {
+    if (!ativo) return;
+    ativo = false;
+    el.historyModal.classList.remove("arrastando");
+
+    if (deslocamento > 88) {
+      fecharHistorico();
+    } else {
+      el.historyModal.style.transform = "";
+      el.historyModal.style.opacity = "";
+    }
+  };
+
+  el.historyDragHandle.addEventListener("pointerup", finalizar);
+  el.historyDragHandle.addEventListener("pointercancel", finalizar);
+}
+
 function hashTexto(texto) {
   let hash = 2166136261;
 
-  for (let i = 0; i < texto.length; i += 1) {
-    hash ^= texto.charCodeAt(i);
+  for (let indice = 0; indice < texto.length; indice += 1) {
+    hash ^= texto.charCodeAt(indice);
     hash = Math.imul(hash, 16777619);
   }
 
@@ -745,14 +1207,22 @@ async function registrarServiceWorker() {
 
 el.seletorData.addEventListener("change", event => {
   mostrarExecucao(Number(event.target.value));
+  preencherHistorico();
 });
 
-el.compareFrom.addEventListener("change", renderizarComparacao);
-el.compareTo.addEventListener("change", renderizarComparacao);
+el.compareFrom.addEventListener("change", () => {
+  sincronizarDatasComparacao("inicial");
+  renderizarComparacao();
+});
+
+el.compareTo.addEventListener("change", () => {
+  sincronizarDatasComparacao("final");
+  renderizarComparacao();
+});
 
 el.openDrawer.addEventListener("click", abrirDrawer);
-el.closeDrawer.addEventListener("click", fecharDrawer);
-el.drawerBackdrop.addEventListener("click", fecharDrawer);
+el.closeDrawer.addEventListener("click", () => fecharDrawer());
+el.drawerBackdrop.addEventListener("click", () => fecharDrawer());
 
 el.themeSwitch.addEventListener("click", () => {
   const atual = document.documentElement.dataset.theme;
@@ -760,8 +1230,8 @@ el.themeSwitch.addEventListener("click", () => {
 });
 
 el.openHistoryFromDrawer.addEventListener("click", abrirHistorico);
-el.closeHistory.addEventListener("click", fecharHistorico);
-el.historyBackdrop.addEventListener("click", fecharHistorico);
+el.closeHistory.addEventListener("click", () => fecharHistorico());
+el.historyBackdrop.addEventListener("click", () => fecharHistorico());
 
 document.querySelectorAll("[data-nav]").forEach(botao => {
   botao.addEventListener("click", () => {
@@ -805,15 +1275,23 @@ window.addEventListener("scroll", () => {
 }, { passive: true });
 
 document.addEventListener("keydown", event => {
-  if (event.key !== "Escape") return;
-
-
   if (el.historyModal.classList.contains("aberto")) {
-    fecharHistorico();
+    if (event.key === "Escape") {
+      fecharHistorico();
+      return;
+    }
+
+    prenderFoco(event, el.historyModal);
+    return;
   }
 
   if (el.drawer.classList.contains("aberto")) {
-    fecharDrawer();
+    if (event.key === "Escape") {
+      fecharDrawer();
+      return;
+    }
+
+    prenderFoco(event, el.drawer);
   }
 });
 
@@ -828,6 +1306,8 @@ window.addEventListener("resize", () => {
 inicializarTema();
 registrarRipple();
 configurarPullToRefresh();
+configurarGestoDrawer();
+configurarGestoHistorico();
 registrarServiceWorker();
 monitorarVersao();
 carregarDados();

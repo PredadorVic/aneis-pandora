@@ -33,7 +33,7 @@
 
   <main class="app-shell" id="inicio">
     <header class="topbar">
-      <button class="icon-button ripple-host" id="openDrawer" type="button" aria-label="Abrir menu" aria-expanded="false">
+      <button class="icon-button ripple-host" id="openDrawer" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="drawer">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
       </button>
       <div class="topbar-copy">
@@ -56,7 +56,7 @@
 
     <div class="section-title">
       <h2>Anéis encontrados</h2>
-      <span id="resultStatus" aria-live="polite">Carregando...</span>
+      <span id="resultStatus" role="status" aria-live="polite">Carregando...</span>
     </div>
     <section id="grade" class="grade" aria-live="polite" aria-busy="true"></section>
   </main>
@@ -83,42 +83,92 @@
   </nav>
 
   <div class="drawer-backdrop" id="drawerBackdrop"></div>
-  <aside class="drawer" id="drawer" aria-hidden="true" aria-label="Menu lateral">
+  <aside class="drawer" id="drawer" aria-hidden="true" aria-label="Menu do aplicativo" tabindex="-1" inert>
     <div class="drawer-head">
       <button class="icon-button" id="closeDrawer" type="button" aria-label="Voltar e fechar menu">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m15 18-6-6 6-6"/></svg>
       </button>
-      <h2>Preferências</h2>
+      <div>
+        <h2>Menu</h2>
+        <p>Preferências e histórico</p>
+      </div>
     </div>
+
+    <p class="drawer-section-title">Aparência</p>
     <div class="drawer-list">
       <div class="drawer-item" role="group" aria-label="Alternar modo escuro">
         <span class="drawer-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span>
         <span><strong>Modo escuro</strong><small>Mais confortável em ambientes escuros</small></span>
         <button class="switch" id="themeSwitch" type="button" role="switch" aria-checked="false" aria-label="Ativar modo escuro"></button>
       </div>
+    </div>
+
+    <p class="drawer-section-title">Consulta</p>
+    <div class="drawer-list">
       <button class="drawer-item ripple-host" id="openHistoryFromDrawer" type="button">
         <span class="drawer-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 2"/></svg></span>
-        <span><strong>Abrir histórico</strong><small>Compare preços entre duas consultas</small></span><span>›</span>
+        <span><strong>Abrir histórico</strong><small>Compare preços entre duas consultas</small></span><span aria-hidden="true">›</span>
       </button>
+
+      <div class="drawer-status" aria-live="polite">
+        <span>Consulta exibida</span>
+        <strong id="drawerCurrentDate">Carregando...</strong>
+        <small id="drawerCurrentCount">Aguardando os dados</small>
+      </div>
     </div>
+
+    <footer class="drawer-footer">
+      <span>Anéis Pandora</span>
+      <small id="appVersion">Versão 2.3</small>
+    </footer>
   </aside>
 
 
   <div class="modal-backdrop" id="historyBackdrop"></div>
-  <section class="history-modal" id="historyModal" aria-hidden="true" aria-labelledby="historyTitle">
-    <div class="drag-handle"></div>
+  <section
+    class="history-modal"
+    id="historyModal"
+    role="dialog"
+    aria-modal="true"
+    aria-hidden="true"
+    aria-labelledby="historyTitle"
+    aria-describedby="historyDescription"
+    tabindex="-1"
+    inert>
+    <div class="drag-handle" id="historyDragHandle" aria-hidden="true"></div>
     <div class="history-head">
       <button class="icon-button" id="closeHistory" type="button" aria-label="Voltar e fechar histórico">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m15 18-6-6 6-6"/></svg>
       </button>
-      <h2 id="historyTitle">Histórico de preços</h2>
+      <div>
+        <h2 id="historyTitle">Histórico de preços</h2>
+        <p id="historyDescription">Escolha duas consultas para ver somente o que mudou.</p>
+      </div>
     </div>
+
     <div class="comparison-controls">
-      <div class="control-group"><label class="control-label" for="compareFrom">Comparar de</label><div class="select-wrap"><select id="compareFrom"></select><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m7 10 5 5 5-5"/></svg></div></div>
-      <div class="control-group"><label class="control-label" for="compareTo">Para</label><div class="select-wrap"><select id="compareTo"></select><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m7 10 5 5 5-5"/></svg></div></div>
+      <div class="control-group">
+        <label class="control-label" for="compareFrom">Data inicial</label>
+        <div class="select-wrap"><select id="compareFrom" aria-label="Escolher data inicial da comparação"></select><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m7 10 5 5 5-5"/></svg></div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="compareTo">Data final</label>
+        <div class="select-wrap"><select id="compareTo" aria-label="Escolher data final da comparação"></select><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m7 10 5 5 5-5"/></svg></div>
+      </div>
     </div>
-    <article class="comparison-panel"><h3>Mudanças encontradas</h3><div class="comparison-list" id="comparisonList"></div></article>
-    <article class="timeline-panel"><h3>Linha do tempo</h3><div class="timeline" id="timeline"></div></article>
+
+    <article class="comparison-panel">
+      <div class="panel-heading">
+        <h3>Mudanças encontradas</h3>
+        <span id="comparisonSummary" role="status" aria-live="polite">—</span>
+      </div>
+      <div class="comparison-list" id="comparisonList"></div>
+    </article>
+
+    <article class="timeline-panel">
+      <h3>Linha do tempo</h3>
+      <div class="timeline" id="timeline"></div>
+    </article>
   </section>
 
   <script src="./app.js" defer></script>
