@@ -1,6 +1,6 @@
 "use strict";
 
-const APP_VERSION = "2.5.2";
+const APP_VERSION = "2.5.3";
 const CHAVE_FAVORITOS = "aneis-favoritos";
 const CHAVE_TEMA = "aneis-tema";
 
@@ -362,7 +362,7 @@ function esconderCarregamentoInicial() {
   clearTimeout(window.__appLoadingFailsafe);
   estado.carregamentoInicialConcluido = true;
   const tempoDecorrido = performance.now() - estado.inicioCarregamento;
-  const espera = Math.max(0, 160 - tempoDecorrido);
+  const espera = Math.max(0, 900 - tempoDecorrido);
 
   setTimeout(() => {
     el.appLoading.classList.add("oculto");
@@ -371,7 +371,7 @@ function esconderCarregamentoInicial() {
 
     setTimeout(() => {
       el.appLoading.hidden = true;
-    }, 180);
+    }, 220);
   }, espera);
 }
 
@@ -1587,6 +1587,6 @@ monitorarVersao();
 
 window.__appLoadingShortTimer = setTimeout(() => {
   esconderCarregamentoInicial();
-}, 520);
+}, 1200);
 
 carregarDados();
