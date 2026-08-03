@@ -172,14 +172,25 @@ select:focus-visible{border-color:var(--primary);box-shadow:0 0 0 4px color-mix(
 .switch{position:relative;width:48px;height:28px;border:0;border-radius:var(--pill);background:#d8cbd2;cursor:pointer;transition:background var(--transition)}
 .switch::after{content:"";position:absolute;top:4px;left:4px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 3px 10px rgba(0,0,0,.18);transition:transform var(--transition)}
 .switch.ativo{background:var(--primary)}.switch.ativo::after{transform:translateX(20px)}
+.modal-backdrop{
+  background:rgba(20,8,15,.34);
+  backdrop-filter:blur(2px);
+  -webkit-backdrop-filter:blur(2px);
+  transition:opacity 180ms ease,visibility 180ms ease
+}
 .history-modal{
   position:fixed;z-index:90;inset:auto 0 0;width:min(100%,760px);max-height:min(92vh,920px);margin:0 auto;
   padding:16px 16px calc(22px + var(--safe-bottom));border:1px solid var(--border);border-bottom:0;border-radius:28px 28px 0 0;
   background:color-mix(in srgb,var(--surface-solid) 97%,transparent);box-shadow:var(--shadow-lg);
-  backdrop-filter:blur(28px) saturate(135%);-webkit-backdrop-filter:blur(28px) saturate(135%);
-  transform:translateY(102%);transition:transform .36s cubic-bezier(.2,.8,.2,1);overflow:auto;overscroll-behavior:contain
+  backdrop-filter:blur(22px) saturate(125%);-webkit-backdrop-filter:blur(22px) saturate(125%);
+  opacity:0;visibility:hidden;pointer-events:none;transform:translateY(18px) scale(.994);
+  transition:opacity 180ms ease,transform 220ms cubic-bezier(.2,.7,.2,1),visibility 0s linear 220ms;
+  overflow:auto;overscroll-behavior:contain
 }
-.history-modal.aberto{transform:translateY(0)}
+.history-modal.aberto{
+  opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0) scale(1);
+  transition:opacity 180ms ease,transform 220ms cubic-bezier(.2,.7,.2,1),visibility 0s
+}
 .drag-handle{width:48px;height:5px;margin:0 auto 14px;border-radius:var(--pill);background:color-mix(in srgb,var(--muted) 32%,transparent)}
 .comparison-controls{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
 .comparison-panel,.timeline-panel{padding:15px;border:1px solid var(--border);border-radius:20px;background:var(--surface-muted)}

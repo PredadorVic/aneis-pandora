@@ -502,15 +502,25 @@ function fecharDrawer() {
 }
 
 function abrirHistorico() {
+  const abriuPeloMenuLateral = el.drawer.classList.contains("aberto");
   fecharDrawer();
 
-  el.historyModal.classList.add("aberto");
-  el.historyBackdrop.classList.add("aberto");
-  el.historyModal.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
-  setNavAtivo("historico");
+  const exibirHistorico = () => {
+    el.historyModal.classList.add("aberto");
+    el.historyBackdrop.classList.add("aberto");
+    el.historyModal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    setNavAtivo("historico");
 
-  setTimeout(() => el.closeHistory.focus(), 270);
+    setTimeout(() => el.closeHistory.focus(), 230);
+  };
+
+  // Evita duas animações grandes acontecendo ao mesmo tempo no celular.
+  if (abriuPeloMenuLateral) {
+    setTimeout(exibirHistorico, 120);
+  } else {
+    exibirHistorico();
+  }
 }
 
 function fecharHistorico() {
