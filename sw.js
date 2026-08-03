@@ -1,4 +1,4 @@
-const VERSION = "aneis-v2.4.0-2026-08-03";
+const VERSION = "aneis-v2.5.0-2026-08-03";
 
 self.addEventListener("install", () => {
   // A nova versão aguarda a confirmação visual no aplicativo.

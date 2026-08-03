@@ -1,6 +1,6 @@
 "use strict";
 
-const APP_VERSION = "2.4.0";
+const APP_VERSION = "2.5.0";
 const CHAVE_FAVORITOS = "aneis-favoritos";
 const CHAVE_TEMA = "aneis-tema";
 
@@ -15,7 +15,10 @@ const estado = {
   ultimoFoco: null,
   scrollBloqueadoEm: 0,
   corpoBloqueado: false,
-  visaoAtual: "inicio"
+  visaoAtual: "inicio",
+  transicaoEmAndamento: false,
+  carregamentoInicialConcluido: false,
+  inicioCarregamento: performance.now()
 };
 
 const el = {
@@ -129,6 +132,34 @@ function formatarData(dataHora, completa = true) {
     minute: "2-digit"
   });
 }
+
+function formatarDataRelativa(dataHora) {
+  const data = new Date(dataHora);
+  if (Number.isNaN(data.getTime())) return "Data não informada";
+
+  const agora = new Date();
+  const diaUTC = Date.UTC(data.getFullYear(), data.getMonth(), data.getDate());
+  const hojeUTC = Date.UTC(agora.getFullYear(), agora.getMonth(), agora.getDate());
+  const diferencaDias = Math.round((hojeUTC - diaUTC) / 86_400_000);
+  const hora = data.toLocaleTimeString("pt-BR", {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+
+  if (diferencaDias === 0) return `Hoje, ${hora}`;
+  if (diferencaDias === 1) return `Ontem, ${hora}`;
+  if (diferencaDias === -1) return `Amanhã, ${hora}`;
+
+  const incluirAno = data.getFullYear() !== agora.getFullYear();
+  const dataCurta = data.toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "short",
+    ...(incluirAno ? { year: "numeric" } : {})
+  }).replace(/\./g, "").replace(/\sde\s/g, " ");
+
+  return `${dataCurta}, ${hora}`;
+}
+
 
 function timestampSeguro(dataHora, fallback = 0) {
   const timestamp = new Date(dataHora).getTime();
@@ -323,6 +354,25 @@ function ehAnelNovo(anel, indiceAtual) {
   return !mapaPorNome(anterior).has(anel.anel);
 }
 
+
+function esconderCarregamentoInicial() {
+  if (estado.carregamentoInicialConcluido || !el.appLoading) return;
+
+  estado.carregamentoInicialConcluido = true;
+  const tempoDecorrido = performance.now() - estado.inicioCarregamento;
+  const espera = Math.max(0, 520 - tempoDecorrido);
+
+  setTimeout(() => {
+    el.appLoading.classList.add("oculto");
+    el.appLoading.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("app-loading-active");
+
+    setTimeout(() => {
+      el.appLoading.hidden = true;
+    }, 320);
+  }, espera);
+}
+
 function mostrarSkeleton() {
   el.grade.setAttribute("aria-busy", "true");
   el.resultStatus.textContent = "Carregando...";
@@ -431,7 +481,7 @@ function cardTemplate(anel, indice, favoritos) {
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
           <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>
         </svg>
-        Preço atualizado em ${formatarData(estado.execucaoAtual.dataHora, false)}
+        Consultado: ${formatarDataRelativa(estado.execucaoAtual.dataHora)}
       </div>
 
       ${botaoPandora}
@@ -525,9 +575,12 @@ function renderizar(aneis) {
   const configuracao = configuracaoDaVisao();
 
   el.sectionTitleText.textContent = configuracao.titulo;
-  el.sectionTitleText.classList.remove("mudando");
-  void el.sectionTitleText.offsetWidth;
-  el.sectionTitleText.classList.add("mudando");
+
+  if (!estado.transicaoEmAndamento) {
+    el.sectionTitleText.classList.remove("mudando");
+    void el.sectionTitleText.offsetWidth;
+    el.sectionTitleText.classList.add("mudando");
+  }
 
   el.grade.setAttribute("aria-busy", "false");
   el.resultStatus.textContent = `${lista.length} ${lista.length === 1 ? "anel" : "anéis"}`;
@@ -568,28 +621,69 @@ function renderizar(aneis) {
 }
 
 function mudarVisao(nome, { rolar = true } = {}) {
-  if (!["inicio", "ofertas", "favoritos"].includes(nome)) return;
+  const visoes = ["inicio", "ofertas", "favoritos"];
+  if (!visoes.includes(nome)) return;
 
-  estado.visaoAtual = nome;
-  setNavAtivo(nome);
+  const visaoAnterior = estado.visaoAtual;
 
-  if (estado.execucaoAtual) {
-    renderizar(estado.execucaoAtual.aneis);
-  }
+  const rolarParaLista = () => {
+    if (!rolar) return;
 
-  if (rolar) {
     document.querySelector(".section-title")?.scrollIntoView({
       behavior: "smooth",
       block: "start"
     });
+  };
+
+  if (nome === visaoAnterior) {
+    setNavAtivo(nome);
+    rolarParaLista();
+    return;
   }
+
+  const atualizarInterface = () => {
+    estado.visaoAtual = nome;
+    setNavAtivo(nome);
+
+    if (estado.execucaoAtual) {
+      renderizar(estado.execucaoAtual.aneis);
+    }
+  };
+
+  const movimentoReduzido = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const suportaTransicao = typeof document.startViewTransition === "function";
+
+  if (!suportaTransicao || movimentoReduzido) {
+    atualizarInterface();
+    rolarParaLista();
+    return;
+  }
+
+  const direcao = visoes.indexOf(nome) > visoes.indexOf(visaoAnterior)
+    ? "avancar"
+    : "voltar";
+
+  estado.transicaoEmAndamento = true;
+  document.documentElement.dataset.viewDirection = direcao;
+  document.documentElement.classList.add("view-transition-running");
+
+  const transicao = document.startViewTransition(atualizarInterface);
+
+  transicao.finished
+    .catch(() => {})
+    .finally(() => {
+      estado.transicaoEmAndamento = false;
+      document.documentElement.classList.remove("view-transition-running");
+      delete document.documentElement.dataset.viewDirection;
+      rolarParaLista();
+    });
 }
 
 
 function preencherSeletorDeData(execucoes) {
   el.seletorData.innerHTML = execucoes
     .map((execucao, indice) => `
-      <option value="${indice}">${formatarData(execucao.dataHora)}</option>
+      <option value="${indice}">${formatarDataRelativa(execucao.dataHora)}</option>
     `)
     .reverse()
     .join("");
@@ -601,7 +695,7 @@ function preencherSeletorDeData(execucoes) {
 function atualizarStatusDoMenu(execucao) {
   const quantidade = execucao?.aneis?.length || 0;
   el.drawerCurrentDate.textContent = execucao
-    ? formatarData(execucao.dataHora)
+    ? formatarDataRelativa(execucao.dataHora)
     : "Nenhuma consulta";
 
   el.drawerCurrentCount.textContent = execucao
@@ -616,7 +710,7 @@ function mostrarExecucao(indice) {
   estado.indiceAtual = indice;
   estado.execucaoAtual = execucao;
 
-  el.atualizado.textContent = `Consulta de ${formatarData(execucao.dataHora)}`;
+  el.atualizado.textContent = `Última consulta: ${formatarDataRelativa(execucao.dataHora)}`;
   atualizarStatusDoMenu(execucao);
   renderizar(execucao.aneis);
 }
@@ -665,13 +759,14 @@ async function carregarDados({ silencioso = false } = {}) {
     `;
   } finally {
     estado.carregando = false;
+    esconderCarregamentoInicial();
   }
 }
 
 function preencherHistorico() {
   const options = estado.execucoes
     .map((execucao, indice) =>
-      `<option value="${indice}">${formatarData(execucao.dataHora)}</option>`
+      `<option value="${indice}">${formatarDataRelativa(execucao.dataHora)}</option>`
     )
     .join("");
 
@@ -696,7 +791,7 @@ function preencherHistorico() {
       return `
         <div class="timeline-item ${realIndex === estado.indiceAtual ? "atual" : ""}"
              style="animation-delay:${Math.min(reverseIndex * 55, 330)}ms">
-          <strong>${formatarData(execucao.dataHora)}</strong>
+          <strong>${formatarDataRelativa(execucao.dataHora)}</strong>
           <small>
             ${total} ${total === 1 ? "anel" : "anéis"}
             ${promocoes ? ` · ${promocoes} ${promocoes === 1 ? "promoção" : "promoções"}` : ""}

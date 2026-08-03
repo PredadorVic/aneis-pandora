@@ -17,7 +17,22 @@
   <meta name="apple-mobile-web-app-title" content="Anéis">
   <meta name="theme-color" content="#ec4899" id="metaThemeColor">
 </head>
-<body>
+<body class="app-loading-active">
+
+  <div class="app-loading" id="appLoading" role="status" aria-live="polite" aria-label="Carregando o aplicativo">
+    <div class="app-loading-content">
+      <span class="loading-jewel" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none">
+          <path d="M21 23 32 12l11 11-11 29L21 23Z" stroke="currentColor" stroke-width="2.2"/>
+          <path d="M21 23h22M26 23l6-11 6 11M26 23l6 29 6-29" stroke="currentColor" stroke-width="1.5" opacity=".72"/>
+        </svg>
+      </span>
+      <strong>Anéis Pandora</strong>
+      <span>Consultando os preços mais recentes</span>
+      <div class="loading-progress" aria-hidden="true"><i></i></div>
+    </div>
+  </div>
+
   <div class="pull-indicator" id="pullIndicator" aria-hidden="true">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
     <span>Puxe para atualizar</span>
@@ -119,7 +134,7 @@
 
     <footer class="drawer-footer">
       <span>Anéis Pandora</span>
-      <small id="appVersion">Versão 2.4</small>
+      <small id="appVersion">Versão 2.5</small>
     </footer>
   </aside>
 
