@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="light dark">
+  <meta name="description" content="Acompanhe preços, descontos e histórico de anéis selecionados da Pandora.">
   <title>Anéis Pandora</title>
 
   <link rel="manifest" href="./manifest.json">
@@ -69,6 +70,24 @@
       </div>
     </section>
 
+    <section class="discovery-tools" aria-label="Pesquisar e ordenar anéis">
+      <label class="search-field" for="searchRings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg>
+        <input id="searchRings" type="search" placeholder="Pesquisar pelo nome" autocomplete="off">
+      </label>
+      <label class="sort-field" for="sortRings">
+        <span class="sr-only">Ordenar anéis</span>
+        <select id="sortRings" aria-label="Ordenar anéis">
+          <option value="original">Ordem original</option>
+          <option value="price-asc">Menor preço</option>
+          <option value="price-desc">Maior preço</option>
+          <option value="discount">Maior desconto</option>
+          <option value="name">Nome de A a Z</option>
+        </select>
+      </label>
+    </section>
+    <div class="freshness-banner" id="freshnessBanner" role="status" aria-live="polite" hidden></div>
+
     <div class="section-title">
       <h2 id="sectionTitleText">Anéis encontrados</h2>
       <span id="resultStatus" role="status" aria-live="polite">Carregando...</span>
@@ -125,6 +144,11 @@
         <span><strong>Abrir histórico</strong><small>Compare preços entre duas consultas</small></span><span aria-hidden="true">›</span>
       </button>
 
+      <button class="drawer-item ripple-host" id="installApp" type="button" hidden>
+        <span class="drawer-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></span>
+        <span><strong>Instalar aplicativo</strong><small>Adicione à tela inicial do celular</small></span><span aria-hidden="true">›</span>
+      </button>
+
       <div class="drawer-status" aria-live="polite">
         <span>Consulta exibida</span>
         <strong id="drawerCurrentDate">Carregando...</strong>
@@ -134,7 +158,7 @@
 
     <footer class="drawer-footer">
       <span>Anéis Pandora</span>
-      <small id="appVersion">Versão 2.5.3</small>
+      <small id="appVersion">Versão 2.6.0</small>
     </footer>
   </aside>
 

@@ -1,6 +1,6 @@
 "use strict";
 
-const APP_VERSION = "2.5.3";
+const APP_VERSION = "2.6.0";
 const CHAVE_FAVORITOS = "aneis-favoritos";
 const CHAVE_TEMA = "aneis-tema";
 
@@ -16,6 +16,9 @@ const estado = {
   scrollBloqueadoEm: 0,
   corpoBloqueado: false,
   visaoAtual: "inicio",
+  pesquisa: "",
+  ordenacao: "original",
+  installPrompt: null,
   transicaoEmAndamento: false,
   carregamentoInicialConcluido: false,
   inicioCarregamento: performance.now()
@@ -50,7 +53,11 @@ const el = {
   pullIndicator: document.getElementById("pullIndicator"),
   updateBanner: document.getElementById("updateBanner"),
   applyUpdate: document.getElementById("applyUpdate"),
-  metaThemeColor: document.getElementById("metaThemeColor")
+  metaThemeColor: document.getElementById("metaThemeColor"),
+  searchRings: document.getElementById("searchRings"),
+  sortRings: document.getElementById("sortRings"),
+  freshnessBanner: document.getElementById("freshnessBanner"),
+  installApp: document.getElementById("installApp")
 };
 
 document.documentElement.dataset.device = estado.dispositivo;
@@ -67,6 +74,13 @@ function escaparHTML(valor) {
 
 function textoValido(valor) {
   return typeof valor === "string" ? valor.trim() : String(valor ?? "").trim();
+}
+
+function textoParaBusca(valor) {
+  return textoValido(valor)
+    .toLocaleLowerCase("pt-BR")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 }
 
 function parsePreco(valor) {
@@ -327,6 +341,14 @@ function precoAnteriorHistorico(anel, indiceAtual) {
   return anterior._preco;
 }
 
+function variacaoDesdeAnterior(anel, indiceAtual) {
+  if (!anel._temPreco || indiceAtual <= 0) return null;
+  const anterior = mapaPorNome(estado.execucoes[indiceAtual - 1]).get(anel.anel);
+  if (!anterior?._temPreco || anterior._preco <= 0 || anterior._preco === anel._preco) return null;
+  const percentual = ((anel._preco - anterior._preco) / anterior._preco) * 100;
+  return { percentual, anterior: anterior._preco };
+}
+
 function mapaPorNome(execucao) {
   return new Map((execucao?.aneis || []).map(item => [item.anel, item]));
 }
@@ -402,6 +424,7 @@ function cardTemplate(anel, indice, favoritos) {
   const precoAntigo = emDesconto ? precoAnteriorHistorico(anel, estado.indiceAtual) : 0;
   const novoDesconto = ehNovoDesconto(anel, estado.indiceAtual);
   const anelNovo = ehAnelNovo(anel, estado.indiceAtual);
+  const variacao = variacaoDesdeAnterior(anel, estado.indiceAtual);
   const precoPrincipal = anel._temPreco
     ? escaparHTML(anel.precoBRL || formatarBRL(anel._preco))
     : "Preço indisponível";
@@ -462,6 +485,7 @@ function cardTemplate(anel, indice, favoritos) {
         ` : ""}
         ${novoDesconto ? `<span class="novo-desconto">Novo desconto</span>` : ""}
         ${anelNovo ? `<span class="badge-novo">Novo</span>` : ""}
+        ${variacao ? `<span class="price-change ${variacao.percentual < 0 ? "down" : "up"}">${variacao.percentual < 0 ? "↓" : "↑"} ${Math.abs(variacao.percentual).toLocaleString("pt-BR", { maximumFractionDigits: 1 })}%</span>` : ""}
       </div>
 
       <div class="precos">
@@ -486,7 +510,13 @@ function cardTemplate(anel, indice, favoritos) {
         Consultado: ${formatarDataRelativa(estado.execucaoAtual.dataHora)}
       </div>
 
-      ${botaoPandora}
+      <div class="card-actions">
+        ${botaoPandora}
+        <button class="share-button ripple-host" type="button" data-share="${escaparHTML(anel._chaveFavorito)}" aria-label="Compartilhar ${escaparHTML(anel.anel)}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 10.5 6.8-4M8.6 13.5l6.8 4"/></svg>
+          <span>Compartilhar</span>
+        </button>
+      </div>
     </article>
   `;
 }
@@ -526,6 +556,29 @@ function registrarInteracoesCards() {
     });
   });
 
+  document.querySelectorAll("[data-share]").forEach(botao => {
+    botao.addEventListener("click", async () => {
+      const anel = estado.execucaoAtual?.aneis?.find(item => item._chaveFavorito === botao.dataset.share);
+      if (!anel) return;
+      const dados = {
+        title: anel.anel,
+        text: `${anel.anel} está por ${anel.precoBRL || formatarBRL(anel._preco)}.`,
+        url: anel.link || location.href
+      };
+      try {
+        if (navigator.share) await navigator.share(dados);
+        else {
+          await navigator.clipboard.writeText(`${dados.text} ${dados.url}`);
+          const textoOriginal = botao.querySelector("span").textContent;
+          botao.querySelector("span").textContent = "Link copiado";
+          setTimeout(() => { botao.querySelector("span").textContent = textoOriginal; }, 1800);
+        }
+      } catch (erro) {
+        if (erro?.name !== "AbortError") console.warn("Não foi possível compartilhar:", erro);
+      }
+    });
+  });
+
   registrarRipple();
 }
 
@@ -556,15 +609,27 @@ function configuracaoDaVisao() {
 }
 
 function aneisDaVisao(aneis) {
-  const lista = Array.isArray(aneis) ? aneis : [];
+  let lista = Array.isArray(aneis) ? [...aneis] : [];
 
   if (estado.visaoAtual === "ofertas") {
-    return lista.filter(anel => anel.desconto === "Sim");
+    lista = lista.filter(anel => anel.desconto === "Sim");
   }
 
   if (estado.visaoAtual === "favoritos") {
     const favoritos = pegarFavoritos();
-    return lista.filter(anel => favoritos.includes(anel._chaveFavorito));
+    lista = lista.filter(anel => favoritos.includes(anel._chaveFavorito));
+  }
+
+  if (estado.pesquisa) {
+    const termo = textoParaBusca(estado.pesquisa);
+    lista = lista.filter(anel => textoParaBusca(anel.anel).includes(termo));
+  }
+
+  switch (estado.ordenacao) {
+    case "price-asc": lista.sort((a, b) => (a._preco || Infinity) - (b._preco || Infinity)); break;
+    case "price-desc": lista.sort((a, b) => (b._preco || 0) - (a._preco || 0)); break;
+    case "discount": lista.sort((a, b) => b._percentual - a._percentual); break;
+    case "name": lista.sort((a, b) => a.anel.localeCompare(b.anel, "pt-BR")); break;
   }
 
   return lista;
@@ -705,6 +770,23 @@ function atualizarStatusDoMenu(execucao) {
     : "Aguardando os dados";
 }
 
+function atualizarFrescor(execucao) {
+  if (!navigator.onLine) {
+    el.freshnessBanner.hidden = false;
+    el.freshnessBanner.classList.add("offline");
+    el.freshnessBanner.textContent = "Você está sem internet. Exibindo a última consulta salva neste dispositivo.";
+    return;
+  }
+
+  el.freshnessBanner.classList.remove("offline");
+  const idadeHoras = (Date.now() - timestampSeguro(execucao?.dataHora, Date.now())) / 3_600_000;
+  el.freshnessBanner.hidden = idadeHoras <= 48;
+  if (idadeHoras > 48) {
+    const dias = Math.floor(idadeHoras / 24);
+    el.freshnessBanner.textContent = `Os preços desta consulta têm ${dias} ${dias === 1 ? "dia" : "dias"}. Confirme o valor na Pandora antes de comprar.`;
+  }
+}
+
 function mostrarExecucao(indice) {
   const execucao = estado.execucoes[indice];
   if (!execucao) return;
@@ -713,6 +795,7 @@ function mostrarExecucao(indice) {
   estado.execucaoAtual = execucao;
 
   el.atualizado.textContent = `Última consulta: ${formatarDataRelativa(execucao.dataHora)}`;
+  atualizarFrescor(execucao);
   atualizarStatusDoMenu(execucao);
   renderizar(execucao.aneis);
 }
@@ -1494,6 +1577,16 @@ el.seletorData.addEventListener("change", event => {
   preencherHistorico();
 });
 
+el.searchRings.addEventListener("input", event => {
+  estado.pesquisa = event.target.value;
+  renderizar(estado.execucaoAtual?.aneis || []);
+});
+
+el.sortRings.addEventListener("change", event => {
+  estado.ordenacao = event.target.value;
+  renderizar(estado.execucaoAtual?.aneis || []);
+});
+
 el.compareFrom.addEventListener("change", () => {
   sincronizarDatasComparacao("inicial");
   renderizarComparacao();
@@ -1543,6 +1636,28 @@ el.applyUpdate.addEventListener("click", () => {
     location.reload();
   }
 });
+
+window.addEventListener("beforeinstallprompt", event => {
+  event.preventDefault();
+  estado.installPrompt = event;
+  el.installApp.hidden = false;
+});
+
+el.installApp.addEventListener("click", async () => {
+  if (!estado.installPrompt) return;
+  estado.installPrompt.prompt();
+  await estado.installPrompt.userChoice;
+  estado.installPrompt = null;
+  el.installApp.hidden = true;
+});
+
+window.addEventListener("appinstalled", () => {
+  estado.installPrompt = null;
+  el.installApp.hidden = true;
+});
+
+window.addEventListener("online", () => atualizarFrescor(estado.execucaoAtual));
+window.addEventListener("offline", () => atualizarFrescor(estado.execucaoAtual));
 
 window.addEventListener("scroll", () => {
   el.toTop.classList.toggle("visivel", window.scrollY > 560);

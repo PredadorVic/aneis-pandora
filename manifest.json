@@ -1,6 +1,9 @@
 {
   "name": "Anéis Pandora",
   "short_name": "Anéis",
+  "description": "Acompanhe preços, descontos e histórico de anéis selecionados da Pandora.",
+  "id": "./",
+  "scope": "./",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#fafaf9",
