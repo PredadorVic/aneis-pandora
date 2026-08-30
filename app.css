@@ -1222,3 +1222,37 @@ html[data-theme="dark"] .drawer{background:#160e13}
 .app-sidebar-footer>small{padding-left:13px;color:#9d887d;font-size:.7rem}
 html[data-theme="dark"] .drawer.app-sidebar{background:#100c0a}
 @media(max-width:420px){.drawer.app-sidebar{width:min(84vw,290px)}}
+
+
+/* SIDEBAR ANEIS IGUAL REFERENCIA V5 */
+.drawer.reference-sidebar{
+  width:min(84vw,290px);
+  height:100vh;
+  padding:48px 18px 22px;
+  color:#f8f4f1;
+  border:0;
+  background:#100c0a;
+  box-shadow:22px 0 55px rgba(0,0,0,.35);
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  display:flex;
+  flex-direction:column;
+  overflow:hidden;
+}
+.reference-brand{display:flex;align-items:center;gap:12px;padding:0 14px 28px}
+.reference-brand-icon{width:48px;height:48px;flex:0 0 auto;border-radius:14px;background:#df7545;display:grid;place-items:center;font-size:1.35rem}
+.reference-brand strong,.reference-brand small{display:block}.reference-brand strong{font-size:1rem;color:#fff}.reference-brand small{margin-top:3px;color:#b9aaa2;font-size:.78rem}
+.reference-nav{display:grid;gap:7px}
+.reference-nav-item{width:100%;min-height:48px;padding:12px 14px;border:0;border-radius:12px;color:#c8bbb5;background:transparent;display:flex;align-items:center;gap:12px;text-decoration:none;font-weight:750}
+.reference-nav-item>span{width:24px;text-align:center;font-size:1.05rem}.reference-nav-item:hover,.reference-nav-item:focus-visible{color:#fff;background:rgba(255,255,255,.06)}
+.reference-nav-item.active{color:#ffd8c6;background:#3b2118}
+.reference-footer{margin-top:auto;display:grid;gap:18px;padding:0 14px 0}
+.reference-theme{width:100%;padding:10px 0;border:0;color:#d8cbc5;background:transparent;display:flex;align-items:center;gap:12px;text-align:left;font:inherit;font-weight:750;cursor:pointer}
+.reference-theme>span:first-child,.reference-theme>span:nth-child(2){width:24px;text-align:center;font-size:1.15rem}
+.reference-theme:hover,.reference-theme:focus-visible{color:#fff}.reference-footer>small{color:#927f75;font-size:.74rem}
+.theme-moon,.theme-label-dark{display:inline}.theme-sun,.theme-label-light{display:none}
+html[data-theme="dark"] .theme-moon,html[data-theme="dark"] .theme-label-dark{display:none}
+html[data-theme="dark"] .theme-sun,html[data-theme="dark"] .theme-label-light{display:inline}
+.reference-technical-controls{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important}
+.reference-technical-controls #installApp{display:none!important}
+@media(max-width:420px){.drawer.reference-sidebar{width:min(84vw,290px);padding-top:48px}}

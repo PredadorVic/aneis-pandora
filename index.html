@@ -117,34 +117,33 @@
   </nav>
 
   <div class="drawer-backdrop" id="drawerBackdrop"></div>
-  <aside class="drawer app-sidebar" id="drawer" aria-hidden="true" aria-label="Menu principal" tabindex="-1" inert>
-    <div class="app-brand">
-      <span class="app-brand-icon" aria-hidden="true">💍</span>
-      <span class="app-brand-copy"><strong>Busca Preços</strong><small>Anéis</small></span>
-      <button class="app-brand-close" id="closeDrawer" type="button" aria-label="Fechar menu">×</button>
+  <aside class="drawer reference-sidebar" id="drawer" aria-hidden="true" aria-label="Menu principal" tabindex="-1" inert>
+    <div class="reference-brand">
+      <span class="reference-brand-icon" aria-hidden="true">💍</span>
+      <span><strong>Busca Preços</strong><small>Anéis</small></span>
     </div>
 
-    <nav class="app-nav-list" aria-label="Alternar aplicativo">
-      <a class="app-nav-item active" href="./" aria-current="page"><span aria-hidden="true">💍</span> Anéis</a>
-      <a class="app-nav-item" data-app-link="livros" href="./livros/"><span aria-hidden="true">📚</span> Livros</a>
+    <nav class="reference-nav" aria-label="Alternar aplicativo">
+      <a class="reference-nav-item active" href="./" aria-current="page"><span aria-hidden="true">💍</span> Anéis</a>
+      <a class="reference-nav-item" data-app-link="livros" href="./livros/"><span aria-hidden="true">📚</span> Livros</a>
     </nav>
 
-    <p class="app-nav-title">Recursos</p>
-    <div class="app-nav-list">
-      <button class="app-nav-item" id="openHistoryFromDrawer" type="button"><span aria-hidden="true">◷</span> Histórico</button>
-      <button class="app-nav-item" id="installApp" type="button" hidden><span aria-hidden="true">↓</span> Instalar aplicativo</button>
-    </div>
-
-    <div class="app-sidebar-footer">
-      <div class="app-current-status" aria-live="polite">
-        <span>Consulta exibida</span>
-        <strong id="drawerCurrentDate">Carregando...</strong>
-        <small id="drawerCurrentCount">Aguardando os dados</small>
-      </div>
-      <button class="app-theme-button" id="themeSwitch" type="button" role="switch" aria-checked="false">
-        <span aria-hidden="true">☾</span> Modo escuro
+    <div class="reference-footer">
+      <button class="reference-theme" id="themeSwitch" type="button" role="switch" aria-checked="false">
+        <span class="theme-sun" aria-hidden="true">☀️</span>
+        <span class="theme-moon" aria-hidden="true">🌙</span>
+        <span class="theme-label-dark">Modo escuro</span>
+        <span class="theme-label-light">Modo claro</span>
       </button>
       <small id="appVersion">Versão 2.6.0</small>
+    </div>
+
+    <div class="reference-technical-controls" aria-hidden="true">
+      <button id="closeDrawer" type="button" tabindex="-1">Fechar</button>
+      <button id="openHistoryFromDrawer" type="button" tabindex="-1">Histórico</button>
+      <button id="installApp" type="button" tabindex="-1" hidden>Instalar</button>
+      <span id="drawerCurrentDate"></span>
+      <span id="drawerCurrentCount"></span>
     </div>
   </aside>
 
