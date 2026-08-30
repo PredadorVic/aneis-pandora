@@ -1,4 +1,4 @@
-const VERSION = "aneis-v2.6.0-2026-08-15-livros-integrados-menu-editorial-v3-menus-unificados-v4-sidebar-referencia-v5-tema-sidebar-v6";
+const VERSION = "aneis-v2.7.0-mobile-cache-fix";
 const CACHE_SHELL = `${VERSION}-shell`;
 const CACHE_DADOS = `${VERSION}-dados`;
 const ARQUIVOS_SHELL = [
@@ -7,7 +7,11 @@ const ARQUIVOS_SHELL = [
 ];
 
 self.addEventListener("install", event => {
-  event.waitUntil(caches.open(CACHE_SHELL).then(cache => cache.addAll(ARQUIVOS_SHELL)));
+  event.waitUntil(
+    caches.open(CACHE_SHELL)
+      .then(cache => cache.addAll(ARQUIVOS_SHELL))
+      .then(() => self.skipWaiting())
+  );
 });
 
 self.addEventListener("activate", event => {
@@ -20,45 +24,40 @@ self.addEventListener("activate", event => {
   );
 });
 
+async function buscarComFallback(requisicao, cacheNome) {
+  try {
+    const resposta = await fetch(requisicao);
+    if (resposta.ok) {
+      const cache = await caches.open(cacheNome);
+      await cache.put(requisicao, resposta.clone());
+    }
+    return resposta;
+  } catch {
+    return (await caches.match(requisicao)) || Response.error();
+  }
+}
+
 self.addEventListener("fetch", event => {
   const requisicao = event.request;
   if (requisicao.method !== "GET") return;
-
   const url = new URL(requisicao.url);
   if (url.origin !== self.location.origin) return;
 
   if (url.pathname.endsWith("/dados.json")) {
-    event.respondWith(
-      fetch(requisicao)
-        .then(resposta => {
-          if (resposta.ok) {
-            caches.open(CACHE_DADOS).then(cache => cache.put("./dados.json", resposta.clone()));
-          }
-          return resposta;
-        })
-        .catch(async () => {
-          const salva = await (await caches.open(CACHE_DADOS)).match("./dados.json");
-          return salva || new Response(JSON.stringify({ execucoes: [] }), {
-            status: 503,
-            headers: { "Content-Type": "application/json" }
-          });
-        })
-    );
+    event.respondWith(buscarComFallback(requisicao, CACHE_DADOS));
+    return;
+  }
+
+  if (requisicao.mode === "navigate" || /\.(?:html|css|js)$/.test(url.pathname)) {
+    event.respondWith(buscarComFallback(requisicao, CACHE_SHELL));
     return;
   }
 
   event.respondWith(
-    caches.match(requisicao).then(cache => cache || fetch(requisicao).then(resposta => {
-      if (resposta.ok) {
-        caches.open(CACHE_SHELL).then(destino => destino.put(requisicao, resposta.clone()));
-      }
-      return resposta;
-    }))
+    caches.match(requisicao).then(cache => cache || buscarComFallback(requisicao, CACHE_SHELL))
   );
 });
 
 self.addEventListener("message", event => {
-  if (event.data?.type === "SKIP_WAITING") {
-    self.skipWaiting();
-  }
+  if (event.data?.type === "SKIP_WAITING") self.skipWaiting();
 });

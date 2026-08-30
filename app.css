@@ -1279,3 +1279,13 @@ html[data-theme="dark"] .theme-sun,html[data-theme="dark"] .theme-label-light{di
 html[data-theme="dark"] .theme-icon-moon{display:none}html[data-theme="dark"] .theme-icon-sun{display:block}
 html[data-theme="dark"] .theme-text-dark{display:none!important}html[data-theme="dark"] .theme-text-light{display:block!important}
 html[data-theme="dark"] .refined-theme-toggle{background:#df7545}html[data-theme="dark"] .refined-theme-toggle i{transform:translateX(16px)}
+
+
+/* SAFE AREA SIDEBAR MOBILE V7 */
+.drawer.reference-sidebar{
+  padding-top:calc(22px + env(safe-area-inset-top, 0px));
+  padding-bottom:calc(22px + env(safe-area-inset-bottom, 0px));
+}
+@media(max-width:420px){
+  .drawer.reference-sidebar{padding-top:calc(22px + env(safe-area-inset-top, 0px))}
+}
