@@ -23,6 +23,45 @@
     {
       "dataHora": "2026-08-30T02:25:59.131Z",
       "livros": []
+    },
+    {
+      "dataHora": "2026-08-30T02:27:22.818Z",
+      "livros": [
+        {
+          "id": "a-hipotese-do-amor",
+          "livro": "A hipotese do amor",
+          "autor": "Ali Hazelwood",
+          "isbn": "9786555651970",
+          "precoAlvo": null,
+          "melhorPreco": 46.26,
+          "melhorPrecoFormatado": "R$ 46,26",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/hip%C3%B3tese-amor-Sucesso-TikTok/dp/6555653302/ref=sr_1_1?dib=eyJ2IjoiMSJ9.5TvQRwu_yW7b07AzYz3mXnIllkVugiMV9_pQ7BJEVQuUow9ZkatI28NFDkFnuZ3pu0BfJ8w12Z4adbtCY9eGt67ul0wtUMDUh3PEbyCj6d0kAUH9r1MnKLLG_2omhBRcs0vUIFhaGCY1ylwYWaxjw3cyXvxKMbqQv16DdDQoi73Y1yejr9arXEkzFclo7hfDFYgHRMwKo09sGWoOdPQJNlF319E3AMggA-zEtDy4UxF81Kw72Skn9uOjHH-OSrtAoftfmW_G_1t-Wit0jSEh6RyoJl6VLapyu-GyYRBUJ80.aZRdF8meebUoKWnf2lgQparlP_HU0rUWuOpKdVAxkaA&dib_tag=se&keywords=a+hipotese+do+amor&qid=1788056567&sr=8-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 46.26,
+              "precoFormatado": "R$ 46,26",
+              "link": "https://www.amazon.com.br/hip%C3%B3tese-amor-Sucesso-TikTok/dp/6555653302/ref=sr_1_1?dib=eyJ2IjoiMSJ9.5TvQRwu_yW7b07AzYz3mXnIllkVugiMV9_pQ7BJEVQuUow9ZkatI28NFDkFnuZ3pu0BfJ8w12Z4adbtCY9eGt67ul0wtUMDUh3PEbyCj6d0kAUH9r1MnKLLG_2omhBRcs0vUIFhaGCY1ylwYWaxjw3cyXvxKMbqQv16DdDQoi73Y1yejr9arXEkzFclo7hfDFYgHRMwKo09sGWoOdPQJNlF319E3AMggA-zEtDy4UxF81Kw72Skn9uOjHH-OSrtAoftfmW_G_1t-Wit0jSEh6RyoJl6VLapyu-GyYRBUJ80.aZRdF8meebUoKWnf2lgQparlP_HU0rUWuOpKdVAxkaA&dib_tag=se&keywords=a+hipotese+do+amor&qid=1788056567&sr=8-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 0,
+            "menorPrecoHistorico": null,
+            "mediaHistorica": null
+          },
+          "analise": {
+            "recomendacao": "dados_insuficientes",
+            "confianca": 20,
+            "resumo": "Ainda não há meta nem histórico suficiente para recomendar a compra.",
+            "motivos": [
+              "Defina um preço-alvo ou aguarde novas consultas"
+            ]
+          }
+        }
+      ]
     }
   ]
 }
