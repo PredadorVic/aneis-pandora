@@ -1,4 +1,4 @@
-const VERSION = "livros-v1.2.1-sem-isbn";
+const VERSION = "livros-v1.3.0-preco-anterior";
 const CACHE_SHELL = `${VERSION}-shell`;
 const CACHE_DATA = `${VERSION}-data`;
 const SHELL_FILES = ["./", "./index.html", "./app.css", "./app.js", "./manifest.json"];

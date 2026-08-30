@@ -11,3 +11,4 @@
 .empty{grid-column:1/-1;text-align:center;padding:60px 20px;border:1px dashed var(--border);border-radius:var(--radius);color:var(--muted);background:var(--surface)}.backdrop{position:fixed;inset:0;background:rgba(0,0,0,.48);z-index:20}
 @media(max-width:760px){.layout{display:block}.sidebar{position:fixed;left:0;transform:translateX(-105%);width:min(84vw,290px);transition:transform .22s ease;box-shadow:20px 0 50px rgba(0,0,0,.2)}.sidebar.open{transform:translateX(0)}.menu-button{display:block;flex:0 0 auto}.main-content{padding:22px 14px 52px}.toolbar{grid-template-columns:1fr}.results-heading{align-items:flex-start}.book-grid{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+.prices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.secondary-price strong{color:var(--text);font-size:1.15rem}

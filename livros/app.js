@@ -61,12 +61,16 @@ function currentExecution() {
 function renderCard(book) {
   const link = safeUrl(book.link);
   const meta = String(book.autor || "");
+  const previousPrice = Number(book.precoAnterior);
+  const previousPriceHtml = Number.isFinite(previousPrice) && previousPrice > 0
+    ? `<div class="price-block secondary-price"><small>Preço passado</small><strong>${escapeHtml(formatCurrency(previousPrice))}</strong></div>`
+    : `<div class="price-block secondary-price"><small>Preço passado</small><strong>Não informado</strong></div>`;
 
   return `<article class="book-card">
     <div class="book-top">
       <div><h3>${escapeHtml(book.livro || "Livro sem nome")}</h3><p class="book-meta">${escapeHtml(meta || "Informações editoriais não cadastradas")}</p></div>
     </div>
-    <div class="price-block"><small>Preço atual</small><strong>${escapeHtml(formatCurrency(book.melhorPreco))}</strong><span>${escapeHtml(book.melhorLoja || "Preço indisponível")}</span></div>
+    <div class="prices"><div class="price-block"><small>Preço Amazon</small><strong>${escapeHtml(formatCurrency(book.melhorPreco))}</strong><span>${escapeHtml(book.melhorLoja || "Preço indisponível")}</span></div>${previousPriceHtml}</div>
     <div class="card-actions">${link ? `<a class="offer-button" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">Abrir produto</a>` : '<span class="offer-button disabled">Produto indisponível</span>'}</div>
   </article>`;
 }
