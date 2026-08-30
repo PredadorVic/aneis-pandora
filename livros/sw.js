@@ -1,7 +1,7 @@
-const VERSION = "livros-v1.3.0-preco-anterior";
+const VERSION = "livros-v1.4.0-offline-ios";
 const CACHE_SHELL = `${VERSION}-shell`;
 const CACHE_DATA = `${VERSION}-data`;
-const SHELL_FILES = ["./", "./index.html", "./app.css", "./app.js", "./manifest.json"];
+const SHELL_FILES = ["./", "./index.html", "./app.css", "./app.js", "./manifest.json", "./icones/icone-180.png", "./icones/icone-512.png"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE_SHELL).then((cache) => cache.addAll(SHELL_FILES)));

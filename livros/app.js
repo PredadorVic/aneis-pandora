@@ -58,6 +58,21 @@ function currentExecution() {
   return state.executions[state.currentIndex] || null;
 }
 
+function updateConnectionNotice() {
+  if (!navigator.onLine) {
+    elements.notice.dataset.offline = "true";
+    elements.notice.hidden = false;
+    elements.notice.textContent = "Você está offline — exibindo os últimos preços salvos.";
+    return;
+  }
+
+  if (elements.notice.dataset.offline === "true") {
+    delete elements.notice.dataset.offline;
+    elements.notice.hidden = true;
+    elements.notice.textContent = "";
+  }
+}
+
 function renderCard(book) {
   const link = safeUrl(book.link);
   const meta = String(book.autor || "");
@@ -145,6 +160,9 @@ elements.backdrop.addEventListener("click", closeMenu);
 addEventListener("keydown", (event) => { if (event.key === "Escape") closeMenu(); });
 
 applyTheme(localStorage.getItem(THEME_KEY) || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+addEventListener("online", updateConnectionNotice);
+addEventListener("offline", updateConnectionNotice);
+updateConnectionNotice();
 loadData();
 
 if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
