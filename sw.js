@@ -1,4 +1,4 @@
-const VERSION = "aneis-v2.7.0-mobile-cache-fix";
+const VERSION = "aneis-v2.7.0-mobile-cache-fix-livros-integrados";
 const CACHE_SHELL = `${VERSION}-shell`;
 const CACHE_DADOS = `${VERSION}-dados`;
 const ARQUIVOS_SHELL = [
