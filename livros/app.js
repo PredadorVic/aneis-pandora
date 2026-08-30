@@ -60,7 +60,7 @@ function currentExecution() {
 
 function renderCard(book) {
   const link = safeUrl(book.link);
-  const meta = [book.autor, book.isbn ? `ISBN ${book.isbn}` : ""].filter(Boolean).join(" · ");
+  const meta = String(book.autor || "");
 
   return `<article class="book-card">
     <div class="book-top">
@@ -75,7 +75,7 @@ function visibleBooks() {
   const execution = currentExecution();
   let books = Array.isArray(execution?.livros) ? [...execution.livros] : [];
   const query = normalizeText(state.query);
-  if (query) books = books.filter((book) => normalizeText(`${book.livro} ${book.autor} ${book.isbn}`).includes(query));
+  if (query) books = books.filter((book) => normalizeText(`${book.livro} ${book.autor}`).includes(query));
 
   if (state.sort === "price-asc") books.sort((a, b) => (Number(a.melhorPreco) || Infinity) - (Number(b.melhorPreco) || Infinity));
   if (state.sort === "price-desc") books.sort((a, b) => (Number(b.melhorPreco) || 0) - (Number(a.melhorPreco) || 0));
