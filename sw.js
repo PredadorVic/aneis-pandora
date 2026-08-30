@@ -1,4 +1,4 @@
-const VERSION = "aneis-v2.6.0-2026-08-15";
+const VERSION = "aneis-v2.6.0-2026-08-15-livros-integrados";
 const CACHE_SHELL = `${VERSION}-shell`;
 const CACHE_DADOS = `${VERSION}-dados`;
 const ARQUIVOS_SHELL = [
