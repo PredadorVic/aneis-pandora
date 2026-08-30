@@ -1094,3 +1094,95 @@ body.app-loading-active{
     animation:none!important;
   }
 }
+
+
+/* MENU LATERAL EDITORIAL V3 */
+.drawer-backdrop{
+  background:rgba(20,10,16,.58);
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+}
+.drawer{
+  width:min(84vw,300px);
+  padding:calc(26px + var(--safe-top)) 18px calc(20px + var(--safe-bottom));
+  color:#fff7fb;
+  border:0;
+  background:#281821;
+  box-shadow:24px 0 60px rgba(31,12,23,.32);
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  display:flex;
+  flex-direction:column;
+  overflow-y:auto;
+}
+.drawer-head{
+  gap:12px;
+  margin:0 0 28px;
+  padding:0 7px;
+}
+.drawer-head .icon-button{
+  width:42px;
+  height:42px;
+  color:#fff;
+  background:#d84d8b;
+  box-shadow:0 8px 22px rgba(216,77,139,.24);
+}
+.drawer-head h2{font-size:1.08rem;color:#fff;margin:0}
+.drawer-head p{margin-top:3px;color:#bda8b3;font-size:.75rem}
+.drawer-section-title{
+  margin:17px 10px 8px;
+  color:#907b86;
+  font-size:.65rem;
+  font-weight:850;
+  letter-spacing:.11em;
+}
+.drawer-list{gap:6px}
+.drawer-item{
+  width:100%;
+  min-height:58px;
+  padding:8px 10px;
+  color:#cbbbc3;
+  border:0;
+  border-radius:12px;
+  background:transparent;
+  box-shadow:none;
+}
+.drawer-item:hover,
+.drawer-item:focus-visible{
+  color:#fff;
+  background:rgba(255,255,255,.07);
+}
+.drawer-item[data-app-link="livros"]{
+  color:#ffd2e6;
+  background:rgba(216,77,139,.15);
+}
+.drawer-item[data-app-link="livros"]:hover{background:rgba(216,77,139,.22)}
+.drawer-icon{
+  width:38px;
+  height:38px;
+  color:#f28ab9;
+  border-radius:11px;
+  background:rgba(216,77,139,.13);
+}
+.drawer-item strong{color:inherit;font-size:.86rem}
+.drawer-item small{color:#9f8b96;font-size:.68rem}
+.drawer-item > span:last-child{color:#806b76}
+.drawer .switch{background:#58434e}
+.drawer .switch.ativo{background:#d84d8b}
+.drawer-status{
+  margin-top:8px;
+  color:#dfd1d8;
+  border:1px solid rgba(255,255,255,.07);
+  background:rgba(255,255,255,.045);
+  box-shadow:none;
+}
+.drawer-status span,.drawer-status small{color:#99838f}
+.drawer-footer{
+  margin-top:auto;
+  padding:22px 10px 2px;
+  color:#c8b6c0;
+  border-top:0;
+}
+.drawer-footer small{color:#7f6975}
+html[data-theme="dark"] .drawer{background:#160e13}
+@media(max-width:420px){.drawer{width:min(88vw,300px)}}
