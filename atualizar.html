@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#100c0a">
+  <title>Atualizando Busca Preços</title>
+  <style>
+    *{box-sizing:border-box}body{min-height:100vh;margin:0;display:grid;place-items:center;padding:24px;background:#100c0a;color:#f8f4f1;font-family:system-ui,-apple-system,sans-serif;text-align:center}.box{max-width:320px}.icon{width:62px;height:62px;margin:0 auto 18px;border-radius:18px;background:#df7545;display:grid;place-items:center;font-size:1.7rem}h1{margin:0;font-size:1.2rem}p{color:#b9aaa2;font-size:.86rem;line-height:1.5}.spinner{width:28px;height:28px;margin:22px auto;border:3px solid #49372f;border-top-color:#df7545;border-radius:50%;animation:girar .7s linear infinite}@keyframes girar{to{transform:rotate(360deg)}}
+  </style>
+</head>
+<body>
+  <main class="box"><div class="icon">💍</div><h1>Atualizando o aplicativo</h1><p>Removendo a versão antiga e carregando a interface nova.</p><div class="spinner"></div></main>
+  <script>
+    (async () => {
+      try {
+        if ("serviceWorker" in navigator) {
+          const registros = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(registros.map(registro => registro.unregister()));
+        }
+        if ("caches" in window) {
+          const nomes = await caches.keys();
+          await Promise.all(nomes.map(nome => caches.delete(nome)));
+        }
+      } finally {
+        location.replace("./index.html?v=2.7.0&atualizado=" + Date.now());
+      }
+    })();
+  </script>
+</body>
+</html>

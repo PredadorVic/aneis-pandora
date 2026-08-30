@@ -4,7 +4,7 @@
   "description": "Acompanhe preços, descontos e histórico de anéis selecionados da Pandora.",
   "id": "./",
   "scope": "./",
-  "start_url": "./index.html",
+  "start_url": "./index.html?v=2.7.0",
   "display": "standalone",
   "background_color": "#fafaf9",
   "theme_color": "#ec4899",
