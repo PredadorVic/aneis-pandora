@@ -1,0 +1,11 @@
+{
+  "name": "Preços de Livros",
+  "short_name": "Livros",
+  "description": "Compare preços de livros e acompanhe o melhor momento para comprar.",
+  "lang": "pt-BR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f2e8",
+  "theme_color": "#a13f1f"
+}

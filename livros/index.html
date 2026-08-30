@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Compare preços de livros e veja se é um bom momento para comprar.">
+  <meta name="theme-color" content="#a13f1f" id="themeColor">
+  <title>Preços de Livros</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./app.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar" id="sidebar" aria-label="Menu principal">
+      <div class="brand">
+        <span class="brand-icon" aria-hidden="true">📚</span>
+        <span><strong>Busca Preços</strong><small>Livros</small></span>
+      </div>
+
+      <nav class="nav-list">
+        <a class="nav-item active" href="./" aria-current="page"><span aria-hidden="true">📖</span> Livros</a>
+        <a class="nav-item" href="../"><span aria-hidden="true">💍</span> Anéis</a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="theme-button" id="themeButton" type="button" aria-pressed="false">
+          <span aria-hidden="true">🌙</span> Modo escuro
+        </button>
+        <small>Versão 1.0.0</small>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="page-header">
+        <button class="menu-button" id="menuButton" type="button" aria-label="Abrir menu" aria-expanded="false">☰</button>
+        <div>
+          <h1>Preços de livros</h1>
+          <p>Compare lojas e veja se vale a pena comprar agora.</p>
+        </div>
+      </header>
+
+      <section class="toolbar" aria-label="Filtros dos livros">
+        <label>
+          <span>Consulta</span>
+          <select id="dateSelect" aria-label="Selecionar data da consulta"></select>
+        </label>
+        <label class="search-field">
+          <span>Pesquisar</span>
+          <input id="searchInput" type="search" placeholder="Livro, autor ou ISBN" autocomplete="off">
+        </label>
+        <label>
+          <span>Ordenar</span>
+          <select id="sortSelect">
+            <option value="original">Ordem original</option>
+            <option value="price-asc">Menor preço</option>
+            <option value="price-desc">Maior preço</option>
+            <option value="name">Nome de A a Z</option>
+            <option value="recommendation">Comprar primeiro</option>
+          </select>
+        </label>
+      </section>
+
+      <div class="results-heading">
+        <div><h2>Livros monitorados</h2><p id="updatedAt">Carregando dados...</p></div>
+        <span id="resultCount" role="status" aria-live="polite"></span>
+      </div>
+
+      <div class="notice" id="notice" role="status" hidden></div>
+      <section class="book-grid" id="bookGrid" aria-live="polite" aria-busy="true"></section>
+    </main>
+  </div>
+
+  <div class="backdrop" id="backdrop" hidden></div>
+  <script src="./app.js" defer></script>
+</body>
+</html>
