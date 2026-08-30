@@ -1637,25 +1637,6 @@ el.applyUpdate.addEventListener("click", () => {
   }
 });
 
-window.addEventListener("beforeinstallprompt", event => {
-  event.preventDefault();
-  estado.installPrompt = event;
-  el.installApp.hidden = false;
-});
-
-el.installApp.addEventListener("click", async () => {
-  if (!estado.installPrompt) return;
-  estado.installPrompt.prompt();
-  await estado.installPrompt.userChoice;
-  estado.installPrompt = null;
-  el.installApp.hidden = true;
-});
-
-window.addEventListener("appinstalled", () => {
-  estado.installPrompt = null;
-  el.installApp.hidden = true;
-});
-
 window.addEventListener("online", () => atualizarFrescor(estado.execucaoAtual));
 window.addEventListener("offline", () => atualizarFrescor(estado.execucaoAtual));
 

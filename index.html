@@ -129,11 +129,17 @@
     </nav>
 
     <div class="reference-footer">
-      <button class="reference-theme" id="themeSwitch" type="button" role="switch" aria-checked="false">
-        <span class="theme-sun" aria-hidden="true">☀️</span>
-        <span class="theme-moon" aria-hidden="true">🌙</span>
-        <span class="theme-label-dark">Modo escuro</span>
-        <span class="theme-label-light">Modo claro</span>
+      <button class="reference-theme refined-theme" id="themeSwitch" type="button" role="switch" aria-checked="false">
+        <span class="refined-theme-icon" aria-hidden="true">
+          <svg class="theme-icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+          <svg class="theme-icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>
+        </span>
+        <span class="refined-theme-copy">
+          <strong class="theme-text-dark">Modo escuro</strong>
+          <strong class="theme-text-light">Modo claro</strong>
+          <small>Aparência</small>
+        </span>
+        <span class="refined-theme-toggle" aria-hidden="true"><i></i></span>
       </button>
       <small id="appVersion">Versão 2.6.0</small>
     </div>
@@ -141,7 +147,6 @@
     <div class="reference-technical-controls" aria-hidden="true">
       <button id="closeDrawer" type="button" tabindex="-1">Fechar</button>
       <button id="openHistoryFromDrawer" type="button" tabindex="-1">Histórico</button>
-      <button id="installApp" type="button" tabindex="-1" hidden>Instalar</button>
       <span id="drawerCurrentDate"></span>
       <span id="drawerCurrentCount"></span>
     </div>

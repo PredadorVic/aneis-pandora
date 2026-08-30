@@ -1256,3 +1256,26 @@ html[data-theme="dark"] .theme-sun,html[data-theme="dark"] .theme-label-light{di
 .reference-technical-controls{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden!important;clip-path:inset(50%)!important;white-space:nowrap!important}
 .reference-technical-controls #installApp{display:none!important}
 @media(max-width:420px){.drawer.reference-sidebar{width:min(84vw,290px);padding-top:48px}}
+
+
+/* CONTROLE DE TEMA SIDEBAR V6 */
+.reference-theme.refined-theme{
+  min-height:62px;
+  padding:9px 10px;
+  gap:11px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:14px;
+  color:#e3d8d2;
+  background:rgba(255,255,255,.035);
+  transition:background .2s ease,border-color .2s ease;
+}
+.reference-theme.refined-theme:hover,.reference-theme.refined-theme:focus-visible{color:#fff;background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.13)}
+.refined-theme-icon{width:38px!important;height:38px;flex:0 0 auto;border-radius:11px;background:rgba(223,117,69,.13);color:#ee956d;display:grid;place-items:center}
+.refined-theme-icon svg{grid-area:1/1;width:20px;height:20px;stroke-width:1.8}.theme-icon-sun{display:none}
+.refined-theme-copy{min-width:0;flex:1}.refined-theme-copy strong,.refined-theme-copy small{display:block}.refined-theme-copy strong{font-size:.82rem}.refined-theme-copy small{margin-top:3px;color:#927f75;font-size:.66rem;font-weight:600}
+.theme-text-light{display:none!important}
+.refined-theme-toggle{position:relative;width:38px;height:22px;flex:0 0 auto;border-radius:999px;background:#4c3b33;transition:background .2s ease}
+.refined-theme-toggle i{position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff7f2;box-shadow:0 2px 7px rgba(0,0,0,.3);transition:transform .2s ease}
+html[data-theme="dark"] .theme-icon-moon{display:none}html[data-theme="dark"] .theme-icon-sun{display:block}
+html[data-theme="dark"] .theme-text-dark{display:none!important}html[data-theme="dark"] .theme-text-light{display:block!important}
+html[data-theme="dark"] .refined-theme-toggle{background:#df7545}html[data-theme="dark"] .refined-theme-toggle i{transform:translateX(16px)}
