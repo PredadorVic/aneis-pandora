@@ -58,22 +58,7 @@ function currentExecution() {
   return state.executions[state.currentIndex] || null;
 }
 
-function adviceLabel(type) {
-  return ({
-    comprar: "Vale a pena comprar agora",
-    esperar: "Melhor esperar",
-    neutro: "Preço dentro do esperado",
-    dados_insuficientes: "Dados insuficientes"
-  })[type] || "Análise indisponível";
-}
-
 function renderCard(book) {
-  const analysis = book.analise || {};
-  const type = ["comprar", "esperar", "neutro", "dados_insuficientes"].includes(analysis.recomendacao)
-    ? analysis.recomendacao : "dados_insuficientes";
-  const validOffers = Array.isArray(book.ofertas)
-    ? book.ofertas.filter((offer) => offer && offer.disponivel && Number(offer.preco) > 0).slice(0, 4)
-    : [];
   const link = safeUrl(book.link);
   const meta = [book.autor, book.isbn ? `ISBN ${book.isbn}` : ""].filter(Boolean).join(" · ");
 
@@ -81,16 +66,8 @@ function renderCard(book) {
     <div class="book-top">
       <div><h3>${escapeHtml(book.livro || "Livro sem nome")}</h3><p class="book-meta">${escapeHtml(meta || "Informações editoriais não cadastradas")}</p></div>
     </div>
-    <div class="price-block"><small>Melhor preço</small><strong>${escapeHtml(formatCurrency(book.melhorPreco))}</strong><span>${escapeHtml(book.melhorLoja || "Nenhuma loja disponível")}</span></div>
-    <div class="advice advice-${type === "dados_insuficientes" ? "insufficient" : type}">
-      <strong>${escapeHtml(adviceLabel(type))}</strong>
-      <p>${escapeHtml(analysis.resumo || "Ainda não há informações suficientes para analisar.")}</p>
-      ${Number(analysis.confianca) > 0 ? `<p class="confidence">Confiança da análise: ${Math.min(100, Math.max(0, Math.round(Number(analysis.confianca))))}%</p>` : ""}
-    </div>
-    <div class="offers"><span class="offer-title">Preços encontrados</span>
-      ${validOffers.length ? validOffers.map((offer) => `<div class="offer-row"><span>${escapeHtml(offer.loja)}</span><strong>${escapeHtml(formatCurrency(offer.preco))}</strong></div>`).join("") : '<div class="offer-row"><span>Nenhuma oferta válida</span></div>'}
-    </div>
-    <div class="card-actions">${link ? `<a class="offer-button" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">Ver melhor oferta</a>` : '<span class="offer-button disabled">Oferta indisponível</span>'}</div>
+    <div class="price-block"><small>Preço atual</small><strong>${escapeHtml(formatCurrency(book.melhorPreco))}</strong><span>${escapeHtml(book.melhorLoja || "Preço indisponível")}</span></div>
+    <div class="card-actions">${link ? `<a class="offer-button" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">Abrir produto</a>` : '<span class="offer-button disabled">Produto indisponível</span>'}</div>
   </article>`;
 }
 
@@ -100,11 +77,9 @@ function visibleBooks() {
   const query = normalizeText(state.query);
   if (query) books = books.filter((book) => normalizeText(`${book.livro} ${book.autor} ${book.isbn}`).includes(query));
 
-  const recommendationOrder = { comprar: 0, neutro: 1, esperar: 2, dados_insuficientes: 3 };
   if (state.sort === "price-asc") books.sort((a, b) => (Number(a.melhorPreco) || Infinity) - (Number(b.melhorPreco) || Infinity));
   if (state.sort === "price-desc") books.sort((a, b) => (Number(b.melhorPreco) || 0) - (Number(a.melhorPreco) || 0));
   if (state.sort === "name") books.sort((a, b) => String(a.livro).localeCompare(String(b.livro), "pt-BR"));
-  if (state.sort === "recommendation") books.sort((a, b) => (recommendationOrder[a.analise?.recomendacao] ?? 4) - (recommendationOrder[b.analise?.recomendacao] ?? 4));
   return books;
 }
 
