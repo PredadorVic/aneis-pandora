@@ -117,58 +117,35 @@
   </nav>
 
   <div class="drawer-backdrop" id="drawerBackdrop"></div>
-  <aside class="drawer" id="drawer" aria-hidden="true" aria-label="Menu do aplicativo" tabindex="-1" inert>
-    <div class="drawer-head">
-      <button class="icon-button" id="closeDrawer" type="button" aria-label="Voltar e fechar menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m15 18-6-6 6-6"/></svg>
-      </button>
-      <div>
-        <h2>Menu</h2>
-        <p>Preferências e histórico</p>
-      </div>
+  <aside class="drawer app-sidebar" id="drawer" aria-hidden="true" aria-label="Menu principal" tabindex="-1" inert>
+    <div class="app-brand">
+      <span class="app-brand-icon" aria-hidden="true">💍</span>
+      <span class="app-brand-copy"><strong>Busca Preços</strong><small>Anéis</small></span>
+      <button class="app-brand-close" id="closeDrawer" type="button" aria-label="Fechar menu">×</button>
     </div>
 
-        <p class="drawer-section-title" data-menu-section="apps">Aplicativos</p>
-    <div class="drawer-list"><a class="drawer-item ripple-host" data-app-link="livros" href="./livros/" style="text-decoration:none">
-        <span class="drawer-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11a2 2 0 0 1 2 2v16a2 2 0 0 0-2-2H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H13v18a2 2 0 0 1 2-2h2.5a2.5 2.5 0 0 1 2.5 2.5z"/></svg>
-        </span>
-        <span><strong>Livros</strong><small>Compare preços e veja a análise de compra</small></span><span aria-hidden="true">›</span>
-      </a>
+    <nav class="app-nav-list" aria-label="Alternar aplicativo">
+      <a class="app-nav-item active" href="./" aria-current="page"><span aria-hidden="true">💍</span> Anéis</a>
+      <a class="app-nav-item" data-app-link="livros" href="./livros/"><span aria-hidden="true">📚</span> Livros</a>
+    </nav>
+
+    <p class="app-nav-title">Recursos</p>
+    <div class="app-nav-list">
+      <button class="app-nav-item" id="openHistoryFromDrawer" type="button"><span aria-hidden="true">◷</span> Histórico</button>
+      <button class="app-nav-item" id="installApp" type="button" hidden><span aria-hidden="true">↓</span> Instalar aplicativo</button>
     </div>
 
-<p class="drawer-section-title">Aparência</p>
-    <div class="drawer-list">
-<div class="drawer-item" role="group" aria-label="Alternar modo escuro">
-        <span class="drawer-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></span>
-        <span><strong>Modo escuro</strong><small>Mais confortável em ambientes escuros</small></span>
-        <button class="switch" id="themeSwitch" type="button" role="switch" aria-checked="false" aria-label="Ativar modo escuro"></button>
-      </div>
-    </div>
-
-    <p class="drawer-section-title">Consulta</p>
-    <div class="drawer-list">
-      <button class="drawer-item ripple-host" id="openHistoryFromDrawer" type="button">
-        <span class="drawer-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 2"/></svg></span>
-        <span><strong>Abrir histórico</strong><small>Compare preços entre duas consultas</small></span><span aria-hidden="true">›</span>
-      </button>
-
-      <button class="drawer-item ripple-host" id="installApp" type="button" hidden>
-        <span class="drawer-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></span>
-        <span><strong>Instalar aplicativo</strong><small>Adicione à tela inicial do celular</small></span><span aria-hidden="true">›</span>
-      </button>
-
-      <div class="drawer-status" aria-live="polite">
+    <div class="app-sidebar-footer">
+      <div class="app-current-status" aria-live="polite">
         <span>Consulta exibida</span>
         <strong id="drawerCurrentDate">Carregando...</strong>
         <small id="drawerCurrentCount">Aguardando os dados</small>
       </div>
-    </div>
-
-    <footer class="drawer-footer">
-      <span>Anéis Pandora</span>
+      <button class="app-theme-button" id="themeSwitch" type="button" role="switch" aria-checked="false">
+        <span aria-hidden="true">☾</span> Modo escuro
+      </button>
       <small id="appVersion">Versão 2.6.0</small>
-    </footer>
+    </div>
   </aside>
 
 

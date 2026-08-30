@@ -1186,3 +1186,39 @@ body.app-loading-active{
 .drawer-footer small{color:#7f6975}
 html[data-theme="dark"] .drawer{background:#160e13}
 @media(max-width:420px){.drawer{width:min(88vw,300px)}}
+
+
+/* MENU COMPARTILHADO ENTRE APPS V4 */
+.drawer.app-sidebar{
+  width:min(84vw,290px);
+  height:100vh;
+  padding:26px 18px 20px;
+  color:#f8fafc;
+  border:0;
+  background:#2e211b;
+  box-shadow:20px 0 50px rgba(0,0,0,.24);
+  backdrop-filter:none;
+  -webkit-backdrop-filter:none;
+  display:flex;
+  flex-direction:column;
+  overflow-y:auto;
+}
+.app-brand{display:flex;align-items:center;gap:12px;padding:0 8px 28px}
+.app-brand-icon{width:42px;height:42px;flex:0 0 auto;border-radius:13px;background:#d84d8b;display:grid;place-items:center;font-size:1.25rem}
+.app-brand-copy{min-width:0;flex:1}.app-brand-copy strong,.app-brand-copy small{display:block}.app-brand-copy small{color:#bda99d;margin-top:2px;font-size:.75rem}
+.app-brand-close{width:34px;height:34px;border:0;border-radius:10px;color:#c5b4aa;background:transparent;font-size:1.45rem;line-height:1;cursor:pointer}
+.app-brand-close:hover,.app-brand-close:focus-visible{color:#fff;background:rgba(255,255,255,.07)}
+.app-nav-list{display:grid;gap:7px}
+.app-nav-title{margin:23px 13px 8px;color:#927d72;font-size:.65rem;font-weight:850;letter-spacing:.1em;text-transform:uppercase}
+.app-nav-item,.app-theme-button{width:100%;border:0;text-decoration:none;color:#c5b4aa;background:transparent;border-radius:12px;padding:12px 13px;display:flex;gap:11px;align-items:center;font:inherit;font-weight:700;text-align:left;cursor:pointer}
+.app-nav-item:hover,.app-nav-item:focus-visible,.app-theme-button:hover,.app-theme-button:focus-visible{background:rgba(255,255,255,.07);color:#fff}
+.app-nav-item.active{color:#ffd9ea;background:rgba(216,77,139,.17)}
+.app-nav-item>span,.app-theme-button>span{width:24px;text-align:center;font-size:1.05rem}
+.app-sidebar-footer{margin-top:auto;display:grid;gap:12px;padding-top:22px}
+.app-current-status{padding:12px 13px;border:1px solid rgba(255,255,255,.08);border-radius:12px;background:rgba(255,255,255,.04)}
+.app-current-status span,.app-current-status strong,.app-current-status small{display:block}.app-current-status span,.app-current-status small{color:#9d887d;font-size:.68rem}.app-current-status strong{margin:4px 0;color:#eadde3;font-size:.78rem}
+.app-theme-button{padding:10px 13px}
+.app-theme-button.ativo{color:#ffd9ea;background:rgba(216,77,139,.13)}
+.app-sidebar-footer>small{padding-left:13px;color:#9d887d;font-size:.7rem}
+html[data-theme="dark"] .drawer.app-sidebar{background:#100c0a}
+@media(max-width:420px){.drawer.app-sidebar{width:min(84vw,290px)}}
