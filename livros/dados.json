@@ -877,6 +877,937 @@
           }
         }
       ]
+    },
+    {
+      "dataHora": "2026-09-05T04:59:15.789Z",
+      "livros": [
+        {
+          "id": "meu-super-namorado-de-mentira",
+          "livro": "Meu super namorado de mentira",
+          "autor": "Raquel Figueiredo",
+          "isbn": "",
+          "precoAnterior": 55.48,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 57.16,
+          "melhorPrecoFormatado": "R$ 57,16",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/supernamorado-mentira-Brindes-Raquel-Figueiredo/dp/6552261799/ref=sr_1_1?dib=eyJ2IjoiMSJ9.tc85iqM4-x1zSYdXAbr5FFZNn4wMhk74SZk9SSwXcj3rBW27My_ji7dLUwnyA2iln9Bo_sklP4Vmdg0RTJv0vDzl8eLP2mw_R8xDI_NU5Nrs75T8BVEKUSq9OX5bh2a__kmVwuYSZz9jp98S3NOOdHoIbI0JxK1rRzBjk_1jsjqxXNU2B5RZLzyhpTbLo52sC3idaOLQ93di4jzuM3DddPHAi9sfXeLa2ROzB-d4tYHDztHFyCPd90gSFtSTx596GNF7hAe6UcoaKMUfM-T7sEd5AfsoS_ibePAFpXsIvfw.hl3XDIN8P6ytdcoBIK5Lw-k7wwbviw6YJ_Bvux8R7qU&dib_tag=se&keywords=meu+super+namorado+de+mentira&qid=1788118469&sr=8-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 57.16,
+              "precoFormatado": "R$ 57,16",
+              "link": "https://www.amazon.com.br/supernamorado-mentira-Brindes-Raquel-Figueiredo/dp/6552261799/ref=sr_1_1?dib=eyJ2IjoiMSJ9.tc85iqM4-x1zSYdXAbr5FFZNn4wMhk74SZk9SSwXcj3rBW27My_ji7dLUwnyA2iln9Bo_sklP4Vmdg0RTJv0vDzl8eLP2mw_R8xDI_NU5Nrs75T8BVEKUSq9OX5bh2a__kmVwuYSZz9jp98S3NOOdHoIbI0JxK1rRzBjk_1jsjqxXNU2B5RZLzyhpTbLo52sC3idaOLQ93di4jzuM3DddPHAi9sfXeLa2ROzB-d4tYHDztHFyCPd90gSFtSTx596GNF7hAe6UcoaKMUfM-T7sEd5AfsoS_ibePAFpXsIvfw.hl3XDIN8P6ytdcoBIK5Lw-k7wwbviw6YJ_Bvux8R7qU&dib_tag=se&keywords=meu+super+namorado+de+mentira&qid=1788118469&sr=8-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 62.22,
+            "mediaHistorica": 62.22
+          }
+        },
+        {
+          "id": "cinco-seis-sete-oito",
+          "livro": "Cinco, seis, sete, oito",
+          "autor": "Daniella Vinci",
+          "isbn": "",
+          "precoAnterior": 42.19,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 46.83,
+          "melhorPrecoFormatado": "R$ 46,83",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/Cinco-seis-sete-oito-Brindes/dp/6552261403/ref=sr_1_1?dib=eyJ2IjoiMSJ9.-vQ0Vd8GuDqcrU6_itv6VmoEiHLyl_r8yOxAyWaeGIICdfu2Iv-HuT3EFdwKzvbksCo76OQ2QyKZVxtuziGg17P9wzCpgmFvI07V54trOGppRa7rVrjjOUJ2Fyi0F8XRJ55qLKLLxrNNd14W6rZbpX7huI7Sd5G1doT-jleGU64bsrMITa_ov56S3mTBZMaFzLKW_gcoXfpDLIvdOCFHoM8xFQrcN_0B_-9PeFmek6dnl3OQ5jghgKW930vBvhyTQGnLkdUQx7q7_qi65AhHZn8FKBv3ycEz5jY5yUYeufs.jJwD9GjQes0TQLNluY8-GlH8lgtPFGU6G-HCg00_Mao&dib_tag=se&keywords=cinco+seis+sete+oito&qid=1788121920&sr=8-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 46.83,
+              "precoFormatado": "R$ 46,83",
+              "link": "https://www.amazon.com.br/Cinco-seis-sete-oito-Brindes/dp/6552261403/ref=sr_1_1?dib=eyJ2IjoiMSJ9.-vQ0Vd8GuDqcrU6_itv6VmoEiHLyl_r8yOxAyWaeGIICdfu2Iv-HuT3EFdwKzvbksCo76OQ2QyKZVxtuziGg17P9wzCpgmFvI07V54trOGppRa7rVrjjOUJ2Fyi0F8XRJ55qLKLLxrNNd14W6rZbpX7huI7Sd5G1doT-jleGU64bsrMITa_ov56S3mTBZMaFzLKW_gcoXfpDLIvdOCFHoM8xFQrcN_0B_-9PeFmek6dnl3OQ5jghgKW930vBvhyTQGnLkdUQx7q7_qi65AhHZn8FKBv3ycEz5jY5yUYeufs.jJwD9GjQes0TQLNluY8-GlH8lgtPFGU6G-HCg00_Mao&dib_tag=se&keywords=cinco+seis+sete+oito&qid=1788121920&sr=8-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 46.83,
+            "mediaHistorica": 46.83
+          }
+        },
+        {
+          "id": "perfeitos-estranhos",
+          "livro": "Perfeitos estranhos",
+          "autor": "Adrielli Almeida",
+          "isbn": "",
+          "precoAnterior": 46.26,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 46.26,
+          "melhorPrecoFormatado": "R$ 46,26",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/Perfeitos-estranhos-Adrielli-Almeida/dp/6552261101/ref=tmm_pap_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.Oy9fQEjDZX3eXkiflkJGTJa8hf08yZX63MtymqE6Zdn9sXhmCHxeFBNP2N9LnVUAcKRr6z16wtiY87XO0xg2pVcHvvKwCUXNzz7qvJxoCrGQMqnW2LIhIxgQ_A5bAUXgbFb0Y-5Kzpra8L-bJAAZOnd2dr1p2ZTqDV13Pxwg2i3HGZ6-VKb7RCSxxJmDaWafvTmO7bMu1B-znLo8fNBZdzj1XATCFraKq4wzEMKqBKj6FFsSGzqA4vYmyt3XblAZAwPr-BHGvyEhJRX7G0xyZws8XP8x2U6kphP5Y0kcOvc.57AXqTo_FAv992LY_4aHnePKOL3Wm1kk4whQ76aL29M&qid=1788122005&sr=8-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 46.26,
+              "precoFormatado": "R$ 46,26",
+              "link": "https://www.amazon.com.br/Perfeitos-estranhos-Adrielli-Almeida/dp/6552261101/ref=tmm_pap_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.Oy9fQEjDZX3eXkiflkJGTJa8hf08yZX63MtymqE6Zdn9sXhmCHxeFBNP2N9LnVUAcKRr6z16wtiY87XO0xg2pVcHvvKwCUXNzz7qvJxoCrGQMqnW2LIhIxgQ_A5bAUXgbFb0Y-5Kzpra8L-bJAAZOnd2dr1p2ZTqDV13Pxwg2i3HGZ6-VKb7RCSxxJmDaWafvTmO7bMu1B-znLo8fNBZdzj1XATCFraKq4wzEMKqBKj6FFsSGzqA4vYmyt3XblAZAwPr-BHGvyEhJRX7G0xyZws8XP8x2U6kphP5Y0kcOvc.57AXqTo_FAv992LY_4aHnePKOL3Wm1kk4whQ76aL29M&qid=1788122005&sr=8-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 46.26,
+            "mediaHistorica": 46.26
+          }
+        },
+        {
+          "id": "tudo-o-que-eu-nao-te-disse",
+          "livro": "Tudo o que eu não te disse",
+          "autor": "Ann Liang e Carolina Cândido",
+          "isbn": "",
+          "precoAnterior": 48,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 45.36,
+          "melhorPrecoFormatado": "R$ 45,36",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/Tudo-que-n%C3%A3o-disse-Liang/dp/658534880X/ref=tmm_pap_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.xSFaLTof0eszKBOB4-Z8Qma1ycjJdGpGbUV_Uvmgnr68jG6rq9vxR9etncDSomXapY_Gug52LTwaHaIjAHmLZ5Vyr7U72U1lqougIM-m1QmcqLe0lfUfUNWra_-BZT-d.KCtiRQcWjhpWgLnhGzHYka_WFt03PSK6NjAADzlcs6E&qid=1788122100&sr=8-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 45.36,
+              "precoFormatado": "R$ 45,36",
+              "link": "https://www.amazon.com.br/Tudo-que-n%C3%A3o-disse-Liang/dp/658534880X/ref=tmm_pap_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.xSFaLTof0eszKBOB4-Z8Qma1ycjJdGpGbUV_Uvmgnr68jG6rq9vxR9etncDSomXapY_Gug52LTwaHaIjAHmLZ5Vyr7U72U1lqougIM-m1QmcqLe0lfUfUNWra_-BZT-d.KCtiRQcWjhpWgLnhGzHYka_WFt03PSK6NjAADzlcs6E&qid=1788122100&sr=8-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 48,
+            "mediaHistorica": 48
+          }
+        },
+        {
+          "id": "garotos-crueis-perseguem-voce",
+          "livro": "Garotos cruéis perseguem você",
+          "autor": "Red R.",
+          "isbn": "",
+          "precoAnterior": 66.53,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 74.18,
+          "melhorPrecoFormatado": "R$ 74,18",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/Garotos-Cru%C3%A9is-Perseguem-Voc%C3%AA-3/dp/6585885945/ref=tmm_pap_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.fAJNnhgbRJFF0c3l9BznWh_QnAEzjwlFjIvOZudsGctx5xD3BpeC-mOIyqP3IotYtOTzuSwYT5FcmsEze_pS1RGSaCmv5eFHizU4vvK0a3R1z7Xf0Bwfp92Z_eyz9D5j3JLHqieKdZ7mCKdbw7OGp_wna_eybMtXJ39n5fKQdll4NeFUrutd4RhT8JLFp8jx.mPERwXPdls189wW8vHBP-QrE0JrW7BOszAE_EHl5Tmo&qid=1788122173&sr=8-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 74.18,
+              "precoFormatado": "R$ 74,18",
+              "link": "https://www.amazon.com.br/Garotos-Cru%C3%A9is-Perseguem-Voc%C3%AA-3/dp/6585885945/ref=tmm_pap_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.fAJNnhgbRJFF0c3l9BznWh_QnAEzjwlFjIvOZudsGctx5xD3BpeC-mOIyqP3IotYtOTzuSwYT5FcmsEze_pS1RGSaCmv5eFHizU4vvK0a3R1z7Xf0Bwfp92Z_eyz9D5j3JLHqieKdZ7mCKdbw7OGp_wna_eybMtXJ39n5fKQdll4NeFUrutd4RhT8JLFp8jx.mPERwXPdls189wW8vHBP-QrE0JrW7BOszAE_EHl5Tmo&qid=1788122173&sr=8-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 66.53,
+            "mediaHistorica": 66.53
+          }
+        },
+        {
+          "id": "garotos-furiosos-queimam-voce",
+          "livro": "Garotos furiosos queimam você",
+          "autor": "Red R.",
+          "isbn": "",
+          "precoAnterior": 63.43,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 89.76,
+          "melhorPrecoFormatado": "R$ 89,76",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/Garotos-Furiosos-Queimam-Voc%C3%AA-Capa/dp/6584194485/ref=pd_bxgy_d_sccl_1/131-0389195-9128165?pd_rd_w=P6LSN&content-id=amzn1.sym.ea5263f5-901f-4a74-9b73-3fc0e530788d&pf_rd_p=ea5263f5-901f-4a74-9b73-3fc0e530788d&pf_rd_r=J3KZR0K8NNJVEEX08DV6&pd_rd_wg=wbCAI&pd_rd_r=16fb7615-261f-42af-bb1b-22414e251055&pd_rd_i=6584194485&psc=1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 89.76,
+              "precoFormatado": "R$ 89,76",
+              "link": "https://www.amazon.com.br/Garotos-Furiosos-Queimam-Voc%C3%AA-Capa/dp/6584194485/ref=pd_bxgy_d_sccl_1/131-0389195-9128165?pd_rd_w=P6LSN&content-id=amzn1.sym.ea5263f5-901f-4a74-9b73-3fc0e530788d&pf_rd_p=ea5263f5-901f-4a74-9b73-3fc0e530788d&pf_rd_r=J3KZR0K8NNJVEEX08DV6&pd_rd_wg=wbCAI&pd_rd_r=16fb7615-261f-42af-bb1b-22414e251055&pd_rd_i=6584194485&psc=1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 97.35,
+            "mediaHistorica": 97.35
+          }
+        },
+        {
+          "id": "garotas-crueis-merecem-pagar",
+          "livro": "Garotas cruéis merecem pagar",
+          "autor": "Red R.",
+          "isbn": "",
+          "precoAnterior": 73.23,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 94.32,
+          "melhorPrecoFormatado": "R$ 94,32",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/Garotas-Cru%C3%A9is-Merecem-Pagar-Capa/dp/6584194027/ref=pd_bxgy_d_sccl_2/131-0389195-9128165?pd_rd_w=P6LSN&content-id=amzn1.sym.ea5263f5-901f-4a74-9b73-3fc0e530788d&pf_rd_p=ea5263f5-901f-4a74-9b73-3fc0e530788d&pf_rd_r=J3KZR0K8NNJVEEX08DV6&pd_rd_wg=wbCAI&pd_rd_r=16fb7615-261f-42af-bb1b-22414e251055&pd_rd_i=6584194027&psc=1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 94.32,
+              "precoFormatado": "R$ 94,32",
+              "link": "https://www.amazon.com.br/Garotas-Cru%C3%A9is-Merecem-Pagar-Capa/dp/6584194027/ref=pd_bxgy_d_sccl_2/131-0389195-9128165?pd_rd_w=P6LSN&content-id=amzn1.sym.ea5263f5-901f-4a74-9b73-3fc0e530788d&pf_rd_p=ea5263f5-901f-4a74-9b73-3fc0e530788d&pf_rd_r=J3KZR0K8NNJVEEX08DV6&pd_rd_wg=wbCAI&pd_rd_r=16fb7615-261f-42af-bb1b-22414e251055&pd_rd_i=6584194027&psc=1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 97.3,
+            "mediaHistorica": 97.3
+          }
+        },
+        {
+          "id": "um-defeito-de-cor",
+          "livro": "Um defeito de cor",
+          "autor": "Ana Maria Gonçalves",
+          "isbn": "",
+          "precoAnterior": 72.64,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 72.64,
+          "melhorPrecoFormatado": "R$ 72,64",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/defeito-cor-Ana-Maria-Gon%C3%A7alves/dp/8501071757/ref=sr_1_1?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=2QKHJ6R9OBRWF&dib=eyJ2IjoiMSJ9._yeTfDloL2gaooChO3Xe15CswJFybljsQUxG7FljLgT7JxIQoKSw0n0SJhIwcZTetE17hKkbVOLiiKJBaqfbH0ni27DdF4ggVnOS7LcPzSxVFv_YP2oa_fy-69YJe38QWm1CBh3tmT4WaBdaMknxAFqmsKr2FhEyHjXdb3fmS1d6i7E477L4UrylOV8E5xec2PGy5Yk8BWFbFQ78pgE20WF6ZYSr8EuM_tYs7HvfjJM.FEwP880lVKtOcXIYnd_AkZ9sJJsAVZb_KCZDNnvzm40&dib_tag=se&keywords=Um+defeito+de+cor&qid=1788122307&s=books&sprefix=um+defeito+de+c%2Cstripbooks%2C230&sr=1-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 72.64,
+              "precoFormatado": "R$ 72,64",
+              "link": "https://www.amazon.com.br/defeito-cor-Ana-Maria-Gon%C3%A7alves/dp/8501071757/ref=sr_1_1?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=2QKHJ6R9OBRWF&dib=eyJ2IjoiMSJ9._yeTfDloL2gaooChO3Xe15CswJFybljsQUxG7FljLgT7JxIQoKSw0n0SJhIwcZTetE17hKkbVOLiiKJBaqfbH0ni27DdF4ggVnOS7LcPzSxVFv_YP2oa_fy-69YJe38QWm1CBh3tmT4WaBdaMknxAFqmsKr2FhEyHjXdb3fmS1d6i7E477L4UrylOV8E5xec2PGy5Yk8BWFbFQ78pgE20WF6ZYSr8EuM_tYs7HvfjJM.FEwP880lVKtOcXIYnd_AkZ9sJJsAVZb_KCZDNnvzm40&dib_tag=se&keywords=Um+defeito+de+cor&qid=1788122307&s=books&sprefix=um+defeito+de+c%2Cstripbooks%2C230&sr=1-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 72.64,
+            "mediaHistorica": 72.64
+          }
+        },
+        {
+          "id": "mulher-habitada",
+          "livro": "Mulher habitada",
+          "autor": "Gioconda Belli",
+          "isbn": "",
+          "precoAnterior": 59.75,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 56.75,
+          "melhorPrecoFormatado": "R$ 56,75",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/mulher-habitada-Gioconda-Belli/dp/658982844X/ref=tmm_pap_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.KC3vh25Np98Wl73wPJ-B5VzBzBxcNEtlVpbD5aDUQjacY3pZ3e6bLlDWlog0dX3qkwtNYsas6gh28ycJyyudxUfFldrlpB80jIz5S7GT2vYJezxgtnKpsiL3sXcdbIG1qfYn8jDnkwiotdThKkrQqg7l56iMiCV5VvbhP9in0nVLQ-Ex3bHQNvYj8pyLwyG24LwmYK3-PxtHR5UfK8VswaZKqskaVyGWPdROLoDSV44.EeP_qFBKWp-EymfYLW97NHw4oklnVuFxjWIiih5Nm48&qid=1788122348&sr=8-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 56.75,
+              "precoFormatado": "R$ 56,75",
+              "link": "https://www.amazon.com.br/mulher-habitada-Gioconda-Belli/dp/658982844X/ref=tmm_pap_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.KC3vh25Np98Wl73wPJ-B5VzBzBxcNEtlVpbD5aDUQjacY3pZ3e6bLlDWlog0dX3qkwtNYsas6gh28ycJyyudxUfFldrlpB80jIz5S7GT2vYJezxgtnKpsiL3sXcdbIG1qfYn8jDnkwiotdThKkrQqg7l56iMiCV5VvbhP9in0nVLQ-Ex3bHQNvYj8pyLwyG24LwmYK3-PxtHR5UfK8VswaZKqskaVyGWPdROLoDSV44.EeP_qFBKWp-EymfYLW97NHw4oklnVuFxjWIiih5Nm48&qid=1788122348&sr=8-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 59.75,
+            "mediaHistorica": 59.75
+          }
+        },
+        {
+          "id": "checkpoint-fora-do-script",
+          "livro": "Checkpoint: Fora do Script",
+          "autor": "Nataly Santos",
+          "isbn": "",
+          "precoAnterior": 85.9,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 85.9,
+          "melhorPrecoFormatado": "R$ 85,90",
+          "melhorLoja": "Amazon",
+          "link": "https://www.editoracabanavermelha.com.br/checkpoint-fora-do-script-nataly-santos-pre-venda",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 85.9,
+              "precoFormatado": "R$ 85,90",
+              "link": "https://www.editoracabanavermelha.com.br/checkpoint-fora-do-script-nataly-santos-pre-venda",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 85.9,
+            "mediaHistorica": 85.9
+          }
+        },
+        {
+          "id": "a-morte-e-um-dia-que-vale-viver",
+          "livro": "A morte é um dia que vale viver",
+          "autor": "Ana Claudia Quintana Arantes",
+          "isbn": "",
+          "precoAnterior": 41.06,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 37.99,
+          "melhorPrecoFormatado": "R$ 37,99",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/dp/8543107202/?bestFormat=true&k=a%20morte%20%C3%A9%20um%20dia%20que%20vale%20viver&ref_=nb_sb_ss_w_scx-ent-bk-ser_k0_1_10_de&crid=28H4BQLG9RQQF&sprefix=A%20morte%20%C3%A9%20",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 37.99,
+              "precoFormatado": "R$ 37,99",
+              "link": "https://www.amazon.com.br/dp/8543107202/?bestFormat=true&k=a%20morte%20%C3%A9%20um%20dia%20que%20vale%20viver&ref_=nb_sb_ss_w_scx-ent-bk-ser_k0_1_10_de&crid=28H4BQLG9RQQF&sprefix=A%20morte%20%C3%A9%20",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 39.14,
+            "mediaHistorica": 39.14
+          }
+        },
+        {
+          "id": "o-paradoxo-do-amor-imperfeito",
+          "livro": "O paradoxo do amor imperfeito",
+          "autor": "Rafaela F. Frank",
+          "isbn": "",
+          "precoAnterior": 94.9,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 99.9,
+          "melhorPrecoFormatado": "R$ 99,90",
+          "melhorLoja": "Amazon",
+          "link": "https://www.unicornbooks.com.br/o-paradoxo-do-amor-imperfeito",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 99.9,
+              "precoFormatado": "R$ 99,90",
+              "link": "https://www.unicornbooks.com.br/o-paradoxo-do-amor-imperfeito",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 94.9,
+            "mediaHistorica": 94.9
+          }
+        },
+        {
+          "id": "amor-fora-do-contrato",
+          "livro": "amor fora do contrato",
+          "autor": "Nathália Santos",
+          "isbn": "",
+          "precoAnterior": 78.76,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": null,
+          "melhorPrecoFormatado": "",
+          "melhorLoja": "",
+          "link": "",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": null,
+              "precoFormatado": "",
+              "link": "https://www.unicornbooks.com.br/amor-fora-do-contrato",
+              "fonte": "",
+              "disponivel": false,
+              "erro": "a IA não conseguiu identificar um preço válido nesta página"
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 78.76,
+            "mediaHistorica": 78.76
+          }
+        },
+        {
+          "id": "nosso-acordo-secreto",
+          "livro": "Nosso acordo secreto",
+          "autor": "UNI 60K",
+          "isbn": "",
+          "precoAnterior": 94.9,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": null,
+          "melhorPrecoFormatado": "",
+          "melhorLoja": "",
+          "link": "",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": null,
+              "precoFormatado": "",
+              "link": "https://www.unicornbooks.com.br/nosso-acordo-secreto-uni-60k",
+              "fonte": "",
+              "disponivel": false,
+              "erro": "a IA não conseguiu identificar um preço válido nesta página"
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 94.9,
+            "mediaHistorica": 94.9
+          }
+        },
+        {
+          "id": "a-hora-da-estrela",
+          "livro": "A hora da estrela",
+          "autor": "Clarice Lispector",
+          "isbn": "",
+          "precoAnterior": 28.45,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 28.45,
+          "melhorPrecoFormatado": "R$ 28,45",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/hora-estrela-Edi%C3%A7%C3%A3o-comemorativa/dp/6555320354/ref=sr_1_1?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1V4RY6Q5IPKQ7&dib=eyJ2IjoiMSJ9.VxdsYzlhBQsKh5dPwTDbkceKHvZznz3e1D8k5AEps-2O4UWqqs7ueWRFVvuKYCNawpm_4XY-HoGql66sCrmYmxfzsY5_3VIVsHwqgq5Q3uk5I7qBDfkw_lRXD7b4L0-7.BKElciTwrmEEzfIhLU7FzRJZ8selLxvBCQOte1ZxqZ0&dib_tag=se&keywords=a+hora+da+estela&qid=1788122814&s=books&sprefix=a+hora+da+estel%2Cstripbooks%2C234&sr=1-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 28.45,
+              "precoFormatado": "R$ 28,45",
+              "link": "https://www.amazon.com.br/hora-estrela-Edi%C3%A7%C3%A3o-comemorativa/dp/6555320354/ref=sr_1_1?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1V4RY6Q5IPKQ7&dib=eyJ2IjoiMSJ9.VxdsYzlhBQsKh5dPwTDbkceKHvZznz3e1D8k5AEps-2O4UWqqs7ueWRFVvuKYCNawpm_4XY-HoGql66sCrmYmxfzsY5_3VIVsHwqgq5Q3uk5I7qBDfkw_lRXD7b4L0-7.BKElciTwrmEEzfIhLU7FzRJZ8selLxvBCQOte1ZxqZ0&dib_tag=se&keywords=a+hora+da+estela&qid=1788122814&s=books&sprefix=a+hora+da+estel%2Cstripbooks%2C234&sr=1-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 28.45,
+            "mediaHistorica": 28.45
+          }
+        },
+        {
+          "id": "agua-viva",
+          "livro": "Água viva",
+          "autor": "Clarice Lispector",
+          "isbn": "",
+          "precoAnterior": 33.72,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 29.95,
+          "melhorPrecoFormatado": "R$ 29,95",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/%C3%81GUA-EDI%C3%87%C3%83O-COMEMORATIVA-Clarice-Lispector/dp/6555320214/ref=sr_1_1?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=3QK4GW3666Z65&dib=eyJ2IjoiMSJ9.9yeDVjILm13fiyQNVy7-iWClvH8GntA4g7pQSBXFyVDVYFZ0Kr0Ta2hiI3tYBoCe5zHGQppZKFdBWlxwJCOMcPw8uFLNhohxDtxFU9DesZ-zwRwEw1_uLWd2qvDV3_pNjUU1P3_2JYAuLgXouGOh79FUfFZgAEcFIygoybaPxrO_c5g2WOhVjLP-sgMLWLxs3BGWsSyu3AV4fQUiWcH26iGbCfGaZYryL5RNR0kCg8c._5XrCV-rj_FEJ-tlHc8AH__A-Y6l3w-IuV2JaR94uWQ&dib_tag=se&keywords=agua+vive&qid=1788122852&s=books&sprefix=agua+viv%2Cstripbooks%2C221&sr=1-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 29.95,
+              "precoFormatado": "R$ 29,95",
+              "link": "https://www.amazon.com.br/%C3%81GUA-EDI%C3%87%C3%83O-COMEMORATIVA-Clarice-Lispector/dp/6555320214/ref=sr_1_1?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=3QK4GW3666Z65&dib=eyJ2IjoiMSJ9.9yeDVjILm13fiyQNVy7-iWClvH8GntA4g7pQSBXFyVDVYFZ0Kr0Ta2hiI3tYBoCe5zHGQppZKFdBWlxwJCOMcPw8uFLNhohxDtxFU9DesZ-zwRwEw1_uLWd2qvDV3_pNjUU1P3_2JYAuLgXouGOh79FUfFZgAEcFIygoybaPxrO_c5g2WOhVjLP-sgMLWLxs3BGWsSyu3AV4fQUiWcH26iGbCfGaZYryL5RNR0kCg8c._5XrCV-rj_FEJ-tlHc8AH__A-Y6l3w-IuV2JaR94uWQ&dib_tag=se&keywords=agua+vive&qid=1788122852&s=books&sprefix=agua+viv%2Cstripbooks%2C221&sr=1-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 33.72,
+            "mediaHistorica": 33.72
+          }
+        },
+        {
+          "id": "travessuras-gostosas-uma-coletanea-monstruosa",
+          "livro": "Travessuras gostosas: Uma coletânea monstruosa",
+          "autor": "Ali Hazelwood",
+          "isbn": "",
+          "precoAnterior": 66.4,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 66.4,
+          "melhorPrecoFormatado": "R$ 66,40",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/Travessuras-gostosas-Uma-colet%C3%A2nea-monstruosa/dp/8530602374/ref=tmm_pap_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.dh26wT6RvLuLo4YmuNRkcu9GYY7nOt6n490IBB-svIXGjHj071QN20LucGBJIEps.U4KxApmdBbR4B3b7TaaJzSFOWk5p25pBahDDkjfB4ac&qid=1788122897&sr=1-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 66.4,
+              "precoFormatado": "R$ 66,40",
+              "link": "https://www.amazon.com.br/Travessuras-gostosas-Uma-colet%C3%A2nea-monstruosa/dp/8530602374/ref=tmm_pap_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.dh26wT6RvLuLo4YmuNRkcu9GYY7nOt6n490IBB-svIXGjHj071QN20LucGBJIEps.U4KxApmdBbR4B3b7TaaJzSFOWk5p25pBahDDkjfB4ac&qid=1788122897&sr=1-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 66.4,
+            "mediaHistorica": 66.4
+          }
+        },
+        {
+          "id": "cupidos-nao-se-apaixonam",
+          "livro": "Cupidos não se apaixonam",
+          "autor": "Clara Alves",
+          "isbn": "",
+          "precoAnterior": 41.32,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 39.24,
+          "melhorPrecoFormatado": "R$ 39,24",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/Cupidos-n%C3%A3o-apaixonam-Clara-Alves/dp/855534445X/ref=tmm_pap_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.WFyDg_bOl3-pfjrKc084Cw.GALVUlYJwAZymAlC8GAYdbX6093un4JNtA1oBR_OG9E&qid=1788122970&sr=8-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 39.24,
+              "precoFormatado": "R$ 39,24",
+              "link": "https://www.amazon.com.br/Cupidos-n%C3%A3o-apaixonam-Clara-Alves/dp/855534445X/ref=tmm_pap_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.WFyDg_bOl3-pfjrKc084Cw.GALVUlYJwAZymAlC8GAYdbX6093un4JNtA1oBR_OG9E&qid=1788122970&sr=8-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 0,
+            "menorPrecoHistorico": null,
+            "mediaHistorica": null
+          }
+        },
+        {
+          "id": "mordida",
+          "livro": "Mordida",
+          "autor": "Sarah Andersen",
+          "isbn": "",
+          "precoAnterior": 53.1,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 53.1,
+          "melhorPrecoFormatado": "R$ 53,10",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/Mordida-Sarah-Andersen/dp/8555341442/ref=sr_1_1?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=FFX991MP31K8&dib=eyJ2IjoiMSJ9.nzA99uVW2J-Cjns3KAdxKGKLwFgVAaTFWfAT2Ls_rSw5zxk3CK82g2cv1it-vHlawUPbM_6SKOY7jSSRliyhkuhrlGi3OroDL09UXUsllebAhlKO9uVg5otzr9HEY8yyDg_9nMX6q_G9zphXVvDKZOoYfcmwEZ0kIrW5gg2ICrRxDtsjYWjIu0PyZHpqsNC4_uWvl2tl5KHFK6IfICqEPPvYAonrZpELXbyt_Foeh683kXTUsJK902J0s6pfBgqm3_SLNQtHj8Rie0GNKa0fQFqpmzHorbnrNOy7UdjjV-k._4XN4ni9BjL1xD38z7PU9WGTEbG4GP0jeS-IYe1SCm8&dib_tag=se&keywords=mordida&qid=1788123004&sprefix=mordi%2Caps%2C231&sr=8-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 53.1,
+              "precoFormatado": "R$ 53,10",
+              "link": "https://www.amazon.com.br/Mordida-Sarah-Andersen/dp/8555341442/ref=sr_1_1?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=FFX991MP31K8&dib=eyJ2IjoiMSJ9.nzA99uVW2J-Cjns3KAdxKGKLwFgVAaTFWfAT2Ls_rSw5zxk3CK82g2cv1it-vHlawUPbM_6SKOY7jSSRliyhkuhrlGi3OroDL09UXUsllebAhlKO9uVg5otzr9HEY8yyDg_9nMX6q_G9zphXVvDKZOoYfcmwEZ0kIrW5gg2ICrRxDtsjYWjIu0PyZHpqsNC4_uWvl2tl5KHFK6IfICqEPPvYAonrZpELXbyt_Foeh683kXTUsJK902J0s6pfBgqm3_SLNQtHj8Rie0GNKa0fQFqpmzHorbnrNOy7UdjjV-k._4XN4ni9BjL1xD38z7PU9WGTEbG4GP0jeS-IYe1SCm8&dib_tag=se&keywords=mordida&qid=1788123004&sprefix=mordi%2Caps%2C231&sr=8-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 53.1,
+            "mediaHistorica": 53.1
+          }
+        },
+        {
+          "id": "cinderela-chinesa",
+          "livro": "cinderela chinesa",
+          "autor": "Adeline Yen Mah",
+          "isbn": "",
+          "precoAnterior": 45.46,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 45.46,
+          "melhorPrecoFormatado": "R$ 45,46",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/Cinderela-chinesa-Adeline-Yen-Mah/dp/8535908455/ref=sr_1_1?crid=20HNY00HBC5UE&dib=eyJ2IjoiMSJ9.SGUbeTciA-xnf8aRislZyKBzpKui3EJMIXrr17U23aNBmSTQiyd_sxnTJweHnQs8PCVTM_j0djfryDE_grpcUoRTCQvyiT0C6nVWZ5lUKVwqtRvrfS-O-jP_UUjcU5KRZkrSxg10P7Jq91IRthPekKFQrvQ-_Lu5QuJUb7wajD_6zuvAQQ4RfUPbZHt1s4y44R1P_mtJKM4IDaLZcXrLPmZDFLiJacIqQeLkX5ag2G136Z7HZLg2wR0qTi11j4E1TLbJw2lIODkKMVatdLBCnuOiR7YXjcDwoy7atRWtM7g.u3YvVE0A1Eeho2f14amp3DLom2OOZ3khqJU1VaJa8mM&dib_tag=se&keywords=cinderela+chinesa&qid=1788123037&sprefix=cinderela+chin%2Caps%2C237&sr=8-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 45.46,
+              "precoFormatado": "R$ 45,46",
+              "link": "https://www.amazon.com.br/Cinderela-chinesa-Adeline-Yen-Mah/dp/8535908455/ref=sr_1_1?crid=20HNY00HBC5UE&dib=eyJ2IjoiMSJ9.SGUbeTciA-xnf8aRislZyKBzpKui3EJMIXrr17U23aNBmSTQiyd_sxnTJweHnQs8PCVTM_j0djfryDE_grpcUoRTCQvyiT0C6nVWZ5lUKVwqtRvrfS-O-jP_UUjcU5KRZkrSxg10P7Jq91IRthPekKFQrvQ-_Lu5QuJUb7wajD_6zuvAQQ4RfUPbZHt1s4y44R1P_mtJKM4IDaLZcXrLPmZDFLiJacIqQeLkX5ag2G136Z7HZLg2wR0qTi11j4E1TLbJw2lIODkKMVatdLBCnuOiR7YXjcDwoy7atRWtM7g.u3YvVE0A1Eeho2f14amp3DLom2OOZ3khqJU1VaJa8mM&dib_tag=se&keywords=cinderela+chinesa&qid=1788123037&sprefix=cinderela+chin%2Caps%2C237&sr=8-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 45.46,
+            "mediaHistorica": 45.46
+          }
+        },
+        {
+          "id": "o-avesso-da-pele",
+          "livro": "o avesso da pele",
+          "autor": "Jeferson Tenório",
+          "isbn": "",
+          "precoAnterior": 43.15,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 49.33,
+          "melhorPrecoFormatado": "R$ 49,33",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/avesso-pele-Jeferson-Ten%C3%B3rio/dp/8535933395/ref=sr_1_1_sspa?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=36MD52KEW8L63&dib=eyJ2IjoiMSJ9.AvakJtr6Fas4jhGIJh1omrL8STVgTc9b-Tlb7Hza1IHC0hJmM4SewngslW0TOOzR7TTQmwdqYo95mHHbqGrZPVxFtN1cyMXwcSMjogNNpafJYrRy9FO5xaLESybzFhf4blaPnj0n4O-1Y1t2eL77XzMj7YUfdP91op9vojQux1V3XWlH84nfp0SZyNJulyk3-OJG47dlp7bDvk6OQVXODO8rQ3TPexbRHwOO00eBT_xn2l7i5lg0o28-OHzCQJC4QIUyXXQsO5ZXoKaF6oLDHCnnbKgTaUcdzPkashRVhtk.F3_LSyWJXV1e_rZA8W07ogTn5dZfUt2gcnc_n9_l9Zs&dib_tag=se&keywords=o+avesso+da+pele&qid=1788123073&sprefix=o+avesso+da+pe%2Caps%2C241&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 49.33,
+              "precoFormatado": "R$ 49,33",
+              "link": "https://www.amazon.com.br/avesso-pele-Jeferson-Ten%C3%B3rio/dp/8535933395/ref=sr_1_1_sspa?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=36MD52KEW8L63&dib=eyJ2IjoiMSJ9.AvakJtr6Fas4jhGIJh1omrL8STVgTc9b-Tlb7Hza1IHC0hJmM4SewngslW0TOOzR7TTQmwdqYo95mHHbqGrZPVxFtN1cyMXwcSMjogNNpafJYrRy9FO5xaLESybzFhf4blaPnj0n4O-1Y1t2eL77XzMj7YUfdP91op9vojQux1V3XWlH84nfp0SZyNJulyk3-OJG47dlp7bDvk6OQVXODO8rQ3TPexbRHwOO00eBT_xn2l7i5lg0o28-OHzCQJC4QIUyXXQsO5ZXoKaF6oLDHCnnbKgTaUcdzPkashRVhtk.F3_LSyWJXV1e_rZA8W07ogTn5dZfUt2gcnc_n9_l9Zs&dib_tag=se&keywords=o+avesso+da+pele&qid=1788123073&sprefix=o+avesso+da+pe%2Caps%2C241&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 43.15,
+            "mediaHistorica": 43.15
+          }
+        },
+        {
+          "id": "tudo-e-rio",
+          "livro": "tudo é rio",
+          "autor": "Carla Madeira",
+          "isbn": "",
+          "precoAnterior": 43.49,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 40.01,
+          "melhorPrecoFormatado": "R$ 40,01",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/Tudo-%C3%A9-rio-Carla-Madeira/dp/6555871784/ref=sr_1_1?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=2OERYUGAVZQAL&dib=eyJ2IjoiMSJ9.ILwWZ1dbQGWG_XnWxAOc0XBl950ehgKDlcMPYvv4AhKpj7bh_Etz-V_NcNgCqOvUgXBRry9Yfxyrp8BJWb8Bei-aIHVBwbWSDNjPVyrfGPfJrM8Dz6bMQGHX5iN-yy1v1ml-zoLZzlL8wkybV1GSntOjjKVHHWjm6-04GkCGrPUwzWl6XUYIq6Uw8kGkbHr_8tD0Mm51IaY0gEP1wsfDgJkCHchlI4pzCrBK0A8oQNt3QCELAU4n9dfs9IEETefeERfPmtMuEtZA6qVn8bFoHfgNyOYVvp80eB1CokFQrkI.Ey26quiJzRus2DBA1QCcmGfIvX1BnybsUfqo6VTlJQM&dib_tag=se&keywords=tudo+%C3%A9+rio&qid=1788123106&sprefix=tudo+%C3%A9+ri%2Caps%2C256&sr=8-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 40.01,
+              "precoFormatado": "R$ 40,01",
+              "link": "https://www.amazon.com.br/Tudo-%C3%A9-rio-Carla-Madeira/dp/6555871784/ref=sr_1_1?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=2OERYUGAVZQAL&dib=eyJ2IjoiMSJ9.ILwWZ1dbQGWG_XnWxAOc0XBl950ehgKDlcMPYvv4AhKpj7bh_Etz-V_NcNgCqOvUgXBRry9Yfxyrp8BJWb8Bei-aIHVBwbWSDNjPVyrfGPfJrM8Dz6bMQGHX5iN-yy1v1ml-zoLZzlL8wkybV1GSntOjjKVHHWjm6-04GkCGrPUwzWl6XUYIq6Uw8kGkbHr_8tD0Mm51IaY0gEP1wsfDgJkCHchlI4pzCrBK0A8oQNt3QCELAU4n9dfs9IEETefeERfPmtMuEtZA6qVn8bFoHfgNyOYVvp80eB1CokFQrkI.Ey26quiJzRus2DBA1QCcmGfIvX1BnybsUfqo6VTlJQM&dib_tag=se&keywords=tudo+%C3%A9+rio&qid=1788123106&sprefix=tudo+%C3%A9+ri%2Caps%2C256&sr=8-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 43.49,
+            "mediaHistorica": 43.49
+          }
+        },
+        {
+          "id": "quarta-asa",
+          "livro": "quarta asa",
+          "autor": "Rebecca Yarros",
+          "isbn": "",
+          "precoAnterior": 71,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 63.9,
+          "melhorPrecoFormatado": "R$ 63,90",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/Quarta-asa-Rebecca-Yarros/dp/8542225856/ref=sr_1_1?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=22XBZQ5RVZ1PY&dib=eyJ2IjoiMSJ9.9ynV4WD548CAY20HLv0CK-ZTGvyeINlHoyY8BDIm7kNB4vr-cyt6Qg0uMDxdt_QqabP9Kwc-Adv_XP7oS5wp-j0FT8jpYJulf9EMekSfxag9-ZGvU3RZVKKT4bDI0OW90zyO5jiTiRarDRPZDqVLiBR1BVeyO-beQ0n_-7zH3gXWGse4C8Nb_9ZEz5D-mo4dUTmYepzdrrG1ibKIrfsfG_iXXJfr4lS50SdwNfDLxbCpIarRKm_gJcMHoO4F6sz1U2og48q113zFSgV0FZdMnMF9A8bKkFAsOk74YW4_I0M.uv8UK2SYA9Gtnw6hrZkXvnYKhafxXw_O9-pqfwDG1PE&dib_tag=se&keywords=quarta+asa&qid=1788123183&sprefix=quarta+as%2Caps%2C239&sr=8-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 63.9,
+              "precoFormatado": "R$ 63,90",
+              "link": "https://www.amazon.com.br/Quarta-asa-Rebecca-Yarros/dp/8542225856/ref=sr_1_1?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=22XBZQ5RVZ1PY&dib=eyJ2IjoiMSJ9.9ynV4WD548CAY20HLv0CK-ZTGvyeINlHoyY8BDIm7kNB4vr-cyt6Qg0uMDxdt_QqabP9Kwc-Adv_XP7oS5wp-j0FT8jpYJulf9EMekSfxag9-ZGvU3RZVKKT4bDI0OW90zyO5jiTiRarDRPZDqVLiBR1BVeyO-beQ0n_-7zH3gXWGse4C8Nb_9ZEz5D-mo4dUTmYepzdrrG1ibKIrfsfG_iXXJfr4lS50SdwNfDLxbCpIarRKm_gJcMHoO4F6sz1U2og48q113zFSgV0FZdMnMF9A8bKkFAsOk74YW4_I0M.uv8UK2SYA9Gtnw6hrZkXvnYKhafxXw_O9-pqfwDG1PE&dib_tag=se&keywords=quarta+asa&qid=1788123183&sprefix=quarta+as%2Caps%2C239&sr=8-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 63.9,
+            "mediaHistorica": 63.9
+          }
+        },
+        {
+          "id": "noiva",
+          "livro": "Noiva",
+          "autor": "Ali Hazelwood",
+          "isbn": "",
+          "precoAnterior": 69.9,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 66.4,
+          "melhorPrecoFormatado": "R$ 66,40",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/Noiva-Edi%C3%A7%C3%A3o-livro-marcador-exclusivo/dp/6555656123/ref=sr_1_1?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1WXJRXGFQG380&dib=eyJ2IjoiMSJ9.bl1FFP5ofMpo4AhtdH0qRW5DRrdIh6GlFVtytu2DtyxExhVR_2yZrcTto4a54IwcYc9YJTVrNDhXUiAqDjARAzvcECGJY2daDgdnS02eWR8e85uiMQiwRpdnAG9BZpH4HAIxJhrBEpT1w7z-kiBGkZvDpQiG1OXVU64RSsJwMmOiTDnbgBEFuS6Y_LbP2ahKZ7f86wId_mJQpfiUXKZEr4CxvYjdpHoVvBW4Fy4gy3ibeywaVww-vJ8yAVDGY9SxrMp9W80t47_8e4TPkPMB3jZ5hpHul50GGaksxf_YI6E.Bpu7bJmtS9CY34dcbijiWBX8sTIxbiwejuICZqKo9z4&dib_tag=se&keywords=noivo+editora+arqueiro&qid=1788123224&sprefix=noivo+editora+arquei%2Caps%2C212&sr=8-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 66.4,
+              "precoFormatado": "R$ 66,40",
+              "link": "https://www.amazon.com.br/Noiva-Edi%C3%A7%C3%A3o-livro-marcador-exclusivo/dp/6555656123/ref=sr_1_1?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=1WXJRXGFQG380&dib=eyJ2IjoiMSJ9.bl1FFP5ofMpo4AhtdH0qRW5DRrdIh6GlFVtytu2DtyxExhVR_2yZrcTto4a54IwcYc9YJTVrNDhXUiAqDjARAzvcECGJY2daDgdnS02eWR8e85uiMQiwRpdnAG9BZpH4HAIxJhrBEpT1w7z-kiBGkZvDpQiG1OXVU64RSsJwMmOiTDnbgBEFuS6Y_LbP2ahKZ7f86wId_mJQpfiUXKZEr4CxvYjdpHoVvBW4Fy4gy3ibeywaVww-vJ8yAVDGY9SxrMp9W80t47_8e4TPkPMB3jZ5hpHul50GGaksxf_YI6E.Bpu7bJmtS9CY34dcbijiWBX8sTIxbiwejuICZqKo9z4&dib_tag=se&keywords=noivo+editora+arqueiro&qid=1788123224&sprefix=noivo+editora+arquei%2Caps%2C212&sr=8-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 0,
+            "menorPrecoHistorico": null,
+            "mediaHistorica": null
+          }
+        },
+        {
+          "id": "parceira-editora-arqueiro",
+          "livro": "parceira editora arqueiro",
+          "autor": "Ali Hazelwood",
+          "isbn": "",
+          "precoAnterior": 66.4,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 59.92,
+          "melhorPrecoFormatado": "R$ 59,92",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/Parceira-Edi%C3%A7%C3%A3o-especial-marcador-exclusivo/dp/6555658975/ref=tmm_hrd_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.rS_Ox2vBfwdzBM9Mj0L7rZ0-54o5mb-_zhJ4146Godz__F2g_gkYlKeGffj0i9Ozbb-jQWLOOMf5FD_4n_Scg55rbsqY3kmqgo4CEBxE78GcuFLMSQ65V8wyiQlwHLEWjUlZ4v1LYkyu4ZiISpPngrciBmbE7ydgBAIaMa3LuENn09IR4XBO6SMQs-jH156_GHjR19mWMyPY3rqmNklyC2kddhCYAlx0fT9LNm6WvRyAiHQpsLKye6iduhlBAdu7MV4UcH2qhhJr5REIzu4CX5RFqYmYHVmAsLyhXgPVBF4.wHuP3NG3ceorZDZVWs8c4Eyp4BhxwjcbgyNdr5SQp1M&qid=1788123263&sr=8-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 59.92,
+              "precoFormatado": "R$ 59,92",
+              "link": "https://www.amazon.com.br/Parceira-Edi%C3%A7%C3%A3o-especial-marcador-exclusivo/dp/6555658975/ref=tmm_hrd_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.rS_Ox2vBfwdzBM9Mj0L7rZ0-54o5mb-_zhJ4146Godz__F2g_gkYlKeGffj0i9Ozbb-jQWLOOMf5FD_4n_Scg55rbsqY3kmqgo4CEBxE78GcuFLMSQ65V8wyiQlwHLEWjUlZ4v1LYkyu4ZiISpPngrciBmbE7ydgBAIaMa3LuENn09IR4XBO6SMQs-jH156_GHjR19mWMyPY3rqmNklyC2kddhCYAlx0fT9LNm6WvRyAiHQpsLKye6iduhlBAdu7MV4UcH2qhhJr5REIzu4CX5RFqYmYHVmAsLyhXgPVBF4.wHuP3NG3ceorZDZVWs8c4Eyp4BhxwjcbgyNdr5SQp1M&qid=1788123263&sr=8-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 63.08,
+            "mediaHistorica": 63.08
+          }
+        },
+        {
+          "id": "razao-do-amor",
+          "livro": "razão do amor",
+          "autor": "Ali Hazelwood",
+          "isbn": "",
+          "precoAnterior": 99.9,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 94.9,
+          "melhorPrecoFormatado": "R$ 94,90",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/raz%C3%A3o-amor-especial-marcador-exclusivo/dp/8530602080/ref=tmm_hrd_swatch_0",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 94.9,
+              "precoFormatado": "R$ 94,90",
+              "link": "https://www.amazon.com.br/raz%C3%A3o-amor-especial-marcador-exclusivo/dp/8530602080/ref=tmm_hrd_swatch_0",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 0,
+            "menorPrecoHistorico": null,
+            "mediaHistorica": null
+          }
+        },
+        {
+          "id": "odeio-te-amar",
+          "livro": "odeio te amar",
+          "autor": "Ali Hazelwood",
+          "isbn": "",
+          "precoAnterior": 41.8,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 41.8,
+          "melhorPrecoFormatado": "R$ 41,80",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/Odeio-amar-Sucesso-Ali-Hazelwood/dp/6555654783/ref=sr_1_1?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=3LL8A88NUCNR3&dib=eyJ2IjoiMSJ9.djsZk8zk_QPLW6d5BgiE3HCBBrkvplCFIeNuTZY1_GT34nICy3KUmUhhBfN2EkoyGOCNVSqaPBfllzEPBNW1u3YgtdSa21u-iwJnJuKXJV9fOzbt9kwyqHaf-sNDSIAD601f7jxBdWtG1DJ6dryroa5JEPLsgxPTSP6ImpMi54HO0Q_37lQtI63zNDnjyekl8fRR-DlePgymDPIJkpHdhc-lVU78oM3LadTLgou-b3Q.kh9ZrRuSXQ5pj_awGHEQcbzsOJGkzv5uTfhbUvUkSy0&dib_tag=se&keywords=odeio+te+amar&qid=1788123345&s=books&sprefix=odeio+te+ama%2Cstripbooks%2C235&sr=1-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 41.8,
+              "precoFormatado": "R$ 41,80",
+              "link": "https://www.amazon.com.br/Odeio-amar-Sucesso-Ali-Hazelwood/dp/6555654783/ref=sr_1_1?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=3LL8A88NUCNR3&dib=eyJ2IjoiMSJ9.djsZk8zk_QPLW6d5BgiE3HCBBrkvplCFIeNuTZY1_GT34nICy3KUmUhhBfN2EkoyGOCNVSqaPBfllzEPBNW1u3YgtdSa21u-iwJnJuKXJV9fOzbt9kwyqHaf-sNDSIAD601f7jxBdWtG1DJ6dryroa5JEPLsgxPTSP6ImpMi54HO0Q_37lQtI63zNDnjyekl8fRR-DlePgymDPIJkpHdhc-lVU78oM3LadTLgou-b3Q.kh9ZrRuSXQ5pj_awGHEQcbzsOJGkzv5uTfhbUvUkSy0&dib_tag=se&keywords=odeio+te+amar&qid=1788123345&s=books&sprefix=odeio+te+ama%2Cstripbooks%2C235&sr=1-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 41.8,
+            "mediaHistorica": 41.8
+          }
+        },
+        {
+          "id": "dungeons-and-drama",
+          "livro": "Dungeons and Drama",
+          "autor": "Kristy Boyce e Ana Beatriz Omuro",
+          "isbn": "",
+          "precoAnterior": 43.14,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 43.14,
+          "melhorPrecoFormatado": "R$ 43,14",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/dp/6583175002/?bestFormat=true&k=dungeons%20and%20drama&ref_=nb_sb_ss_w_scx-ent-bk-ser_k0_1_9_de&crid=1KFFJ5R89I338&sprefix=Dungeons%20",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 43.14,
+              "precoFormatado": "R$ 43,14",
+              "link": "https://www.amazon.com.br/dp/6583175002/?bestFormat=true&k=dungeons%20and%20drama&ref_=nb_sb_ss_w_scx-ent-bk-ser_k0_1_9_de&crid=1KFFJ5R89I338&sprefix=Dungeons%20",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 43.14,
+            "mediaHistorica": 43.14
+          }
+        },
+        {
+          "id": "dates-dragons",
+          "livro": "Dates & Dragons",
+          "autor": "Kristy Boyce e Ana Beatriz Omuro",
+          "isbn": "",
+          "precoAnterior": 45.4,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 43.12,
+          "melhorPrecoFormatado": "R$ 43,12",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/Dates-Dragons-romance-divertido-Dungeons/dp/6583175509/ref=sr_1_1?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=A632TPMK5G9E&dib=eyJ2IjoiMSJ9.WgxORPAA7wSmdMTMon72_vrvEkuk4r3DpOmjXi4UUtqnyio9pP7-HZN6-_-g5cN7OaaDayG7nIDeDS6xCxUXDniVL_XUFJ1OA8KtqdIK0b8sxjtrjI7FwgBJrLxWGEGfs3tRLVFI3Nn53RPLhckH9HftxljissVlDuWIRMTUr3ybfQ6vc9RecNUwFOYBaVv4lgaOlfuTM3ntqqwXkMTBE8ljYZfos1xkbOJJNJhHp9E.ATKF0fOxRnLrF5Hvk8v5GKcriKdf0N_L8h3re5Tnh5Q&dib_tag=se&keywords=Dates+%26+dragons&qid=1788123434&s=books&sprefix=dates+%26+drago%2Cstripbooks%2C228&sr=1-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 43.12,
+              "precoFormatado": "R$ 43,12",
+              "link": "https://www.amazon.com.br/Dates-Dragons-romance-divertido-Dungeons/dp/6583175509/ref=sr_1_1?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=A632TPMK5G9E&dib=eyJ2IjoiMSJ9.WgxORPAA7wSmdMTMon72_vrvEkuk4r3DpOmjXi4UUtqnyio9pP7-HZN6-_-g5cN7OaaDayG7nIDeDS6xCxUXDniVL_XUFJ1OA8KtqdIK0b8sxjtrjI7FwgBJrLxWGEGfs3tRLVFI3Nn53RPLhckH9HftxljissVlDuWIRMTUr3ybfQ6vc9RecNUwFOYBaVv4lgaOlfuTM3ntqqwXkMTBE8ljYZfos1xkbOJJNJhHp9E.ATKF0fOxRnLrF5Hvk8v5GKcriKdf0N_L8h3re5Tnh5Q&dib_tag=se&keywords=Dates+%26+dragons&qid=1788123434&s=books&sprefix=dates+%26+drago%2Cstripbooks%2C228&sr=1-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 1,
+            "menorPrecoHistorico": 43.14,
+            "mediaHistorica": 43.14
+          }
+        },
+        {
+          "id": "dados-disputas",
+          "livro": "Dados & disputas",
+          "autor": "Kristy Boyce e Ana Beatriz Omuro",
+          "isbn": "",
+          "precoAnterior": 54.42,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 54.97,
+          "melhorPrecoFormatado": "R$ 54,97",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/Dados-Disputas-romance-universo-Dungeons/dp/6551840310/ref=sr_1_1?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=34IFSIPO91595&dib=eyJ2IjoiMSJ9.WpO35LcZBs9bbea0ECteYzMp3FF6uqeKYDGSy05f7qYJxXQuU5bXOh6gE85iieX1mhLj4ugCw4tz8c9A9hWRJ-VnSL9IodrksD2SGpE0IqyyShXObIta0hwjMX5gfZ4V7hSPnfLLfuikBJWNRCay-3w3YsmPiUcMUpVsaNVEM9o6gTN2ApVvt46xzykDOS13JCEwXGE5Vn_tDo8KzNji38UgAF4zUnQuHpCZSUb_Q_8.DBdZer8OSTdVR-59rBOhRti3VGNTcAhyZfInclT-gGU&dib_tag=se&keywords=Dados+%26+dragons&qid=1788123471&s=books&sprefix=dados+%26+dragon%2Cstripbooks%2C221&sr=1-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 54.97,
+              "precoFormatado": "R$ 54,97",
+              "link": "https://www.amazon.com.br/Dados-Disputas-romance-universo-Dungeons/dp/6551840310/ref=sr_1_1?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=34IFSIPO91595&dib=eyJ2IjoiMSJ9.WpO35LcZBs9bbea0ECteYzMp3FF6uqeKYDGSy05f7qYJxXQuU5bXOh6gE85iieX1mhLj4ugCw4tz8c9A9hWRJ-VnSL9IodrksD2SGpE0IqyyShXObIta0hwjMX5gfZ4V7hSPnfLLfuikBJWNRCay-3w3YsmPiUcMUpVsaNVEM9o6gTN2ApVvt46xzykDOS13JCEwXGE5Vn_tDo8KzNji38UgAF4zUnQuHpCZSUb_Q_8.DBdZer8OSTdVR-59rBOhRti3VGNTcAhyZfInclT-gGU&dib_tag=se&keywords=Dados+%26+dragons&qid=1788123471&s=books&sprefix=dados+%26+dragon%2Cstripbooks%2C221&sr=1-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 0,
+            "menorPrecoHistorico": null,
+            "mediaHistorica": null
+          }
+        },
+        {
+          "id": "sobrevivendo-ao-amor",
+          "livro": "Sobrevivendo ao amor",
+          "autor": "Luiza Helena Caporalli",
+          "isbn": "",
+          "precoAnterior": 61.27,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 61.27,
+          "melhorPrecoFormatado": "R$ 61,27",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/Sobrevivendo-amor-Luiza-Helena-Caporalli/dp/8542820487/ref=tmm_pap_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.GVh52UjBqZ0AtL1legoKANyQ_rryi3JBWbZtR4cVNtIDLleg0JfVWxzbTnVgemqeK51RXS5ERF7KdZ32oG4CsRAHj2s62gsku8qNdBNO5c8p5eThiHbc3_9wNETdEDrLC2oWZ_1U1ZdQiOglqbM4L3ayoVfXgqs9e5TbuJ0Q4TGa3DoZzsnjaA1GOUI0M9oq747w6NGVI2hOl7fP494vNvR6EiX_tzMxq9YDQkKt3UfAKRKAoMFJ9mZnHB8qloIqYdB2rYIxOHWxAYQcwbcoVGIV-6uX-4bsj_cijgmTemY.aY8Ar0GNuzwd9o-to8V3LtukWba_4P5FgxcCXCCVKYE&qid=1788582023&sr=8-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 61.27,
+              "precoFormatado": "R$ 61,27",
+              "link": "https://www.amazon.com.br/Sobrevivendo-amor-Luiza-Helena-Caporalli/dp/8542820487/ref=tmm_pap_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.GVh52UjBqZ0AtL1legoKANyQ_rryi3JBWbZtR4cVNtIDLleg0JfVWxzbTnVgemqeK51RXS5ERF7KdZ32oG4CsRAHj2s62gsku8qNdBNO5c8p5eThiHbc3_9wNETdEDrLC2oWZ_1U1ZdQiOglqbM4L3ayoVfXgqs9e5TbuJ0Q4TGa3DoZzsnjaA1GOUI0M9oq747w6NGVI2hOl7fP494vNvR6EiX_tzMxq9YDQkKt3UfAKRKAoMFJ9mZnHB8qloIqYdB2rYIxOHWxAYQcwbcoVGIV-6uX-4bsj_cijgmTemY.aY8Ar0GNuzwd9o-to8V3LtukWba_4P5FgxcCXCCVKYE&qid=1788582023&sr=8-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 0,
+            "menorPrecoHistorico": null,
+            "mediaHistorica": null
+          }
+        },
+        {
+          "id": "sintonia-in-comum",
+          "livro": "Sintonia (in)Comum",
+          "autor": "Luiza Helena Caporalli",
+          "isbn": "",
+          "precoAnterior": 79.99,
+          "precoDesconto": null,
+          "precoAlvo": null,
+          "melhorPreco": 53.1,
+          "melhorPrecoFormatado": "R$ 53,10",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/Sintonia-Comum-Luiza-Helena-Caporalli/dp/8542818342/ref=sr_1_2?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=15T5LMREL6DMU&dib=eyJ2IjoiMSJ9.ikaZT_7kxIGd0zqWnfmHV7URJHqfWJzpGMEmA6nhWTQqAmsET_M3AXOugVr3aTMswHqUgu3LOVTwA7Mpg9vcMwKq0TW4WLFIA3DIhDNVaV4.cl9kukc-Liq7CjP1-bVBRBPerbSPUpSRzb5pXbmwitQ&dib_tag=se&keywords=sintonia+%28in%29+perfeita&qid=1788582077&sprefix=%2Caps%2C274&sr=8-2&ufe=app_do%3Aamzn1.fos.2fb4d624-b7be-441e-af6d-3c953cfae5bf",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 53.1,
+              "precoFormatado": "R$ 53,10",
+              "link": "https://www.amazon.com.br/Sintonia-Comum-Luiza-Helena-Caporalli/dp/8542818342/ref=sr_1_2?__mk_pt_BR=%C3%85M%C3%85%C5%BD%C3%95%C3%91&crid=15T5LMREL6DMU&dib=eyJ2IjoiMSJ9.ikaZT_7kxIGd0zqWnfmHV7URJHqfWJzpGMEmA6nhWTQqAmsET_M3AXOugVr3aTMswHqUgu3LOVTwA7Mpg9vcMwKq0TW4WLFIA3DIhDNVaV4.cl9kukc-Liq7CjP1-bVBRBPerbSPUpSRzb5pXbmwitQ&dib_tag=se&keywords=sintonia+%28in%29+perfeita&qid=1788582077&sprefix=%2Caps%2C274&sr=8-2&ufe=app_do%3Aamzn1.fos.2fb4d624-b7be-441e-af6d-3c953cfae5bf",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 0,
+            "menorPrecoHistorico": null,
+            "mediaHistorica": null
+          }
+        },
+        {
+          "id": "o-nao-manual-do-namoro-online",
+          "livro": "O (Não) manual do namoro online",
+          "autor": "Luiza Helena Caporalli",
+          "isbn": "",
+          "precoAnterior": 59.9,
+          "precoDesconto": 33.12,
+          "precoAlvo": null,
+          "melhorPreco": 33.12,
+          "melhorPrecoFormatado": "R$ 33,12",
+          "melhorLoja": "Amazon",
+          "link": "https://www.amazon.com.br/n%C3%A3o-manual-namoro-online/dp/6555619899/ref=tmm_pap_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.Ya3ZwoRfHcdIBO0f_IfVpSd3ejNiYWCChQnH74NlHtvQCHUkeBQE6OErCIGrxTnKY7ULT37aUM2VQe-I6WRZ7w.8V5k_qgxfrErnLvqwd6177LqWEHcJrSE4N2IJF5uIjQ&qid=1788582147&sr=8-1",
+          "ofertas": [
+            {
+              "loja": "Amazon",
+              "preco": 33.12,
+              "precoFormatado": "R$ 33,12",
+              "link": "https://www.amazon.com.br/n%C3%A3o-manual-namoro-online/dp/6555619899/ref=tmm_pap_swatch_0?_encoding=UTF8&dib_tag=se&dib=eyJ2IjoiMSJ9.Ya3ZwoRfHcdIBO0f_IfVpSd3ejNiYWCChQnH74NlHtvQCHUkeBQE6OErCIGrxTnKY7ULT37aUM2VQe-I6WRZ7w.8V5k_qgxfrErnLvqwd6177LqWEHcJrSE4N2IJF5uIjQ&qid=1788582147&sr=8-1",
+              "fonte": "ia",
+              "disponivel": true
+            }
+          ],
+          "historico": {
+            "quantidadeConsultas": 0,
+            "menorPrecoHistorico": null,
+            "mediaHistorica": null
+          }
+        }
+      ]
     }
   ]
 }
