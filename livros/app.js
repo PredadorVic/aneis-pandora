@@ -123,16 +123,18 @@ function renderCard(book) {
 function visibleBooks() {
   const execution = currentExecution();
   let books = Array.isArray(execution?.livros) ? [...execution.livros] : [];
+  const favorites = getFavorites();
   const query = normalizeText(state.query);
   if (query) books = books.filter((book) => normalizeText(`${book.livro} ${book.autor}`).includes(query));
   if (state.favoritesOnly) {
-    const favorites = getFavorites();
     books = books.filter((book) => favorites.includes(favoriteKey(book)));
   }
 
-  if (state.sort === "price-asc") books.sort((a, b) => (Number(a.melhorPreco) || Infinity) - (Number(b.melhorPreco) || Infinity));
-  if (state.sort === "price-desc") books.sort((a, b) => (Number(b.melhorPreco) || 0) - (Number(a.melhorPreco) || 0));
-  if (state.sort === "name") books.sort((a, b) => String(a.livro).localeCompare(String(b.livro), "pt-BR"));
+  const favoriteFirst = (a, b) => Number(favorites.includes(favoriteKey(b))) - Number(favorites.includes(favoriteKey(a)));
+  if (state.sort === "price-asc") books.sort((a, b) => favoriteFirst(a, b) || (Number(a.melhorPreco) || Infinity) - (Number(b.melhorPreco) || Infinity));
+  else if (state.sort === "price-desc") books.sort((a, b) => favoriteFirst(a, b) || (Number(b.melhorPreco) || 0) - (Number(a.melhorPreco) || 0));
+  else if (state.sort === "name") books.sort((a, b) => favoriteFirst(a, b) || String(a.livro).localeCompare(String(b.livro), "pt-BR"));
+  else books.sort(favoriteFirst);
   return books;
 }
 
@@ -211,7 +213,7 @@ elements.favoriteFilter.addEventListener("click", () => {
   state.favoritesOnly = !state.favoritesOnly;
   elements.favoriteFilter.classList.toggle("ativo", state.favoritesOnly);
   elements.favoriteFilter.setAttribute("aria-pressed", String(state.favoritesOnly));
-  elements.favoriteFilter.innerHTML = `<span aria-hidden="true">${state.favoritesOnly ? "♥" : "♡"}</span> Favoritos`;
+  elements.favoriteFilter.innerHTML = `<span aria-hidden="true">${state.favoritesOnly ? "♥" : "♡"}</span> ${state.favoritesOnly ? "Todos os livros" : "Mostrar favoritos"}`;
   render();
 });
 elements.themeButton.addEventListener("click", () => { const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark"; localStorage.setItem(THEME_KEY, next); applyTheme(next); });
