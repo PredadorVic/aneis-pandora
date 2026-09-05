@@ -8,7 +8,7 @@
   <title>Preços de Livros</title>
   <link rel="manifest" href="./manifest.json">
   <link rel="apple-touch-icon" href="./icones/icone-180.png">
-  <link rel="stylesheet" href="./app.css?v=1.4.2-favoritos">
+  <link rel="stylesheet" href="./app.css?v=1.4.3-filtro-favoritos">
 </head>
 <body>
   <div class="layout">
@@ -58,6 +58,7 @@
             <option value="name">Nome de A a Z</option>
           </select>
         </label>
+        <button class="favorite-filter" id="favoriteFilter" type="button" aria-pressed="false"><span aria-hidden="true">♡</span> Favoritos</button>
       </section>
 
       <div class="results-heading">
@@ -71,6 +72,6 @@
   </div>
 
   <div class="backdrop" id="backdrop" hidden></div>
-  <script src="./app.js?v=1.4.2-favoritos" defer></script>
+  <script src="./app.js?v=1.4.3-filtro-favoritos" defer></script>
 </body>
 </html>

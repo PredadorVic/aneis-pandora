@@ -2,12 +2,13 @@
 
 const THEME_KEY = "catalogo-tema";
 const FAVORITES_KEY = "livros-favoritos";
-const state = { executions: [], currentIndex: -1, query: "", sort: "original" };
+const state = { executions: [], currentIndex: -1, query: "", sort: "original", favoritesOnly: false };
 
 const elements = {
   dateSelect: document.getElementById("dateSelect"),
   searchInput: document.getElementById("searchInput"),
   sortSelect: document.getElementById("sortSelect"),
+  favoriteFilter: document.getElementById("favoriteFilter"),
   bookGrid: document.getElementById("bookGrid"),
   resultCount: document.getElementById("resultCount"),
   updatedAt: document.getElementById("updatedAt"),
@@ -124,6 +125,10 @@ function visibleBooks() {
   let books = Array.isArray(execution?.livros) ? [...execution.livros] : [];
   const query = normalizeText(state.query);
   if (query) books = books.filter((book) => normalizeText(`${book.livro} ${book.autor}`).includes(query));
+  if (state.favoritesOnly) {
+    const favorites = getFavorites();
+    books = books.filter((book) => favorites.includes(favoriteKey(book)));
+  }
 
   if (state.sort === "price-asc") books.sort((a, b) => (Number(a.melhorPreco) || Infinity) - (Number(b.melhorPreco) || Infinity));
   if (state.sort === "price-desc") books.sort((a, b) => (Number(b.melhorPreco) || 0) - (Number(a.melhorPreco) || 0));
@@ -138,7 +143,7 @@ function render() {
   elements.resultCount.textContent = `${books.length} livro${books.length === 1 ? "" : "s"}`;
   elements.bookGrid.innerHTML = books.length
     ? books.map(renderCard).join("")
-    : '<div class="empty">Nenhum livro encontrado nesta consulta.</div>';
+    : `<div class="empty">${state.favoritesOnly ? "Nenhum livro favoritado nesta consulta." : "Nenhum livro encontrado nesta consulta."}</div>`;
   elements.bookGrid.setAttribute("aria-busy", "false");
 }
 
@@ -195,12 +200,20 @@ elements.bookGrid.addEventListener("click", (event) => {
   button.setAttribute("aria-pressed", String(added));
   button.setAttribute("aria-label", `${added ? "Remover" : "Adicionar"} ${title} dos favoritos`);
   card?.classList.toggle("favorito", added);
+  if (state.favoritesOnly && !added) render();
   setTimeout(() => button.classList.remove("animando"), 500);
 });
 
 elements.dateSelect.addEventListener("change", () => { state.currentIndex = Number(elements.dateSelect.value); render(); });
 elements.searchInput.addEventListener("input", () => { state.query = elements.searchInput.value; render(); });
 elements.sortSelect.addEventListener("change", () => { state.sort = elements.sortSelect.value; render(); });
+elements.favoriteFilter.addEventListener("click", () => {
+  state.favoritesOnly = !state.favoritesOnly;
+  elements.favoriteFilter.classList.toggle("ativo", state.favoritesOnly);
+  elements.favoriteFilter.setAttribute("aria-pressed", String(state.favoritesOnly));
+  elements.favoriteFilter.innerHTML = `<span aria-hidden="true">${state.favoritesOnly ? "♥" : "♡"}</span> Favoritos`;
+  render();
+});
 elements.themeButton.addEventListener("click", () => { const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark"; localStorage.setItem(THEME_KEY, next); applyTheme(next); });
 elements.menuButton.addEventListener("click", () => { const open = !elements.sidebar.classList.contains("open"); elements.sidebar.classList.toggle("open", open); elements.backdrop.hidden = !open; elements.menuButton.setAttribute("aria-expanded", String(open)); });
 elements.backdrop.addEventListener("click", closeMenu);
