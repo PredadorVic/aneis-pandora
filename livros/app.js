@@ -104,9 +104,15 @@ function renderCard(book) {
   const key = favoriteKey(book);
   const isFavorite = getFavorites().includes(key);
   const previousPrice = Number(book.precoAnterior);
-  const previousPriceHtml = Number.isFinite(previousPrice) && previousPrice > 0
+  let previousPriceHtml = Number.isFinite(previousPrice) && previousPrice > 0
     ? `<div class="price-block secondary-price"><small>Preço passado</small><strong>${escapeHtml(formatCurrency(previousPrice))}</strong></div>`
     : `<div class="price-block secondary-price"><small>Preço passado</small><strong>Não informado</strong></div>`;
+
+  const discountPrice = Number(book.precoDesconto);
+  const discountPriceHtml = Number.isFinite(discountPrice) && discountPrice > 0
+    ? `<div class="price-block discount-price"><small>Preço com desconto</small><strong>${escapeHtml(formatCurrency(discountPrice))}</strong></div>`
+    : "";
+  previousPriceHtml = `${discountPriceHtml}${previousPriceHtml}`;
 
   return `<article class="book-card ${isFavorite ? "favorito" : ""}" data-book-title="${escapeHtml(book.livro || "Livro sem nome")}">
     <div class="book-top">

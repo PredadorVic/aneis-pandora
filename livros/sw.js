@@ -1,4 +1,4 @@
-const VERSION = "livros-v1.4.4-favoritos-prioritarios";
+const VERSION = "livros-v1.4.5-preco-desconto";
 const CACHE_SHELL = `${VERSION}-shell`;
 const CACHE_DATA = `${VERSION}-data`;
 const SHELL_FILES = ["./", "./index.html", "./app.css", "./app.js", "./manifest.json", "./icones/icone-180.png", "./icones/icone-512.png"];
