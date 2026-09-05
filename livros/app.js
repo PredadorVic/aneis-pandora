@@ -1,6 +1,7 @@
 "use strict";
 
 const THEME_KEY = "catalogo-tema";
+const FAVORITES_KEY = "livros-favoritos";
 const state = { executions: [], currentIndex: -1, query: "", sort: "original" };
 
 const elements = {
@@ -58,6 +59,29 @@ function currentExecution() {
   return state.executions[state.currentIndex] || null;
 }
 
+function favoriteKey(book) {
+  return `${book.livro || ""}|${book.autor || ""}|${book.link || ""}`;
+}
+
+function getFavorites() {
+  try {
+    const favorites = JSON.parse(localStorage.getItem(FAVORITES_KEY));
+    return Array.isArray(favorites) ? favorites.filter(item => typeof item === "string") : [];
+  } catch {
+    return [];
+  }
+}
+
+function toggleFavorite(key) {
+  const favorites = getFavorites();
+  const index = favorites.indexOf(key);
+  const added = index === -1;
+  if (added) favorites.push(key); else favorites.splice(index, 1);
+  localStorage.setItem(FAVORITES_KEY, JSON.stringify([...new Set(favorites)]));
+  if ("vibrate" in navigator) navigator.vibrate(added ? [28, 35, 28] : 25);
+  return added;
+}
+
 function updateConnectionNotice() {
   if (!navigator.onLine) {
     elements.notice.dataset.offline = "true";
@@ -76,13 +100,18 @@ function updateConnectionNotice() {
 function renderCard(book) {
   const link = safeUrl(book.link);
   const meta = String(book.autor || "");
+  const key = favoriteKey(book);
+  const isFavorite = getFavorites().includes(key);
   const previousPrice = Number(book.precoAnterior);
   const previousPriceHtml = Number.isFinite(previousPrice) && previousPrice > 0
     ? `<div class="price-block secondary-price"><small>Preço passado</small><strong>${escapeHtml(formatCurrency(previousPrice))}</strong></div>`
     : `<div class="price-block secondary-price"><small>Preço passado</small><strong>Não informado</strong></div>`;
 
-  return `<article class="book-card">
+  return `<article class="book-card ${isFavorite ? "favorito" : ""}" data-book-title="${escapeHtml(book.livro || "Livro sem nome")}">
     <div class="book-top">
+      <button class="botao-favorito ${isFavorite ? "ativo" : ""}" type="button" data-favorite="${escapeHtml(key)}" aria-label="${isFavorite ? "Remover" : "Adicionar"} ${escapeHtml(book.livro || "Livro sem nome")} dos favoritos" aria-pressed="${isFavorite}">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.8-7.5 1.1-1.1a5.5 5.5 0 0 0-.1-7.8z"/></svg>
+      </button>
       <div><h3>${escapeHtml(book.livro || "Livro sem nome")}</h3><p class="book-meta">${escapeHtml(meta || "Informações editoriais não cadastradas")}</p></div>
     </div>
     <div class="prices"><div class="price-block"><small>Preço ${escapeHtml(book.melhorLoja || "atual")}</small><strong>${escapeHtml(formatCurrency(book.melhorPreco))}</strong><span>${escapeHtml(book.melhorLoja || "Preço indisponível")}</span></div>${previousPriceHtml}</div>
@@ -150,6 +179,24 @@ async function loadData() {
     render();
   }
 }
+
+elements.bookGrid.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-favorite]");
+  if (!button) return;
+
+  const added = toggleFavorite(button.dataset.favorite);
+  const card = button.closest(".book-card");
+  const title = card?.dataset.bookTitle || "livro";
+
+  button.classList.toggle("ativo", added);
+  button.classList.remove("animando");
+  void button.offsetWidth;
+  button.classList.add("animando");
+  button.setAttribute("aria-pressed", String(added));
+  button.setAttribute("aria-label", `${added ? "Remover" : "Adicionar"} ${title} dos favoritos`);
+  card?.classList.toggle("favorito", added);
+  setTimeout(() => button.classList.remove("animando"), 500);
+});
 
 elements.dateSelect.addEventListener("change", () => { state.currentIndex = Number(elements.dateSelect.value); render(); });
 elements.searchInput.addEventListener("input", () => { state.query = elements.searchInput.value; render(); });
