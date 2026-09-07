@@ -2,7 +2,7 @@
 
 const THEME_KEY = "catalogo-tema";
 const FAVORITES_KEY = "livros-favoritos";
-const state = { executions: [], currentIndex: -1, query: "", sort: "original", favoritesOnly: false };
+const state = { executions: [], currentIndex: -1, query: "", sort: "original", favoritesOnly: false, purchaseOnly: false };
 
 const elements = {
   dateSelect: document.getElementById("dateSelect"),
@@ -17,7 +17,9 @@ const elements = {
   menuButton: document.getElementById("menuButton"),
   sidebar: document.getElementById("sidebar"),
   backdrop: document.getElementById("backdrop"),
-  themeColor: document.getElementById("themeColor")
+  themeColor: document.getElementById("themeColor"),
+  pendingTab: document.getElementById("pendingTab"),
+  purchasedTab: document.getElementById("purchasedTab"),
 };
 
 function escapeHtml(value) {
@@ -83,6 +85,35 @@ function toggleFavorite(key) {
   return added;
 }
 
+function getPurchased() {
+  try {
+    const purchased = JSON.parse(localStorage.getItem(PURCHASED_KEY));
+    return Array.isArray(purchased)
+      ? purchased.filter(item => typeof item === "string")
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function togglePurchased(key) {
+  const purchased = getPurchased();
+  const index = purchased.indexOf(key);
+
+  if (index === -1) {
+    purchased.push(key);
+  } else {
+    purchased.splice(index, 1);
+  }
+
+  localStorage.setItem(
+    PURCHASED_KEY,
+    JSON.stringify([...new Set(purchased)])
+  );
+
+  return index === -1;
+}
+
 function updateConnectionNotice() {
   if (!navigator.onLine) {
     elements.notice.dataset.offline = "true";
@@ -122,7 +153,19 @@ function renderCard(book) {
       <div><h3>${escapeHtml(book.livro || "Livro sem nome")}</h3><p class="book-meta">${escapeHtml(meta || "Informações editoriais não cadastradas")}</p></div>
     </div>
     <div class="prices"><div class="price-block"><small>Preço ${escapeHtml(book.melhorLoja || "atual")}</small><strong>${escapeHtml(formatCurrency(book.melhorPreco))}</strong><span>${escapeHtml(book.melhorLoja || "Preço indisponível")}</span></div>${previousPriceHtml}</div>
-    <div class="card-actions">${link ? `<a class="offer-button" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">Abrir produto</a>` : '<span class="offer-button disabled">Produto indisponível</span>'}</div>
+    <div class="card-actions">
+  ${link
+    ? `<a class="offer-button" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">Abrir produto</a>`
+    : '<span class="offer-button disabled">Produto indisponível</span>'}
+
+  <button
+    class="purchase-button"
+    type="button"
+    data-purchased="${escapeHtml(key)}"
+  >
+    ${getPurchased().includes(key) ? "↩️ Não comprei" : "✅ Já comprei"}
+  </button>
+</div>
   </article>`;
 }
 
@@ -131,10 +174,16 @@ function visibleBooks() {
   let books = Array.isArray(execution?.livros) ? [...execution.livros] : [];
   const favorites = getFavorites();
   const query = normalizeText(state.query);
+  const purchased = getPurchased();
   if (query) books = books.filter((book) => normalizeText(`${book.livro} ${book.autor}`).includes(query));
   if (state.favoritesOnly) {
     books = books.filter((book) => favorites.includes(favoriteKey(book)));
   }
+  if (state.purchasedOnly) {
+  books = books.filter(book => purchased.includes(favoriteKey(book)));
+} else {
+  books = books.filter(book => !purchased.includes(favoriteKey(book)));
+}
 
   const favoriteFirst = (a, b) => Number(favorites.includes(favoriteKey(b))) - Number(favorites.includes(favoriteKey(a)));
   if (state.sort === "price-asc") books.sort((a, b) => favoriteFirst(a, b) || (Number(a.melhorPreco) || Infinity) - (Number(b.melhorPreco) || Infinity));
@@ -194,7 +243,21 @@ async function loadData() {
 }
 
 elements.bookGrid.addEventListener("click", (event) => {
+
+  const purchaseButton = event.target.closest("[data-purchased]");
+
+  if (purchaseButton) {
+    const key = purchaseButton.dataset.purchased;
+
+    togglePurchased(key);
+
+    render();
+
+    return;
+  }
+
   const button = event.target.closest("[data-favorite]");
+
   if (!button) return;
 
   const added = toggleFavorite(button.dataset.favorite);
@@ -203,12 +266,22 @@ elements.bookGrid.addEventListener("click", (event) => {
 
   button.classList.toggle("ativo", added);
   button.classList.remove("animando");
+
   void button.offsetWidth;
+
   button.classList.add("animando");
+
   button.setAttribute("aria-pressed", String(added));
-  button.setAttribute("aria-label", `${added ? "Remover" : "Adicionar"} ${title} dos favoritos`);
+
+  button.setAttribute(
+    "aria-label",
+    `${added ? "Remover" : "Adicionar"} ${title} dos favoritos`
+  );
+
   card?.classList.toggle("favorito", added);
+
   if (state.favoritesOnly && !added) render();
+
   setTimeout(() => button.classList.remove("animando"), 500);
 });
 
@@ -220,6 +293,23 @@ elements.favoriteFilter.addEventListener("click", () => {
   elements.favoriteFilter.classList.toggle("ativo", state.favoritesOnly);
   elements.favoriteFilter.setAttribute("aria-pressed", String(state.favoritesOnly));
   elements.favoriteFilter.innerHTML = `<span aria-hidden="true">${state.favoritesOnly ? "♥" : "♡"}</span> ${state.favoritesOnly ? "Todos os livros" : "Mostrar favoritos"}`;
+  render();
+});
+elements.pendingTab.addEventListener("click", () => {
+  state.purchasedOnly = false;
+
+  elements.pendingTab.classList.add("ativo");
+  elements.purchasedTab.classList.remove("ativo");
+
+  render();
+});
+
+elements.purchasedTab.addEventListener("click", () => {
+  state.purchasedOnly = true;
+
+  elements.purchasedTab.classList.add("ativo");
+  elements.pendingTab.classList.remove("ativo");
+
   render();
 });
 elements.themeButton.addEventListener("click", () => { const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark"; localStorage.setItem(THEME_KEY, next); applyTheme(next); });
