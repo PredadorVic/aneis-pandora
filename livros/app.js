@@ -296,6 +296,7 @@ elements.favoriteFilter.addEventListener("click", () => {
   elements.favoriteFilter.innerHTML = `<span aria-hidden="true">${state.favoritesOnly ? "♥" : "♡"}</span> ${state.favoritesOnly ? "Todos os livros" : "Mostrar favoritos"}`;
   render();
 });
+if (elements.pendingTab && elements.purchasedTab) {
 elements.pendingTab.addEventListener("click", () => {
   state.purchasedOnly = false;
 
@@ -313,6 +314,7 @@ elements.purchasedTab.addEventListener("click", () => {
 
   render();
 });
+}
 elements.themeButton.addEventListener("click", () => { const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark"; localStorage.setItem(THEME_KEY, next); applyTheme(next); });
 elements.menuButton.addEventListener("click", () => { const open = !elements.sidebar.classList.contains("open"); elements.sidebar.classList.toggle("open", open); elements.backdrop.hidden = !open; elements.menuButton.setAttribute("aria-expanded", String(open)); });
 elements.backdrop.addEventListener("click", closeMenu);
