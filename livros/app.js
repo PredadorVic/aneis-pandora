@@ -2,7 +2,8 @@
 
 const THEME_KEY = "catalogo-tema";
 const FAVORITES_KEY = "livros-favoritos";
-const state = { executions: [], currentIndex: -1, query: "", sort: "original", favoritesOnly: false, purchaseOnly: false };
+const PURCHASED_KEY = "livros-comprados";
+const state = { executions: [], currentIndex: -1, query: "", sort: "original", favoritesOnly: false, purchasedOnly: false };
 
 const elements = {
   dateSelect: document.getElementById("dateSelect"),
@@ -200,7 +201,7 @@ function render() {
   elements.resultCount.textContent = `${books.length} livro${books.length === 1 ? "" : "s"}`;
   elements.bookGrid.innerHTML = books.length
     ? books.map(renderCard).join("")
-    : `<div class="empty">${state.favoritesOnly ? "Nenhum livro favoritado nesta consulta." : "Nenhum livro encontrado nesta consulta."}</div>`;
+    : `<div class="empty">${state.favoritesOnly ? "Nenhum livro favoritado nesta consulta." : state.purchasedOnly ? "Nenhum livro comprado nesta consulta." : "Nenhum livro encontrado nesta consulta."}</div>`;
   elements.bookGrid.setAttribute("aria-busy", "false");
 }
 
