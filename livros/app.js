@@ -20,7 +20,7 @@ const elements = {
   backdrop: document.getElementById("backdrop"),
   themeColor: document.getElementById("themeColor"),
   pendingTab: document.getElementById("pendingTab"),
-  purchasedTab: document.getElementById("purchasedTab"),
+  purchasedTab: document.getElementById("purchasedTab")
 };
 
 function escapeHtml(value) {
@@ -89,9 +89,7 @@ function toggleFavorite(key) {
 function getPurchased() {
   try {
     const purchased = JSON.parse(localStorage.getItem(PURCHASED_KEY));
-    return Array.isArray(purchased)
-      ? purchased.filter(item => typeof item === "string")
-      : [];
+    return Array.isArray(purchased) ? purchased.filter((item) => typeof item === "string") : [];
   } catch {
     return [];
   }
@@ -100,19 +98,11 @@ function getPurchased() {
 function togglePurchased(key) {
   const purchased = getPurchased();
   const index = purchased.indexOf(key);
-
-  if (index === -1) {
-    purchased.push(key);
-  } else {
-    purchased.splice(index, 1);
-  }
-
-  localStorage.setItem(
-    PURCHASED_KEY,
-    JSON.stringify([...new Set(purchased)])
-  );
-
-  return index === -1;
+  const purchasedNow = index === -1;
+  if (purchasedNow) purchased.push(key);
+  else purchased.splice(index, 1);
+  localStorage.setItem(PURCHASED_KEY, JSON.stringify([...new Set(purchased)]));
+  return purchasedNow;
 }
 
 function updateConnectionNotice() {
@@ -135,6 +125,7 @@ function renderCard(book) {
   const meta = String(book.autor || "");
   const key = favoriteKey(book);
   const isFavorite = getFavorites().includes(key);
+  const isPurchased = getPurchased().includes(key);
   const previousPrice = Number(book.precoAnterior);
   let previousPriceHtml = Number.isFinite(previousPrice) && previousPrice > 0
     ? `<div class="price-block secondary-price"><small>Preço passado</small><strong>${escapeHtml(formatCurrency(previousPrice))}</strong></div>`
@@ -154,19 +145,9 @@ function renderCard(book) {
       <div><h3>${escapeHtml(book.livro || "Livro sem nome")}</h3><p class="book-meta">${escapeHtml(meta || "Informações editoriais não cadastradas")}</p></div>
     </div>
     <div class="prices"><div class="price-block"><small>Preço ${escapeHtml(book.melhorLoja || "atual")}</small><strong>${escapeHtml(formatCurrency(book.melhorPreco))}</strong><span>${escapeHtml(book.melhorLoja || "Preço indisponível")}</span></div>${previousPriceHtml}</div>
-    <div class="card-actions">
-  ${link
-    ? `<a class="offer-button" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">Abrir produto</a>`
-    : '<span class="offer-button disabled">Produto indisponível</span>'}
-
-  <button
-    class="purchase-button"
-    type="button"
-    data-purchased="${escapeHtml(key)}"
-  >
-    ${getPurchased().includes(key) ? "↩️ Não comprei" : "✅ Já comprei"}
-  </button>
-</div>
+    <div class="card-actions">${link ? `<a class="offer-button" href="${escapeHtml(link)}" target="_blank" rel="noopener noreferrer">Abrir produto</a>` : '<span class="offer-button disabled">Produto indisponível</span>'}
+      <button class="purchase-button" type="button" data-purchased="${escapeHtml(key)}" aria-pressed="${isPurchased}">${isPurchased ? "↩️ Não comprei" : "✅ Já comprei"}</button>
+    </div>
   </article>`;
 }
 
@@ -174,17 +155,13 @@ function visibleBooks() {
   const execution = currentExecution();
   let books = Array.isArray(execution?.livros) ? [...execution.livros] : [];
   const favorites = getFavorites();
-  const query = normalizeText(state.query);
   const purchased = getPurchased();
+  const query = normalizeText(state.query);
   if (query) books = books.filter((book) => normalizeText(`${book.livro} ${book.autor}`).includes(query));
   if (state.favoritesOnly) {
     books = books.filter((book) => favorites.includes(favoriteKey(book)));
   }
-  if (state.purchasedOnly) {
-  books = books.filter(book => purchased.includes(favoriteKey(book)));
-} else {
-  books = books.filter(book => !purchased.includes(favoriteKey(book)));
-}
+  books = books.filter((book) => state.purchasedOnly === purchased.includes(favoriteKey(book)));
 
   const favoriteFirst = (a, b) => Number(favorites.includes(favoriteKey(b))) - Number(favorites.includes(favoriteKey(a)));
   if (state.sort === "price-asc") books.sort((a, b) => favoriteFirst(a, b) || (Number(a.melhorPreco) || Infinity) - (Number(b.melhorPreco) || Infinity));
@@ -201,7 +178,7 @@ function render() {
   elements.resultCount.textContent = `${books.length} livro${books.length === 1 ? "" : "s"}`;
   elements.bookGrid.innerHTML = books.length
     ? books.map(renderCard).join("")
-    : `<div class="empty">${state.favoritesOnly ? "Nenhum livro favoritado nesta consulta." : state.purchasedOnly ? "Nenhum livro comprado nesta consulta." : "Nenhum livro encontrado nesta consulta."}</div>`;
+    : `<div class="empty">${state.favoritesOnly ? "Nenhum livro favoritado nesta consulta." : "Nenhum livro encontrado nesta consulta."}</div>`;
   elements.bookGrid.setAttribute("aria-busy", "false");
 }
 
@@ -244,21 +221,14 @@ async function loadData() {
 }
 
 elements.bookGrid.addEventListener("click", (event) => {
-
   const purchaseButton = event.target.closest("[data-purchased]");
-
   if (purchaseButton) {
-    const key = purchaseButton.dataset.purchased;
-
-    togglePurchased(key);
-
+    togglePurchased(purchaseButton.dataset.purchased);
     render();
-
     return;
   }
 
   const button = event.target.closest("[data-favorite]");
-
   if (!button) return;
 
   const added = toggleFavorite(button.dataset.favorite);
@@ -267,22 +237,12 @@ elements.bookGrid.addEventListener("click", (event) => {
 
   button.classList.toggle("ativo", added);
   button.classList.remove("animando");
-
   void button.offsetWidth;
-
   button.classList.add("animando");
-
   button.setAttribute("aria-pressed", String(added));
-
-  button.setAttribute(
-    "aria-label",
-    `${added ? "Remover" : "Adicionar"} ${title} dos favoritos`
-  );
-
+  button.setAttribute("aria-label", `${added ? "Remover" : "Adicionar"} ${title} dos favoritos`);
   card?.classList.toggle("favorito", added);
-
   if (state.favoritesOnly && !added) render();
-
   setTimeout(() => button.classList.remove("animando"), 500);
 });
 
@@ -297,23 +257,23 @@ elements.favoriteFilter.addEventListener("click", () => {
   render();
 });
 if (elements.pendingTab && elements.purchasedTab) {
-elements.pendingTab.addEventListener("click", () => {
-  state.purchasedOnly = false;
+  elements.pendingTab.addEventListener("click", () => {
+    state.purchasedOnly = false;
+    elements.pendingTab.classList.add("ativo");
+    elements.purchasedTab.classList.remove("ativo");
+    elements.pendingTab.setAttribute("aria-selected", "true");
+    elements.purchasedTab.setAttribute("aria-selected", "false");
+    render();
+  });
 
-  elements.pendingTab.classList.add("ativo");
-  elements.purchasedTab.classList.remove("ativo");
-
-  render();
-});
-
-elements.purchasedTab.addEventListener("click", () => {
-  state.purchasedOnly = true;
-
-  elements.purchasedTab.classList.add("ativo");
-  elements.pendingTab.classList.remove("ativo");
-
-  render();
-});
+  elements.purchasedTab.addEventListener("click", () => {
+    state.purchasedOnly = true;
+    elements.purchasedTab.classList.add("ativo");
+    elements.pendingTab.classList.remove("ativo");
+    elements.pendingTab.setAttribute("aria-selected", "false");
+    elements.purchasedTab.setAttribute("aria-selected", "true");
+    render();
+  });
 }
 elements.themeButton.addEventListener("click", () => { const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark"; localStorage.setItem(THEME_KEY, next); applyTheme(next); });
 elements.menuButton.addEventListener("click", () => { const open = !elements.sidebar.classList.contains("open"); elements.sidebar.classList.toggle("open", open); elements.backdrop.hidden = !open; elements.menuButton.setAttribute("aria-expanded", String(open)); });
