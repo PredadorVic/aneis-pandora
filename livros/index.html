@@ -27,6 +27,7 @@
         <button class="theme-button" id="themeButton" type="button" aria-pressed="false">
           <span aria-hidden="true">🌙</span> Modo escuro
         </button>
+        <button class="theme-button" id="activateNotifications" type="button">🔔 Ativar notificações</button>
         <small>Versão 1.0.0</small>
       </div>
     </aside>
@@ -76,6 +77,8 @@
   </div>
 
   <div class="backdrop" id="backdrop" hidden></div>
+  <script src="../push-config.js" defer></script>
+  <script src="../push-client.js" defer></script>
   <script src="./app.js?v=1.4.6-compras" defer></script>
 </body>
 </html>

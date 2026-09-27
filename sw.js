@@ -61,3 +61,6 @@ self.addEventListener("fetch", event => {
 self.addEventListener("message", event => {
   if (event.data?.type === "SKIP_WAITING") self.skipWaiting();
 });
+
+self.addEventListener("push", event => { const dados = event.data ? event.data.json() : {}; event.waitUntil(self.registration.showNotification(dados.title || "Busca Preços", { body: dados.body || "Preços atualizados.", icon: "./icones/icone-192.png", badge: "./icones/icone-192.png", data: { url: dados.url || "./" } })); });
+self.addEventListener("notificationclick", event => { event.notification.close(); event.waitUntil(clients.openWindow(event.notification.data?.url || "./")); });

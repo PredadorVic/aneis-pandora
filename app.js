@@ -1534,6 +1534,8 @@ async function monitorarVersao() {
   }
 }
 
+configurarBotaoDeNotificacoes("activateNotifications");
+
 async function registrarServiceWorker() {
   if (!("serviceWorker" in navigator)) return;
 

@@ -287,3 +287,4 @@ updateConnectionNotice();
 loadData();
 
 if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
+configurarBotaoDeNotificacoes("activateNotifications");

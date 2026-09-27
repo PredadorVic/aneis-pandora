@@ -48,3 +48,15 @@ self.addEventListener("fetch", (event) => {
     }))
   );
 });
+
+self.addEventListener("push", event => {
+  const dados = event.data ? event.data.json() : {};
+  event.waitUntil(self.registration.showNotification(dados.title || "Busca Preços", {
+    body: dados.body || "Preços atualizados.", icon: "./icones/icone-180.png",
+    badge: "./icones/icone-180.png", data: { url: dados.url || "../" }
+  }));
+});
+self.addEventListener("notificationclick", event => {
+  event.notification.close();
+  event.waitUntil(clients.openWindow(event.notification.data?.url || "../"));
+});
