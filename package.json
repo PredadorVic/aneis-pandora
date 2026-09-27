@@ -1,0 +1,13 @@
+﻿{
+  "name": "busca-precos-push-server",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^4.21.2",
+    "web-push": "^3.6.7"
+  }
+}
